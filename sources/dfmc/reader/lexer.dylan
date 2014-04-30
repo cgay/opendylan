@@ -184,7 +184,7 @@ end method feature-present?;
 define class <lexer> (<object>)
   //
   // The compilation record we are currently tokenizing.
-  constant slot source :: <compilation-record>, required-init-keyword: source:;
+  constant slot source, required-init-keyword: source:;
   //
   // The position we are currently at in the source file.
   slot posn :: <integer>, required-init-keyword: start-posn:;
@@ -1129,6 +1129,19 @@ define method make-string-literal
        // kind: $string-token,
        value: as-fragment-value(decode-string(source-location)));
 end method make-string-literal;
+
+// TODO(cgay): <multi-line-string-fragment>
+define method make-multi-line-string-literal
+    (lexer :: <lexer>, source-location :: <lexer-source-location>)
+ => (res :: <string-fragment>)
+  let bpos = source-location.start-posn + 3;
+  let epos = source-location.end-posn - 3;
+  make(<string-fragment>,
+       record: source-location.source-location-record,
+       source-position: source-location.source-location-source-position,
+       // kind: $string-token,
+       value: as-fragment-value(decode-string(source-location, start: bpos, end: epos)))
+end method make-multi-line-string-literal;
 
 define method parse-ratio-literal
     (lexer :: <lexer>, source-location :: <lexer-source-location>)

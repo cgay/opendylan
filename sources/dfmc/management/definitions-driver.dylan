@@ -740,7 +740,7 @@ define method compute-source-record-top-level-forms (cr :: <compilation-record>)
       dynamic-bind (*demand-load-library-only?* = if (module) #t else #f end)
         let sr = compilation-record-source-record(cr);
         let cr-name = source-record-module-name(sr);
-        with-input-from-source-record (stream = sr)
+        with-input-from-source-record (stream = sr)  // Note: unused
           local method read (state, record-forms)
             let (fragment, new-state) = read-top-level-fragment(cr, state);
             let fragment-forms
