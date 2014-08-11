@@ -2,30 +2,24 @@ Module: dfmc-reader-test-suite
 License: See License.txt in this distribution for details.
 
 
-define class <fake-compilation-record> (<object>)
-  constant slot compilation-record-source-record,
-      required-init-keyword: source:;
-end class <fake-compilation-record>;
+define function get-token-as-string
+    (source :: <string>) => (token :: <string>, kind)
+  local method do-nothing(#rest _) end;
+  let contents = as(<byte-vector>, source);
+  let (pos, result-kind, result-start, result-end, unexpected-eof, lnum, lstart)
+    = get-token-1($initial-state, contents, do-nothing, do-nothing);
+  as(<string>, copy-sequence(contents, end: result-end))
+end function get-token-as-string;
 
-define test test-read-multi-line-string ()
-  let source = "\"\"\"abc\"\"\" x";
-//  let ld = make(<project-library-description>,
-//                location: #f,
-//                project: #f);
-  let sr  = make(<interactive-source-record>,
-                 project: #f,
-                 module: #"test",
-                 source: as(<byte-vector>, source));
-  let cr = make(<fake-compilation-record>, source-record: sr);
-  with-top-level-library-description (ld)
-    with-library-context (ld)
-      let (fragment, lexer) = read-top-level-fragment(cr, #f);
-      assert-equal(fragment.fragment-source-position, 9);
-    end;
-  end;
-end test test-read-multi-line-string;
-
-define suite dfmc-reader-test-suite ()
-  test test-read-multi-line-string;
+define test lex-integer-test ()
+  assert-equal(get-token-as-string("123,abc"), "123");
 end;
 
+define test lex-multi-line-string-test ()
+  assert-equal(get-token-as-string("\"\"\"abc\"\"\"...."), "abc");
+end test lex-multi-line-string-test;
+
+define suite dfmc-reader-test-suite ()
+  test lex-integer-test;
+  test lex-multi-line-string-test;
+end suite dfmc-reader-test-suite;

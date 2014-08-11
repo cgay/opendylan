@@ -13,7 +13,7 @@ define library dfmc-reader
   use dfmc-conditions;
   use source-records;
   export dfmc-reader;
-end library;
+end library dfmc-reader;
 
 define module dfmc-reader
   use dylan;
@@ -160,6 +160,7 @@ define module dfmc-reader
               <symbol-syntax-symbol-fragment>,
               <keyword-syntax-symbol-fragment>,
             <string-fragment>,
+            <multi-line-string-fragment>,
             <boolean-fragment>,
               <true-fragment>,
               <false-fragment>,
@@ -229,4 +230,8 @@ define module dfmc-reader
   export
     present-fragments;
 
-end module;
+  //// For use by reader-test-suite only.  TODO(cgay): use separate module.
+  export
+    get-token-1;
+
+end module dfmc-reader;

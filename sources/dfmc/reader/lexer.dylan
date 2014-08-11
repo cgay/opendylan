@@ -184,7 +184,7 @@ end method feature-present?;
 define class <lexer> (<object>)
   //
   // The compilation record we are currently tokenizing.
-  constant slot source, required-init-keyword: source:;
+  constant slot source :: <compilation-record>, required-init-keyword: source:;
   //
   // The position we are currently at in the source file.
   slot posn :: <integer>, required-init-keyword: start-posn:;
@@ -246,9 +246,10 @@ end function make-lexer-source-location;
 // methods.
 //
 define method skip-multi-line-comment
-    (lexer :: <lexer>, start :: <integer>) => (result :: false-or(<integer>))
-  let contents = lexer.source.contents;
-  let length = contents.size;
+    (contents :: <byte-vector>, length :: <integer>, start :: <integer>)
+ => (epos :: false-or(<integer>), nskipped :: <integer>, line-start :: false-or(<integer>))
+  let nskipped :: <integer> = 0;
+  let line-start :: false-or(<integer>) = #f;
   local
     //
     // Utility function that checks to make sure we haven't run off the
@@ -271,8 +272,8 @@ define method skip-multi-line-comment
       elseif (char == '*')
         next(seen-star, posn, depth);
       elseif (char == '\n')
-        lexer.line := lexer.line + 1;
-        lexer.line-start := posn;
+        nskipped := nskipped + 1;
+        line-start := posn;
         next(seen-nothing, posn, depth)
       else
         next(seen-nothing, posn, depth);
@@ -289,8 +290,8 @@ define method skip-multi-line-comment
       elseif (char == '*')
         next(seen-nothing, posn, depth + 1);
       elseif (char == '\n')
-        lexer.line := lexer.line + 1;
-        lexer.line-start := posn;
+        nskipped := nskipped + 1;
+        line-start := posn;
         next(seen-nothing, posn, depth)
       else
         next(seen-nothing, posn, depth);
@@ -312,8 +313,8 @@ define method skip-multi-line-comment
       elseif (char == '*')
         next(seen-star, posn, depth);
       elseif (char == '\n')
-        lexer.line := lexer.line + 1;
-        lexer.line-start := posn;
+        nskipped := nskipped + 1;
+        line-start := posn;
         next(seen-nothing, posn, depth)
       else
         next(seen-nothing, posn, depth);
@@ -325,8 +326,8 @@ define method skip-multi-line-comment
     method seen-slash-slash (char :: <character>, posn :: <integer>,
                              depth :: <integer>)
       if (char == '\n')
-        lexer.line := lexer.line + 1;
-        lexer.line-start := posn;
+        nskipped := nskipped + 1;
+        line-start := posn;
         next(seen-nothing, posn, depth);
       else
         next(seen-slash-slash, posn, depth);
@@ -335,7 +336,7 @@ define method skip-multi-line-comment
   //
   // Start out not having seen anything.
   //
-  next(seen-nothing, start, 1);
+  values(next(seen-nothing, start, 1), nskipped, line-start)
 end method skip-multi-line-comment;
 
 
@@ -365,163 +366,27 @@ define method get-token
   //
   let contents :: <byte-vector> = lexer.source.contents;
   let length :: <integer> = contents.size;
-  let unexpected-eof :: <boolean> = #f;
   let saved-line :: false-or(<integer>) = #f;
   let saved-line-start :: false-or(<integer>) = #f;
 
-  let result-kind = #f;
-  let result-start = lexer.posn;
-  let result-end = #f;
+  // These closures allow us to refactor get-token into two methods, one of
+  // which (get-token-1) is testable without having to create a <lexer>, which
+  // has to pull in compilation records and various transitive dependencies.
+  local
+    method increment-line! (nlines :: <integer>, start :: <integer>)
+      lexer.line := lexer.line + nlines;
+      lexer.line-start := start;
+    end,
+    method save-line(line :: false-or(<integer>), start :: false-or(<integer>))
+      saved-line := line;
+      saved-line-start := start;
+    end;
 
   without-bounds-checks
-
-    local
-      method repeat
-          (state :: <state>, posn :: <integer>
-             /* , result-kind, result-start, result-end */)
-        if (state.result)
-          //
-          // It is an accepting state, so record the result and where
-          // it ended.
-          //
-          result-kind := state.result;
-          result-end := posn;
-        end if;
-        //
-        // Try advancing the state machine once more if possible.
-        //
-        if (posn < length)
-          let table = state.transitions;
-          let char :: <integer> = contents[posn];
-          let new-state
-            = if (table /* & char < $max-lexer-code + 1 */)
-                let table :: <simple-object-vector> = table;
-                vector-element(table, char);
-              end;
-          if (new-state)
-            let new-state :: <state> = new-state;
-            repeat
-              (new-state, posn + 1
-                 /* , result-kind, result-start, result-end */);
-          else
-            /*
-            maybe-done
-              (contents, length, result-kind, result-start, result-end);
-            */
-
-            //
-            // maybe-done is called when the state machine cannot be
-            // advanced any further.  It just checks to see if we really
-            // are done or not.
-            //
-            if (instance?(result-kind, <symbol>))
-            // if (object-class(result-kind) == <symbol>)
-              //
-              // The result-kind is a symbol if this is one of the magic
-              // accepting states.  Instead of returning some token, we do
-              // some special processing depending on exactly what symbol
-              // it is, and then start the state machine over at the
-              // initial state.
-              //
-              select (result-kind)
-                #"whitespace" =>
-                  #f;
-                #"newline" =>
-                  let result-end :: <integer> = result-end;
-                  lexer.line := lexer.line + 1;
-                  lexer.line-start := result-end;
-                #"end-of-line-comment" =>
-                  for (i :: <integer> from result-end below length,
-                       until: (contents[i] == as(<integer>, '\n')))
-                  finally
-                    result-end := i;
-                  end for;
-                #"multi-line-comment" =>
-                  saved-line := lexer.line;
-                  saved-line-start := lexer.line-start;
-                  result-end := skip-multi-line-comment(lexer, result-end);
-                  if (result-end)
-                    saved-line := #f;
-                    saved-line-start := #f;
-                  else
-                    unexpected-eof := #t;
-                  end;
-              end select;
-              result-kind := #f;
-              if (result-end)
-                // let result-start :: <integer> = result-end;
-                // let result-end = #f;
-                result-start := result-end;
-                result-end := #f;
-                let result-start :: <integer> = result-start;
-                repeat
-                  ($initial-state, result-start
-                     /* , result-kind, result-start, result-end */);
-              else
-                values(posn, result-kind, result-start, result-end)
-              end if;
-            else
-              values(posn, result-kind, result-start, result-end)
-            end if;
-          end if;
-        else
-          /*
-          maybe-done
-            (contents, length, result-kind, result-start, result-end);
-          */
-          //
-          // maybe-done is called when the state machine cannot be
-          // advanced any further.  It just checks to see if we really
-          // are done or not.
-          //
-          if (instance?(result-kind, <symbol>))
-          // if (object-class(result-kind) == <symbol>)
-            //
-            // The result-kind is a symbol if this is one of the magic
-            // accepting states.  Instead of returning some token, we do
-            // some special processing depending on exactly what symbol
-            // it is, and then start the state machine over at the
-            // initial state.
-            //
-            select (result-kind)
-              #"whitespace" =>
-                #f;
-              #"newline" =>
-                let result-end :: <integer> = result-end;
-                lexer.line := lexer.line + 1;
-                lexer.line-start := result-end;
-              #"end-of-line-comment" =>
-                for (i :: <integer> from result-end below length,
-                     until: (contents[i] == as(<integer>, '\n')))
-                finally
-                  result-end := i;
-                end for;
-              #"multi-line-comment" =>
-                result-end := skip-multi-line-comment(lexer, result-end);
-                if (~result-end) unexpected-eof := #t end;
-            end select;
-            result-kind := #f;
-            if (result-end)
-              // let result-start :: <integer> = result-end;
-              // let result-end = #f;
-              result-start := result-end;
-              result-end := #f;
-              let result-start :: <integer> = result-start;
-              repeat
-                ($initial-state, result-start
-                   /* , result-kind, result-start, result-end */);
-            else
-              values(posn, result-kind, result-start, result-end)
-            end if;
-          else
-            values(posn, result-kind, result-start, result-end)
-          end if;
-        end if;
-      end method repeat;
-    let (posn, result-kind, result-start, result-end)
-      = repeat
-          ($initial-state, lexer.posn
-             /* , #f, lexer.posn, #f */);
+    let (posn, result-kind, result-start, result-end, unexpected-eof, lnum, lstart)
+      = get-token-1($initial-state, contents, increment-line!, save-line);
+    lexer.line := lnum;
+    lexer.line-start := lstart;
     if (~result-kind)
       //
       // If result-kind is #f, that means we didn't find an accepting
@@ -571,6 +436,156 @@ define method get-token
     end if;
   end without-bounds-checks;
 end method get-token;
+
+define function get-token-1
+    (state :: <state>, contents :: <byte-vector>, posn :: <integer>,
+     increment-line! :: <function>, save-line :: <function>)
+ => (new-posn :: <integer>, result-kind,
+     result-start :: <integer>, result-end :: <integer>,
+     unexpected-eof :: <boolean>,
+     line-number :: <integer>, line-start :: <integer>)
+  let length :: <integer> = contents.size;
+  let result-kind = #f;
+  let result-start = posn;
+  let result-end = #f;
+  let unexpected-eof = #f;
+  without-bounds-checks
+        if (state.result)
+          //
+          // It is an accepting state, so record the result and where
+          // it ended.
+          //
+          result-kind := state.result;
+          result-end := posn;
+        end if;
+        //
+        // Try advancing the state machine once more if possible.
+        //
+        if (posn < length)
+          let table = state.transitions;
+          let new-state
+            = if (table /* & char < $max-lexer-code + 1 */)
+                let table :: <simple-object-vector> = table;
+                let char-code :: <integer> = contents[posn];
+                vector-element(table, char-code);
+              end;
+          if (new-state)
+            let new-state :: <state> = new-state;
+            get-token-1(new-state, contents, posn + 1, increment-line!
+                          /* , result-kind, result-start, result-end */);
+          else
+            /*
+            maybe-done(contents, length, result-kind, result-start, result-end);
+            */
+
+            //
+            // maybe-done is called when the state machine cannot be
+            // advanced any further.  It just checks to see if we really
+            // are done or not.
+            //
+            if (instance?(result-kind, <symbol>))
+              //
+              // The result-kind is a symbol if this is one of the magic
+              // accepting states.  Instead of returning some token, we do
+              // some special processing depending on exactly what symbol
+              // it is, and then start the state machine over at the
+              // initial state.
+              //
+              select (result-kind)
+                #"whitespace" =>
+                  #f;
+                #"newline" =>
+                  let result-end :: <integer> = result-end;
+                  increment-line!(result-end);
+                #"end-of-line-comment" =>
+                  for (i :: <integer> from result-end below length,
+                       until: (contents[i] == as(<integer>, '\n')))
+                  finally
+                    result-end := i;
+                  end for;
+                #"multi-line-comment" =>
+                  save-line();
+                  let (epos, nskipped, line-start)
+                    = skip-multi-line-comment(contents, length, result-end);
+                  increment-line!(nskipped, line-start);
+                  result-end := epos;
+                  if (result-end)
+                    restore-saved-line();
+                  else
+                    unexpected-eof := #t;
+                  end;
+              end select;
+              result-kind := #f;
+              if (result-end)
+                // let result-start :: <integer> = result-end;
+                // let result-end = #f;
+                result-start := result-end;
+                result-end := #f;
+                let result-start :: <integer> = result-start;
+                get-token-1($initial-state, contents, result-start, increment-line
+                            /* , result-kind, result-start, result-end */);
+              else
+                values(posn, result-kind, result-start, result-end, unexpected-eof)
+              end if;
+            else
+              values(posn, result-kind, result-start, result-end, unexpected-eof)
+            end if;
+          end if;
+        else
+          /*
+          maybe-done
+            (contents, length, result-kind, result-start, result-end);
+          */
+          //
+          // maybe-done is called when the state machine cannot be
+          // advanced any further.  It just checks to see if we really
+          // are done or not.
+          //
+          if (instance?(result-kind, <symbol>))
+            //
+            // The result-kind is a symbol if this is one of the magic
+            // accepting states.  Instead of returning some token, we do
+            // some special processing depending on exactly what symbol
+            // it is, and then start the state machine over at the
+            // initial state.
+            //
+            select (result-kind)
+              #"whitespace" =>
+                #f;
+              #"newline" =>
+                let result-end :: <integer> = result-end;
+                increment-line(result-end);
+              #"end-of-line-comment" =>
+                for (i :: <integer> from result-end below length,
+                     until: (contents[i] == as(<integer>, '\n')))
+                finally
+                  result-end := i;
+                end for;
+              #"multi-line-comment" =>
+                let (epos, nskipped, line-start)
+                  = skip-multi-line-comment(contents, length, result-end);
+                increment-line!(nskipped, line-start);
+                result-end := epos;
+                if (~result-end) unexpected-eof := #t end;
+            end select;
+            result-kind := #f;
+            if (result-end)
+              // let result-start :: <integer> = result-end;
+              // let result-end = #f;
+              result-start := result-end;
+              result-end := #f;
+              let result-start :: <integer> = result-start;
+              get-token-1($initial-state, contents, result-start, increment-line
+                            /* , result-kind, result-start, result-end */);
+            else
+              values(posn, result-kind, result-start, result-end, unexpected-eof)
+            end if;
+          else
+            values(posn, result-kind, result-start, result-end, unexpected-eof)
+          end if;
+        end if;
+  end without-bounds-checks;
+end function get-token-1;
 
 // This indirection is only here for profiling purposes.
 
