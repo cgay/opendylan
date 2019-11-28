@@ -32,14 +32,13 @@ Error conditions
 
 This document uses two special terms in discussions of error conditions.
 
-When it notes that something *is an error*, this means that the result
-is undefined. In particular, it does not*necessarily* mean that an error
-condition will be signalled. So, for instance, the following example
-text means only that the result of using *pull-stream-element* in the
-case described is undefined:
+When it notes that something *is an error*, this means that the result is
+undefined. In particular, it does not *necessarily* mean that an error
+condition will be signalled. So, for instance, the following example text means
+only that the result of using *unread-element* in the case described is
+undefined:
 
-    It is an error to apply *pull-stream-element* to an element that has
-    already been read from the stream.
+    It is an error to call *unread-element* twice in a succession.
 
 A given function is only guaranteed to raise an exception in response to
 an error if the documentation for that function specifically states that
@@ -327,29 +326,37 @@ File streams
 File streams are intended only for accessing the contents of files. More
 general file handling facilities, such as renaming, deleting, moving,
 and parsing directory names, are provided by the File-System module: see
-:doc:`/system/file-system` for details. The make method on
+:doc:`/system/file-system` for details. The :drm:`make` method on
 :class:`<file-stream>` does not create direct instances of
 :class:`<file-stream>`, but instead an instance of a subclass determined
 by :gf:`type-for-file-stream`.
 
-make *file-stream-class*
+.. method:: make
+   :specializer: <file-stream>
 
-G.f method
+   :param #key locator:        An instance of :class:`<file-locator>`
+   :param #key direction: doc
+   :param #key if-exists: doc
+   :param #key if-does-not-exist: doc
+   :param #key buffer-size: doc
+   :param #key element-type: An instance of :drm:`<type>`. The default is
+      :class:`<byte-character>`.
+   :param #key asynchronous?: An instance of :drm:`<boolean>`. If true, allows
+      asynchronous writing of stream data to disk. The default is false.
+   :param #key share-mode: (For Windows files only.) One of ``#"default"``,
+      ``#"exclusive"``, ``#"share-read"``, ``#"share-write"``, or
+      ``#"share-read-write"``.
+   :value file-stream-instance: An instance of a concrete subclass of
+      :class:`<file-stream>`.
 
-make <file-stream> #key locator: direction: if-exists:
- if-does-not-exist: buffer-size: element-type:
- asynchronous?: share-mode => *file-stream-instance*
-
-Creates and opens a stream over a file, and returns a new instance of a
-concrete subclass of :class:`<file-stream>` that streams over the
+Creates and opens a stream over the contents of a file, and returns a new
+instance of a concrete subclass of :class:`<file-stream>` that streams over the
 contents of the file referenced by *filename*. To determine the concrete
 subclass to be instantiated, this method calls the generic function
 :gf:`type-for-file-stream`.
 
-The *locator:* init-keyword should be a string naming a file. If the
-:doc:`Locators <../system/locators>` library is in use, *filename*
-should be an instance of :class:`<locator>` or a string that can be
-coerced to one.
+The *locator:* init-keyword must be a string or a :class:`<locator>` naming a
+file.
 
 The *direction:* init-keyword specifies the direction of the stream.
 This can be one of ``#"input"``, ``#"output"``, or ``#"input-output"``.
@@ -616,21 +623,16 @@ The following operations can be performed on file streams.
 Using buffered streams
 ----------------------
 
-The Streams module provides efficient support for general use of
-buffered I/O. Most ordinary programmers using the module do not need to
-be concerned with buffering in most cases. When using buffered streams,
-the buffering is transparent, but programs requiring more control can
-access buffering functionality when appropriate. This section describes
-the available buffering functionality.
+The Streams module provides efficient support for general use of buffered
+I/O. In most cases you shouldn't need to be concerned with buffering. When
+using buffered streams, the buffering is transparent, but programs requiring
+more control can access buffering functionality when appropriate. This section
+describes the available buffering functionality.
 
-Overview
-^^^^^^^^
-
-A buffered stream maintains some sort of buffer. All buffered streams
-use the sealed class :class:`<buffer>` for their buffers. You can
-suggest a buffer size when creating buffered streams, but normally you
-do not need to do so, because a buffer size that is appropriate for the
-stream's source or destination is chosen for you.
+All buffered streams use the sealed class :class:`<buffer>` for their
+buffers. You can suggest a buffer size when creating buffered streams, but
+normally you don't need to, because an appropriate buffer size for the stream's
+source or destination is chosen for you.
 
 Instances of the class :class:`<buffer>` also contain some state
 information. This state information includes an index where reading or
