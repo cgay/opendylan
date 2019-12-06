@@ -148,6 +148,13 @@ define method emit-local-definition
 end method;
 
 define method emit-local-definition
+    (back-end :: <llvm-back-end>, tmp :: <entry-state>) => ();
+  unless (tmp.local-entry-state?)
+    temporary-value(tmp) := op--allocate-bef(back-end);
+  end unless;
+end method;
+
+define method emit-local-definition
     (back-end :: <llvm-back-end>, tmp :: <stack-vector-temporary>) => ()
   unless (tmp.number-values = 0)
     let module = back-end.llvm-builder-module;
@@ -1605,10 +1612,9 @@ define method emit-computation
     let phi-operands = make(<stretchy-object-vector>);
 
     // Stack-allocated bind exit frame
-    let stacksave = ins--call-intrinsic(back-end, "llvm.stacksave", #[]);
     let typeid = op--typeid(back-end, c.entry-state);
-    let bef = op--allocate-bef(back-end, typeid);
-    temporary-value(c.entry-state) := bef;
+    let bef = temporary-value(c.entry-state);
+    op--initialize-bef(back-end, bef, typeid);
 
     // Body
     let nlx = make(<nlx-info>,
@@ -1626,7 +1632,6 @@ define method emit-computation
       add-merge-operands(temp,
                          merge-c & merge-c.merge-right-value,
                          back-end.llvm-builder-basic-block);
-      ins--call-intrinsic(back-end, "llvm.stackrestore", vector(stacksave));
       ins--br(back-end, merge-bb);
     end if;
 
@@ -1667,7 +1672,6 @@ define method emit-computation
       add-merge-operands(temp, merge-c.merge-left-value,
                          back-end.llvm-builder-basic-block);
     end if;
-    ins--call-intrinsic(back-end, "llvm.stackrestore", vector(stacksave));
     ins--br(back-end, merge-bb);
 
     // No match, resume unwind
