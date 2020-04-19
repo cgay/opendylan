@@ -513,6 +513,72 @@ define function run-outputter
   unix-close(outputter-read-fd)
 end function;
 
+<<<<<<< Updated upstream
+define constant $term = 15;     // TODO
+
+define function kill-application-process
+    (process :: <application-process>, #key wait? = #t, signal = $term)
+=======
+/*
+define constant $sighup    =   1;
+define constant $sigint    =   2;
+define constant $sigquit   =   3;
+define constant $sigill    =   4;
+define constant $sigtrap   =   5;
+define constant $sigabrt   =   6;
+define constant $sigiot    =   6;
+define constant $sigbus    =   7;
+define constant $sigfpe    =   8;
+define constant $sigkill   =   9;
+define constant $sigusr1   =  10;
+define constant $sigsegv   =  11;
+define constant $sigusr2   =  12;
+define constant $sigpipe   =  13;
+define constant $sigalrm   =  14;
+*/
+define constant $sigterm   =  15;
+/*
+define constant $sigstkflt =  16;
+define constant $sigchld   =  17;
+define constant $sigcont   =  18;
+define constant $sigstop   =  19;
+define constant $sigtstp   =  20;
+define constant $sigttin   =  21;
+define constant $sigttou   =  22;
+define constant $sigurg    =  23;
+define constant $sigxcpu   =  24;
+define constant $sigxfsz   =  25;
+define constant $sigvtalrm =  26;
+define constant $sigprof   =  27;
+define constant $sigwinch  =  28;
+define constant $sigio     =  29;
+define constant $sigpoll   =  $sigio;
+*/
+
+define function signal-application-process
+    (process :: <application-process>, #key wait? = #t, signal = $sigterm)
+>>>>>>> Stashed changes
+ => (running? :: <boolean>, exit-code :: <integer>, signal :: <integer>)
+  let exit-code = #f;
+  let signal-code = #f;
+  if (process.%application-process-state == #"running")
+    let result = raw-as-integer(%call-c-function ("kill")
+                                  (pid :: <raw-c-signed-int>, sig :: <raw-c-signed-int>)
+                                  => (_ :: <raw-c-signed-int>)
+                                  (integer-as-raw(process.application-process-id),
+                                   integer-as-raw(signal))
+                                end);
+    if (result = 0 & wait?)
+      let (_exit-code, _signal-code) = wait-for-application-process(process);
+      exit-code := _exit-code;
+      signal-code := _signal-code;
+    end;
+  end;
+  values(process.%application-process-state = #"running",
+         exit-code,
+         signal-code)
+end function;
+
 define function wait-for-application-process
     (process :: <application-process>)
  => (exit-code :: <integer>, signal :: false-or(<integer>));
@@ -526,6 +592,30 @@ define function wait-for-application-process
   let signal-code = logand(status-code, #o177);
   let exit-code = ash(status-code, -8);
   values(exit-code, (signal-code ~= 0) & signal-code);
+end function;
+
+define constant $wnohang = 1; // TODO
+
+// If the process is still running, returns #f #f. Otherwise returns exit-code
+// and signal-code.
+define function application-process-status
+    (process :: <application-process>)
+ => (exit-code :: false-or(<integer>), signal :: false-or(<integer>));
+  let exited? = #f;
+  if (process.%application-process-state == #"running")
+    let (pid, status) = %waitpid(process.application-process-id, $wnohang);
+    if (pid > 0)                // -1 = error, 0 = no state change
+      exited? := #t;
+      process.%application-process-status-code := status;
+      process.%application-process-state := #"exited";
+    end;
+  end if;
+  if (exited?)
+    let status-code = process.%application-process-status-code;
+    let signal-code = logand(status-code, #o177);
+    let exit-code = ash(status-code, -8);
+    values(exit-code, (signal-code ~= 0) & signal-code)
+  end
 end function;
 
 define function %waitpid

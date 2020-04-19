@@ -33,3 +33,7 @@ define constant $tm-year-offset = 20;
 define constant $tm-isdst-offset = 32;
 define constant $tm-gmtoff-offset = 40;
 define constant $tm-zone-offset = 48;
+
+// Used by unix-operating-system.dylan
+define constant $sigkill = 9;
+define constant $sigterm = 15;

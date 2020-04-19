@@ -9,6 +9,7 @@
 #include <grp.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <signal.h>
 
 #define PRINT_USEDBY(file) \
     printf("\n// Used by %s\n", file)
@@ -64,6 +65,11 @@ main(void) {
     PRINT_OFFSETOF(struct tm, tm_isdst,  "tm-isdst");
     PRINT_OFFSETOF(struct tm, tm_gmtoff, "tm-gmtoff");
     PRINT_OFFSETOF(struct tm, tm_zone,   "tm-zone");
+
+    PRINT_USEDBY("unix-operating-system.dylan");
+
+    PRINT_CONSTANT(SIGKILL,  "sigkill");
+    PRINT_CONSTANT(SIGTERM,  "sigterm");
 
     return 0;
 }

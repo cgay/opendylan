@@ -60,10 +60,15 @@ define module operating-system
          login-name, login-group, owner-name, owner-organization,
          environment-variable, environment-variable-setter,
          tokenize-environment-variable,
+
          run-application,
          <application-process>,
+         application-process-id,
+         application-process-status,
+         kill-application-process,
          wait-for-application-process,
          \with-application-output,
+
          create-application-event,
          wait-for-application-event,
          signal-application-event,
