@@ -78,6 +78,7 @@ define module common-extensions
               <simple-condition>,
               <stretchy-sequence>,
               <string-table>,
+              debug-name,
               false-or,
               ignorable,
               ignore,
