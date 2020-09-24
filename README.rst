@@ -1,6 +1,10 @@
 Welcome to Open Dylan!
 ======================
 
+[![Gitter chat](https://badges.gitter.im/dylan-lang.svg)](https://gitter.im/dylan-lang/general)
+
+[![Gitter](https://badges.gitter.im/cl-protobufs/community.svg)](https://gitter.im/cl-protobufs/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 Open Dylan is a compiler and a set of libraries for the `Dylan
 programming language <http://opendylan.org/books/drm>`_.  If you're
 interested in working on the compiler and core libraries then you've
