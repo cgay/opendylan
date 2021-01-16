@@ -8,15 +8,16 @@ Copyright: (c) 1993 Apple Computer, Inc.
 Modified by: Shri Amit(amit)
 Date: August 24 1996
 Summary: Converted to new testworks protocol
-Copyright: (c) 1996 Functional Objects, Inc. 
-           All rights reserved.  
+Copyright: (c) 1996 Functional Objects, Inc.
+           All rights reserved.
 ----------------------------------------------*/
 
-define test add-type (description: "")
+define test add-type ()
   check-true("", instance?(add, <generic-function>));
 end test add-type;
 
-define test add-1 (description: "add")
+// add
+define test add-1 ()
   every?
     (method (s)
        let collection = s.first;
@@ -40,19 +41,20 @@ define test add-1 (description: "add")
           list(byte-string-instance('Y', 'o', 'w'), list('Y', 'o', 'w'), '!')))
 end test add-1;
 
-define test add-2
-  (description: "new sequence shares no structure with sequence")
+// new sequence shares no structure with sequence
+define test add-2 ()
   let s = list(#(#"a", #"b"));
   let new-element = #(#"c", #"d");
   let new-s = add(s, new-element);
   check-false ("", share-struct?(s, new-s));
 end test add-2;
 
-define test add!-type (description: "")
+define test add!-type ()
   check-true("", instance?(add!, <generic-function>));
 end test add!-type;
 
-define test add!-1 (description: "add")
+// add
+define test add!-1 ()
   every?
     (method (s)
        let collection = s.first;
@@ -82,18 +84,19 @@ define test add!-1 (description: "add")
                #f)))
 end test add!-1;
 
-define test add!-position
-  (description: "makes sure new value is at front or end")
+// makes sure new value is at front or end
+define test add!-position ()
   check-true("", add!(list(7, 8, 9), 88).first = 88);
   check-true("", add!(deque-instance(7, 8, 9), 88).first = 88);
   check-true("", add!(stretchy-vector-instance(7, 8, 9), 88).last = 88);
 end test add!-position;
 
-define test add-new-type (description: "")
+define test add-new-type ()
   check-true("", instance?(add-new, <generic-function>));
 end test add-new-type;
 
-define test add-new-1 (description: "add new element")
+// add new element
+define test add-new-1 ()
   every?
     (method (s)
        let collection = s.first;
@@ -117,7 +120,8 @@ define test add-new-1 (description: "add new element")
           list(byte-string-instance('Y', 'o', 'w'), list('Y', 'o', 'w'), '!')))
 end test add-new-1;
 
-define test add-new-2 (description: "add old element")
+// add old element
+define test add-new-2 ()
   every?
     (method (s)
        let collection = s.first;
@@ -155,7 +159,8 @@ define constant caseless=?
 // and new-element as its second argument (p 105)
 //
 
-define test add-new-3 (description: "add new element, using test: argument")
+// add new element, using test: argument
+define test add-new-3 ()
   every?
     (method (s)
        let collection = s.first;
@@ -186,7 +191,8 @@ define test add-new-3 (description: "add new element, using test: argument")
                caseless=?)))
 end test add-new-3;
 
-define test add-new-4 (description: "add old element, using test: argument")
+// add old element, using test: argument
+define test add-new-4 ()
   every?
     (method (s)
        let collection = s.first;
@@ -218,11 +224,12 @@ end test add-new-4;
 
 // add-new!
 
-define test add-new!-type (description: "")
+define test add-new!-type ()
   check-true("", instance?(add-new!, <generic-function>));
 end test add-new!-type;
 
-define test add-new!-1 (description: "add new element")
+// add new element
+define test add-new!-1 ()
   every?
     (method (s)
        let collection = s.first;
@@ -252,7 +259,8 @@ define test add-new!-1 (description: "add new element")
                #f)))
 end test add-new!-1;
 
-define test add-new!-2 (description: "add old element")
+// add old element
+define test add-new!-2 ()
   every?
     (method (s)
        let collection = s.first;
@@ -273,7 +281,8 @@ define test add-new!-2 (description: "add old element")
           list(byte-string-instance('Y', 'o', 'w'), list('Y', 'o', 'w'), 'o')))
 end test add-new!-2;
 
-define test add-new!-3 (description: "add new element, using test: argument")
+// add new element, using test: argument
+define test add-new!-3 ()
   every?
     (method (s)
        let collection = s.first;
