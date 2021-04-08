@@ -468,7 +468,8 @@ define method read-into!
               n-read := i - start;
               signal(make(<incomplete-read-error>,
                           stream: stream,
-                          count: n-read, sequence: seq))
+                          count: n-read,
+                          sequence: seq))
             end
           end
         end
