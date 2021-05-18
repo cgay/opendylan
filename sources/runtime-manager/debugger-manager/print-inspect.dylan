@@ -282,7 +282,6 @@ end method;
 //    simple-object-vector, integer or user-defined type), produces a
 //    printable representation of the object.
 
-
 define generic dylan-printable-representation
     (type :: <object-type-description>, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
@@ -391,7 +390,6 @@ define method dylan-printable-representation
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f) 
  => (rep :: <string>)
-
   local method print-members (members :: <sequence>, dec? :: <boolean>) 
               => (printed :: <string>)
           let initial = 
@@ -500,7 +498,6 @@ define method dylan-printable-representation
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f) 
  => (rep :: <string>)
-
   "#t"
 end method;
 
@@ -537,7 +534,6 @@ define method dylan-printable-representation
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f) 
  => (rep :: <string>)
-
   local method char-code-as-string (i :: <integer>) => (s :: <string>)
           let hex = format-to-string("%x", i);
           // Hack because %2x doesn't work as a format directive in
@@ -1658,7 +1654,6 @@ define method get-inspector-values
           rept-setter :: false-or(<function>),
           nonword-repeats :: false-or(<integer>),
           nonword-repeat-vector :: false-or(<vector>))
-
   let path = application.debug-target-access-path;
 
   // instance-slot-getter returns a closure which, when called, gets the
@@ -1883,7 +1878,6 @@ define method describe-dylan-object
     values (class-name, slot-names, slot-vals, repeats,
             rslot-name, rslot-vals);
   end if 
-            
 end method;
 
 
@@ -1972,7 +1966,6 @@ end method;
 define method dylan-method-iep
     (application :: <debug-target>, method-object :: <remote-value>)
        => (meth-iep :: <remote-value>)
-
   let dylan-type = classify-dylan-object(application, method-object);
 
   let (entry-point, ok?) =
@@ -2018,7 +2011,6 @@ end method;
 define method dylan-method-specializers
     (application :: <debug-target>, method-object :: <remote-value>)
        => (specializers :: <sequence>)
-
   let (spec-vector, ok?) =
     get-method-specializers (application, method-object);
 
@@ -2054,7 +2046,6 @@ define method printable-representation-of-single-argument
     (application :: <debug-target>, format-code :: <character>,
      val :: <remote-value>)
  => (rep :: <string>, consumed? :: <boolean>)
-
   select (as-uppercase(format-code))
     'D' =>
       let int = dylan-integer-data(application, val);
@@ -2319,7 +2310,6 @@ end method;
 define method resolve-dylan-keyword
     (application :: <debug-target>, sym :: <string>)
        => (addr :: false-or(<remote-value>))
-
   // Run the spy on the primary thread.
   let spy-thread = select-thread-for-spy(application);
 
@@ -2329,7 +2319,6 @@ define method resolve-dylan-keyword
     lookup-static-wrapper(application, "<string>", "dylan");
 
   if (application.temporary-download-block)
-
     // Make this call to recycle-static-block. This is so we can keep
     // re-using the same memory again and again, and not gradually
     // allocate shitloads of it as more calls are made to this API.
@@ -2429,7 +2418,6 @@ define method dylan-object-class
   // to follow, so we have to explicitly search for the correct class
   // objects. Fortunately, we know what those are, and that they will
   // be present in all dylan applications.
-
   select (tag)
     $dylan-tag-integer =>
       unless (browsable-only?)
@@ -2459,7 +2447,6 @@ define method dylan-object-class
           current-incarnation := dylan-class-iclass(application, class-val);
         end if;
       end if;
-
   end select;
   values(class-instance, incarnation, current-incarnation, immediate?);
 end method;
@@ -2493,7 +2480,6 @@ define method dylan-object-immediate-value
     $dylan-tag-character =>
       success? := #t;
       replica := tagged-remote-value-as-character(instance);
-
   end select;
   values(replica, success?);
 end method;
