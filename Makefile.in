@@ -1,6 +1,13 @@
 ### @configure_input@
 .POSIX:
 
+# TODO:
+# * If OPEN_DYLAN_TARGET_PLATFORM isn't the local platform (which I assume is
+#   possible during cross compilation) then Deft needs to be told generate
+#   registries for that platform instead.
+# * Make sure it's still possible to build when off-network, as long as deps
+#   are already installed. Deft probably needs changes to make this work.
+
 prefix          = @prefix@
 
 srcdir          = @srcdir@
@@ -37,23 +44,9 @@ BOOTSTRAP_1_PRIMITIVE_LIBS = \
         bootstrap-stage-2-runtime bootstrap-stage-2-jamfiles cli2 \
 	bootstrap-stage-3 bootstrap-stage-3-dirs bootstrap-stage-3-libraries \
         bootstrap-stage-3-runtime bootstrap-stage-3-jamfiles cli3 \
-	all install install-stage dist clean check \
-	check-submodules
+	all install install-stage dist clean check
 
 all: @bootstrap_target@
-
-check-submodules:
-	@if [ -z "$(SKIP_SUBMODULE_CHECK)" ]; then \
-          for sms in `cd $(srcdir) && git submodule status | grep -v "^ " | cut -c 1`; do \
-	    if [ "$$sms" != "x" ]; then \
-	      echo "**** ERROR ****"; \
-	      echo "One or more submodules is not up to date."; \
-	      echo "Please run 'git submodule update --init'."; \
-	      echo "If you want to skip this check, pass SKIP_SUBMODULE_CHECK=1 to make."; \
-	      exit 1; \
-	    fi; \
-	  done; \
-        fi
 
 ###
 # 3-stage bootstrap includes stages 1 and 2 and 3: it rebuilds the compiler
@@ -62,10 +55,20 @@ check-submodules:
 # without installing it; if you want to install it, do a 3-stage bootstrap and
 # run make install
 
-3-stage-bootstrap: check-submodules \
-                   bootstrap-stage-1 \
+3-stage-bootstrap: bootstrap-stage-1 \
                    bootstrap-stage-2 \
                    bootstrap-stage-3
+
+###
+# Deft installs dependencies and creates the registry.
+
+# WORKSPACE_DIR is where deft generates the registry and puts the _build directory.
+# See https://package.opendylan.org/deft/index.html
+#
+# TODO: use `$(DEFT) status --directory` instead, when that is fixed to
+# output only the workspace directory name. That will handle multi-repository
+# workspaces correctly.
+WORKSPACE_DIR = $(abs_srcdir)
 
 ########################################################################
 # Stage 1 builds a compiler that can understand new primitives used in the
@@ -76,7 +79,10 @@ check-submodules:
 
 BOOTSTRAP_1_ROOT = $(abs_builddir)/Bootstrap.1
 
-BOOTSTRAP_1_REGISTRY = $(abs_srcdir)/sources/bootstrap1-registry
+# Note that putting this registry anywhere but in sources/ only works because
+# deft generates files with absolute pathnames. Relative pathnames
+# wouldn't work when the registry is copied to a different directory.
+BOOTSTRAP_1_REGISTRY = $(BOOTSTRAP_1_ROOT)/registry
 
 BOOTSTRAP_1_ENV = \
         OPEN_DYLAN_TARGET_PLATFORM=$(TARGET_PLATFORM) \
@@ -92,12 +98,14 @@ bootstrap-stage-1: bootstrap-stage-1-dirs \
 bootstrap-stage-1-dirs:
 	@for d in $(BUILD_SUBDIRS); do mkdir -p Bootstrap.1/$$d; done
 
-# BOOTSTRAP_1_PRIMITIVE_LIBS registry files are removed so those
-# libraries are taken from the bootstrap compiler's system registries.
-# The main point of stage 1 is to compile any changed compiler sources.
-$(BOOTSTRAP_1_REGISTRY):
-	mkdir $(BOOTSTRAP_1_REGISTRY)
-	cp -r $(srcdir)/sources/registry/* $(BOOTSTRAP_1_REGISTRY)
+# BOOTSTRAP_1_PRIMITIVE_LIBS registry files are removed so those libraries are taken from
+# the bootstrap compiler's system registries.  The main point of stage 1 is to compile
+# any changed compiler sources.  Note that unlike with the manually maintained registry,
+# deft doesn't use a "generic" registry, which is primarily to save humans from more
+# maintenance. Everything is put in a platform-specific directory.
+$(BOOTSTRAP_1_REGISTRY): update-workspace
+	mkdir -p $(BOOTSTRAP_1_REGISTRY)
+	cp -r $(WORKSPACE_DIR)/registry/* $(BOOTSTRAP_1_REGISTRY)
 	for lib in $(BOOTSTRAP_1_PRIMITIVE_LIBS); do \
 	  rm -f $(BOOTSTRAP_1_REGISTRY)/*/$$lib; \
 	done
@@ -139,7 +147,7 @@ BOOTSTRAP_2_COMPILER = \
         $(BOOTSTRAP_1_ROOT)/bin/dylan-compiler \
           -build -verbose -jobs $(DYLAN_JOBS)
 
-BOOTSTRAP_2_REGISTRY = $(abs_srcdir)/sources/registry
+BOOTSTRAP_2_REGISTRY = $(WORKSPACE_DIR)/registry
 
 BOOTSTRAP_2_ENV = \
         OPEN_DYLAN_TARGET_PLATFORM=$(TARGET_PLATFORM) \
@@ -197,7 +205,7 @@ BOOTSTRAP_3_COMPILER = \
         $(BOOTSTRAP_2_ROOT)/bin/dylan-compiler \
           -build -verbose -jobs $(DYLAN_JOBS)
 
-BOOTSTRAP_3_REGISTRY = $(abs_srcdir)/sources/registry
+BOOTSTRAP_3_REGISTRY = $(WORKSPACE_DIR)/registry
 
 BOOTSTRAP_3_ENV = \
         OPEN_DYLAN_TARGET_PLATFORM=$(TARGET_PLATFORM) \
@@ -256,7 +264,6 @@ install-stage:
 	@rm -rf $(DESTDIR)$(prefix)/sources
 	@cp -R $(srcdir)/sources $(DESTDIR)$(prefix)
 	@find $(DESTDIR)$(prefix)/sources -depth -name '.*' -exec rm -rf {} \;
-	@-rm -rf $(DESTDIR)$(prefix)/sources/bootstrap1-registry
 	@echo Installing Open Dylan in $(DESTDIR)$(prefix)
 	@install -d $(prefix)/bin $(prefix)/databases $(prefix)/lib $(DESTDIR)$(prefix)/lib/runtime
 	@install -d $(prefix)/share/opendylan $(DESTDIR)$(prefix)/include/opendylan
@@ -290,7 +297,8 @@ clean:
 	-rm -rf $(abs_builddir)/Bootstrap.3
 	-rm -rf $(abs_builddir)/release
 	-rm -rf $(abs_builddir)/opendylan-*.tar.bz2
-	-rm -rf $(BOOTSTRAP_1_REGISTRY)
+	-rm -rf $(WORKSPACE_DIR)/registry
+	-rm -rf $(WORKSPACE_DIR)/_build
 	@for target_platform in $(RUNTIME_TARGET_PLATFORMS); do \
 	  $(MAKE) -C $(RUNTIME) \
 	    OPEN_DYLAN_TARGET_PLATFORM=$$target_platform \
@@ -323,6 +331,7 @@ distclean: clean
 	-find $(srcdir) -name '*.pyc' -exec rm {} \;
 	-rm -f  Makefile
 	-rm -f  aclocal.m4
+	-rm -rf config/build-aux
 	-rm -rf autom4te.cache
 	-rm -rf build-aux
 	-rm -f  config.log
@@ -355,7 +364,6 @@ dist: 3-stage-bootstrap
 	cp -R $(srcdir)/sources release/opendylan-$(version)/
 	@echo Removing unnecessary directories...
 	find release/opendylan-$(version)/sources -depth -name '.*' -exec rm -rf {} \;
-	rm -rf release/opendylan-$(version)/sources/bootstrap1-registry
 	cp -R Bootstrap.3/bin release/opendylan-$(version)/
 	cp -R Bootstrap.3/sbin/* release/opendylan-$(version)/bin
 	ln -sf deft-app release/opendylan-$(version)/bin/deft
