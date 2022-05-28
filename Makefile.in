@@ -1,6 +1,14 @@
 ### @configure_input@
 .POSIX:
 
+# TODO:
+# * Windows
+# * If OPEN_DYLAN_TARGET_PLATFORM isn't the local platform (which I assume is
+#   possible during cross compilation) then the workspace tool needs to be told
+#   to generate registries for that platform instead.
+# * Make sure it's still possible to build when off-network, as long as deps
+#   are already installed.
+
 prefix          = @prefix@
 
 srcdir          = @srcdir@
@@ -37,23 +45,9 @@ BOOTSTRAP_1_PRIMITIVE_LIBS = \
         bootstrap-stage-2-runtime bootstrap-stage-2-jamfiles cli2 \
 	bootstrap-stage-3 bootstrap-stage-3-dirs bootstrap-stage-3-libraries \
         bootstrap-stage-3-runtime bootstrap-stage-3-jamfiles cli3 \
-	all install install-stage dist clean check \
-	check-submodules
+	all install install-stage dist clean check
 
 all: @bootstrap_target@
-
-check-submodules:
-	@if [ -z "$(SKIP_SUBMODULE_CHECK)" ]; then \
-          for sms in `cd $(srcdir) && git submodule status | grep -v "^ " | cut -c 1`; do \
-	    if [ "$$sms" != "x" ]; then \
-	      echo "**** ERROR ****"; \
-	      echo "One or more submodules is not up to date."; \
-	      echo "Please run 'git submodule update --init'."; \
-	      echo "If you want to skip this check, pass SKIP_SUBMODULE_CHECK=1 to make."; \
-	      exit 1; \
-	    fi; \
-	  done; \
-        fi
 
 ###
 # 3-stage bootstrap includes stages 1 and 2 and 3: it rebuilds the compiler
@@ -62,10 +56,30 @@ check-submodules:
 # without installing it; if you want to install it, do a 3-stage bootstrap and
 # run make install
 
-3-stage-bootstrap: check-submodules \
-                   bootstrap-stage-1 \
+3-stage-bootstrap: build-dylan-tool \
+		   bootstrap-stage-1 \
                    bootstrap-stage-2 \
                    bootstrap-stage-3
+
+###
+# dylan-tool installs dependencies and creates the registry. It has its own
+# registry and submodules. (In future we can use the dylan-tool bundled with
+# the OD release instead of building it here.)
+
+# TODO: use `$(DYLAN_TOOL) status --directory` instead, when that is fixed to
+# output only the directory name.
+
+WORKSPACE_DIR := $(shell dirname $(abs_srcdir))
+DYLAN_TOOL_APP = $(WORKSPACE_DIR)/_build/bin/dylan-tool
+
+build-dylan-tool:
+	@echo Building dylan-tool...
+	@OPEN_DYLAN_USER_ROOT=$(WORKSPACE_DIR)/_build \
+	  $(MAKE) -C sources/app/dylan-tool build
+
+# Add --verbose before "update" to debug.
+update-workspace:
+	$(DYLAN_TOOL_APP) update
 
 ########################################################################
 # Stage 1 builds a compiler that can understand new primitives used in the
@@ -76,7 +90,9 @@ check-submodules:
 
 BOOTSTRAP_1_ROOT = $(abs_builddir)/Bootstrap.1
 
-BOOTSTRAP_1_REGISTRY = $(abs_srcdir)/sources/bootstrap1-registry
+# This must be in the same directory as the main registry because files are
+# copied from one to the other and the relative pathnames won't work otherwise.
+BOOTSTRAP_1_REGISTRY = $(WORKSPACE_DIR)/bootstrap1-registry
 
 BOOTSTRAP_1_ENV = \
         OPEN_DYLAN_TARGET_PLATFORM=$(TARGET_PLATFORM) \
@@ -95,9 +111,13 @@ bootstrap-stage-1-dirs:
 # BOOTSTRAP_1_PRIMITIVE_LIBS registry files are removed so those
 # libraries are taken from the bootstrap compiler's system registries.
 # The main point of stage 1 is to compile any changed compiler sources.
-$(BOOTSTRAP_1_REGISTRY):
-	mkdir $(BOOTSTRAP_1_REGISTRY)
-	cp -r $(srcdir)/sources/registry/* $(BOOTSTRAP_1_REGISTRY)
+# Note that unlike with the manually maintained registry, dylan-tool
+# doesn't use a "generic" registry, which is primarily to save humans
+# from more maintenance. Everything is put in a platform-specific
+# directory.
+$(BOOTSTRAP_1_REGISTRY): update-workspace
+	mkdir -p $(BOOTSTRAP_1_REGISTRY)
+	cp -r $(WORKSPACE_DIR)/registry/$(TARGET_PLATFORM) $(BOOTSTRAP_1_REGISTRY)
 	for lib in $(BOOTSTRAP_1_PRIMITIVE_LIBS); do \
 	  rm -f $(BOOTSTRAP_1_REGISTRY)/*/$$lib; \
 	done
@@ -139,7 +159,7 @@ BOOTSTRAP_2_COMPILER = \
         $(BOOTSTRAP_1_ROOT)/bin/dylan-compiler \
           -build -verbose -jobs $(DYLAN_JOBS)
 
-BOOTSTRAP_2_REGISTRY = $(abs_srcdir)/sources/registry
+BOOTSTRAP_2_REGISTRY = $(WORKSPACE_DIR)/registry
 
 BOOTSTRAP_2_ENV = \
         OPEN_DYLAN_TARGET_PLATFORM=$(TARGET_PLATFORM) \
@@ -197,7 +217,7 @@ BOOTSTRAP_3_COMPILER = \
         $(BOOTSTRAP_2_ROOT)/bin/dylan-compiler \
           -build -verbose -jobs $(DYLAN_JOBS)
 
-BOOTSTRAP_3_REGISTRY = $(abs_srcdir)/sources/registry
+BOOTSTRAP_3_REGISTRY = $(WORKSPACE_DIR)/registry
 
 BOOTSTRAP_3_ENV = \
         OPEN_DYLAN_TARGET_PLATFORM=$(TARGET_PLATFORM) \
@@ -256,7 +276,6 @@ install-stage:
 	@rm -rf $(DESTDIR)$(prefix)/sources
 	@cp -R $(srcdir)/sources $(DESTDIR)$(prefix)
 	@find $(DESTDIR)$(prefix)/sources -depth -name '.*' -exec rm -rf {} \;
-	@-rm -rf $(DESTDIR)$(prefix)/sources/bootstrap1-registry
 	@echo Installing Open Dylan in $(DESTDIR)$(prefix)
 	@install -d $(prefix)/bin $(prefix)/databases $(prefix)/lib $(DESTDIR)$(prefix)/lib/runtime
 	@install -d $(prefix)/share/opendylan $(DESTDIR)$(prefix)/include/opendylan
@@ -288,6 +307,7 @@ clean:
 	-rm -rf $(abs_builddir)/release
 	-rm -rf $(abs_builddir)/opendylan-*.tar.bz2
 	-rm -rf $(BOOTSTRAP_1_REGISTRY)
+	-rm -rf $(WORKSPACE_DIR)/registry
 	@for target_platform in $(RUNTIME_TARGET_PLATFORMS); do \
 	  $(MAKE) -C $(RUNTIME) \
 	    OPEN_DYLAN_TARGET_PLATFORM=$$target_platform \
@@ -345,7 +365,6 @@ dist: 3-stage-bootstrap
 	cp -R $(srcdir)/sources release/opendylan-$(version)/
 	@echo Removing unnecessary directories...
 	find release/opendylan-$(version)/sources -depth -name '.*' -exec rm -rf {} \;
-	rm -rf release/opendylan-$(version)/sources/bootstrap1-registry
 	cp -R Bootstrap.3/bin release/opendylan-$(version)/
 	cp -R Bootstrap.3/sbin/* release/opendylan-$(version)/bin
 	ln -s dylan-tool-app release/opendylan-$(version)/bin/dylan
