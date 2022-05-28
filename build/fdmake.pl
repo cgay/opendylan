@@ -71,8 +71,11 @@ sub build_library {
         # abstract://dylan/environment/console/dylan-compiler.lid
         $line =~ s|^abstract://dylan/||;
         ($dir, $lidfile) = ($line =~ m|(.*)/(.*)|);
-        push @directories, File::Spec::Unix->splitdir($dir);
-        $dir = File::Spec->catdir($volume, @directories);
+        # The "dylan" tool may write an absolute pathname to the lid file.
+        if ($line !~ /^\//) {
+            push @directories, File::Spec::Unix->splitdir($dir);
+            $dir = File::Spec->catdir($volume, @directories);
+        }
         $lidfile = File::Spec->catfile($dir, $lidfile);
         last REGISTRY;
     }
@@ -160,7 +163,7 @@ sub build_library {
     }
     if ($debugger) {
         $command .= " -debugger";
-    } 
+    }
     if ($gdb) {
         $command = "gdb --args " . $command;
     } elsif ($lldb) {
@@ -177,7 +180,7 @@ sub build_library {
     }
     else {
         my $start_time = time();
-        open(my $compfd, '-|', $command) or die "Couldn't execute $compiler";
+        open(my $compfd, '-|', $command) or die "Couldn't execute $command";
 
         my $logfd;
         if (defined $build_logs) {
