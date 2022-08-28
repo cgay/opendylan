@@ -1,0 +1,22 @@
+{
+    "name": "opendylan",
+    "category": "compilers",
+    "description": "The Open Dylan compiler, IDE, and core libraries",
+    "dependencies": [
+        "collection-extensions@0.1",
+        "command-line-parser@3.2",
+        "dylan-tool@0.6",
+        "hash-algorithms@1.1",
+        "json@1.0",
+        "logging@2.2",
+        "meta@0.1",
+        "regular-expressions@0.2",
+        "strings@1.2",
+        "xml-parser@0.1"
+    ],
+    "dev-dependencies": [
+        "testworks@2.2"
+    ],
+    "url": "https://github.com/dylan-lang/opendylan",
+    "version": "2022.1.0"
+}
