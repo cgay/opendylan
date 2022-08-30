@@ -308,6 +308,7 @@ clean:
 	-rm -rf $(abs_builddir)/opendylan-*.tar.bz2
 	-rm -rf $(BOOTSTRAP_1_REGISTRY)
 	-rm -rf $(WORKSPACE_DIR)/registry
+	-rm -rf $(WORKSPACE_DIR)/_build
 	@for target_platform in $(RUNTIME_TARGET_PLATFORMS); do \
 	  $(MAKE) -C $(RUNTIME) \
 	    OPEN_DYLAN_TARGET_PLATFORM=$$target_platform \
