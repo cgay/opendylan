@@ -385,6 +385,7 @@ check: bootstrap-stage-3
 	  --report-file $(BOOTSTRAP_3_ROOT)/logs/make-check.json \
 	  $(TEST_LOADS)
 
+# Separate from 'check' due to the special environment variable setup.
 check-environment: bootstrap-stage-3
 	@$(BOOTSTRAP_3_ENV) $(FDMAKE) --compiler "$(BOOTSTRAP_3_COMPILER)" \
 	  dfmc-environment-test-suite-app
@@ -392,6 +393,8 @@ check-environment: bootstrap-stage-3
          OPEN_DYLAN_USER_SOURCES=$(srcdir)/sources \
          OPEN_DYLAN_USER_ROOT=$(abs_builddir)/_testbuild \
 	  $(BOOTSTRAP_3_ROOT)/bin/dfmc-environment-test-suite-app
+
+release: check check-environment dist
 
 installcheck:
 

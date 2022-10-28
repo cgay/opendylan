@@ -1,0 +1,23 @@
+# Make a new release of Open Dylan
+
+name: release
+
+on:
+  # This enables the Run Workflow button on the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  release-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: od
+          submodules: recursive
+
+      - name: make
+        run: |
+          cd od
+          ./autogen.sh
+          ./configure --prefix=$(realpath build)
+          make release
