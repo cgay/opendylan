@@ -280,6 +280,8 @@ define sealed method do-project-file-libraries
           let project = library.library-compiler-project;
           let source-files = project.project-dylan-sources;
           for (source-file in source-files)
+            debug-out(#"dfmc-environment-database",
+                      "do-library-file-libraries: project: %s", project);
             when (file = source-file)
               let (record, modified?)
                 = project-source-canonical-source-record(project, source-file);
