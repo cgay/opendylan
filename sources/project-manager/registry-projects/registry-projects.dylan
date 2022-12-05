@@ -5,64 +5,66 @@ License:      See License.txt in this distribution for details.
 Warranty:     Distributed WITHOUT WARRANTY OF ANY KIND
 
 define class <registry> (<object>)
+  // The platform-specific (or "generic") location of this registry.
   constant slot registry-location :: <directory-locator>,
     required-init-keyword: location:;
+  // The location of the "registry" directory itself, which contains the
+  // registry-location directory.
   constant slot registry-root :: <directory-locator>,
     required-init-keyword: root:;
+  // Whether this registry was found via OPEN_DYLAN_USER_REGISTRIES or not.
   constant slot registry-personal? :: <boolean>,
     required-init-keyword: personal?:;
 end class <registry>;
 
-define method print-object (registry :: <registry>, stream :: <stream>)
- => ();
-  format(stream, "{%s registry in %s}",
+define method print-object (registry :: <registry>, stream :: <stream>) => ()
+  format(stream, "{%s registry %s}",
          if (registry.registry-personal?) "personal" else "system" end,
-         as(<string>, registry.registry-location));
+         registry.registry-location);
 end method;
 
 define class <registry-project-layout> (<project-layout>)
-  // Name under which is listed in registry
+  // Name under which this project is listed in the registry.
   constant slot project-registered-name :: <symbol>,
     required-init-keyword: key:;
+  // Was this project found via a personal registry?
   slot project-personal-library? :: <boolean>,
     init-keyword: personal-library?:;
-end;
+end class;
 
 define method initialize (project :: <registry-project-layout>, #rest keys,
                           #key key, source-record-class, platform-name, #all-keys)
   assert(instance?(key, <symbol>), "<registry-project-layout>: key not a symbol");
-  let source-class = if (source-record-class) source-record-class
-                     else <file-source-record> end;
+  let source-class = source-record-class | <file-source-record>;
   let (lid-location, registry)
     =  compute-library-location(key, platform-name);
-  project.project-personal-library? := registry.registry-personal?;
+  let personal? = registry.registry-personal?;
+  project.project-personal-library? := personal?;
   apply(next-method, project,
         source-record-class:, source-class,
         lid-location:, lid-location,
         keys);
 
   let (builds-dir, db-dir, profile-dir) = project-build-locations(project);
-  let personal? = project.project-personal-library?;
-
-  project-build-location(project) :=
-    personal? & library-build-locator(builds-dir, key);
-  project-database-location(project) :=
-    library-database-locator(db-dir, key);
-  project-profile-location(project) :=
-    library-profile-locator(profile-dir, key);
+  project-build-location(project)
+    := personal? & library-build-locator(builds-dir, key);
+  project-database-location(project)
+    := library-database-locator(db-dir, key);
+  project-profile-location(project)
+    := library-profile-locator(profile-dir, key);
   let db = project-database-location(project);
   unless (file-exists?(db))
-// This gets checked a bit later on, in project-open-compilation-context
-// (which also covers cases not covered here, such as an incomplete or
-//  obsolete database).
-// roman: it's not costly but gives better error message in some cases
+    // This gets checked a bit later on, in project-open-compilation-context
+    // (which also covers cases not covered here, such as an incomplete or
+    // obsolete database).  roman: it's not costly but gives better error
+    // message in some cases
     if (~personal?)
-      error("System project %s is missing compiler database", key)
+      error("System project %s is missing compiler database", key);
     end;
     if (personal? & ~project.project-source-files)
       error("There is no source and no database to load for the project %s",
             key)
-    end
+    end;
   end;
 end method;
 
@@ -73,26 +75,27 @@ end class;
 define method project-location
     (project :: <registry-project>) => (location :: <file-locator>)
   project.project-lid-location
-end method project-location;
+end method;
 
 define method initialize (project :: <registry-project>, #rest keys,
                           #key key, #all-keys)
   next-method();
-  unless (project-lid-library-name(project) == key)
+  let library-name = project-lid-library-name(project);
+  unless (library-name == key)
     user-warning("Library in project %s is actually called %s.\n",
-                 key, project-lid-library-name(project));
+                 key, library-name);
   end;
-end;
+end method;
 
 *default-project-class* := <registry-project>;
 
 define method note-platform-change (project :: <registry-project>,
                                     new-platform-name)
-  let old-platform-name = project-compiler-setting(project, platform-name:);
+  let old-platform-name = project-compiler-setting(project, #"platform-name");
   unless (old-platform-name == new-platform-name)
     let key = project.project-registered-name;
-    let (lid-location, registry) =
-      compute-library-location(key, new-platform-name);
+    let (lid-location, registry)
+      = compute-library-location(key, new-platform-name);
     if (lid-location ~= project.project-lid-location)
       // Have different sources for different platforms, so can't reuse.
       // It's not really necessary to close the project, but this way we

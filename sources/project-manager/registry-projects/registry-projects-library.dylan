@@ -8,10 +8,11 @@ Warranty:     Distributed WITHOUT WARRANTY OF ANY KIND
 define library registry-projects
   use dylan;
   // Probably don't need all this, sort it out later...
+  use build-system;
   use collections;
   use io;
+  use strings;
   use system;
-  use build-system;
 
   use file-source-records;
   use dfmc-browser-support;
@@ -26,17 +27,18 @@ define module registry-projects-internal
   use dylan-extensions;
   use simple-debugging;
   // Probably don't need all this, sort it out later...
-  use collectors;
-  use set;
-  use streams;
-  use locators;
-  use format;
-  use print;
-  use standard-io;
-  use format-out;
-  use operating-system, rename: {load-library => os/load-library};
-  use file-system;
   use build-system;
+  use collectors;
+  use file-system;
+  use format-out;
+  use format;
+  use locators;
+  use operating-system, rename: {load-library => os/load-library};
+  use print;
+  use set;
+  use standard-io;
+  use streams;
+  use strings;
 
   use file-source-records;
   use dfmc-project-compilation;

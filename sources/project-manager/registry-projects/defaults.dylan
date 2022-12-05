@@ -42,8 +42,7 @@ define function find-registries (platform-name)
 end;
 
 define function find-registries-internal
-    (platform-name)
- => (registries :: <sequence>);
+    (platform-name) => (registries :: <sequence>)
   debug-out(#"project-manager", "Finding registries");
   let generic-personal-registries = #();
   let platform-personal-registries = #();
@@ -78,14 +77,11 @@ define function find-registries-internal
       end,
       reverse(lookup-system-registries()));
 
-  let registries
-    = concatenate(platform-personal-registries,
-                  platform-system-registries,
-                  generic-personal-registries,
-                  generic-system-registries);
-
-  registries;
-end;
+  concatenate(platform-personal-registries,
+              platform-system-registries,
+              generic-personal-registries,
+              generic-system-registries)
+end function find-registries-internal;
 
 define class <registry-entry-not-found-error> (<simple-error>)
 end class <registry-entry-not-found-error>;
