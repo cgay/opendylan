@@ -19,7 +19,7 @@ define library dfmc-environment-projects
   use dfmc-debug-back-end;                // Compiler print methods
 
   use dfmc-environment-database;
-
+  use io, import: { print };
   export dfmc-environment-projects;
 end library dfmc-environment-projects;
 
@@ -68,6 +68,7 @@ define module dfmc-environment-projects
     import: { internal-reporting-setter };
   use build-system,
     import: { $personal-bin, system-release-path };
+  use print;
 
   export <native-project-object>,
          <dfmc-project-object>;
