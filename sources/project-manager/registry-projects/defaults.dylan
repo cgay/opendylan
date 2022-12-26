@@ -31,15 +31,14 @@ define function make-registry-from-path
               personal?: personal?))
 end;
 
-define function find-registries (platform-name)
-  let registries = project-dynamic-environment(#"registries");
-  if (registries)
-    registries
-  else
-    project-dynamic-environment(#"registries")
-      := find-registries-internal(platform-name)
-  end
-end;
+// Find the complete set of registries that should be searched to find projects
+// and return them in the correct search order.
+define function find-registries
+    (platform-name :: <string>) => (registries :: <sequence>)
+  project-dynamic-environment(#"registries")
+    | (project-dynamic-environment(#"registries")
+         := find-registries-internal(platform-name))
+end function;
 
 define function find-registries-internal
     (platform-name) => (registries :: <sequence>)
