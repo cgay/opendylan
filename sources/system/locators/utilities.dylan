@@ -109,8 +109,7 @@ define method parse-path
     (string :: <string>,
      #key start :: <integer> = 0,
           end: stop :: <integer> = string.size,
-          test :: <function> = curry(\==, $default-path-separator),
-          separators :: <sequence> = #[])
+          test :: <function> = curry(\==, $default-path-separator))
  => (path :: <simple-object-vector>, relative? :: <boolean>)
   let path :: <stretchy-object-vector> = make(<stretchy-object-vector>);
   let old-position :: <integer> = start;
