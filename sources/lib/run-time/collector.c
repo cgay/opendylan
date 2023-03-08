@@ -528,7 +528,7 @@ BOOL WINAPI DylanBreakControlHandler(DWORD dwCtrlType)
 STATIC_INLINE
 void update_allocation_counter(gc_teb_t gc_teb, size_t count, void* wrapper)
 {
-#ifdef GC_USE_MPS
+#if defined(GC_USE_MPS) && defined(OPEN_DYLAN_BACKEND_HARP)
   gc_teb->gc_teb_allocation_counter += count;
 #elif defined(OPEN_DYLAN_BACKEND_LLVM)
   extern __thread DSINT Pallocation_count;
@@ -557,7 +557,7 @@ void update_allocation_counter(gc_teb_t gc_teb, size_t count, void* wrapper)
 
 static void zero_allocation_counter(gc_teb_t gc_teb)
 {
-#ifdef GC_USE_MPS
+#if defined(GC_USE_MPS) && defined(OPEN_DYLAN_BACKEND_HARP)
   gc_teb->gc_teb_allocation_counter = 0;
 #else
   unused(gc_teb);
