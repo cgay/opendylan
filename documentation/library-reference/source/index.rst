@@ -29,7 +29,6 @@ It also documents Dylan language extensions and the LID file format.
    network/index
    progress-stream/index
    sql/index
-   strings/index
    system/index
    t-lists/index
    win32/index
