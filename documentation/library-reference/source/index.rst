@@ -26,7 +26,6 @@ It also documents Dylan language extensions and the LID file format.
    dylan/index
    hash-algorithms/index
    io/index
-   logging/index
    network/index
    progress-stream/index
    regular-expressions/index
