@@ -28,7 +28,6 @@ It also documents Dylan language extensions and the LID file format.
    io/index
    network/index
    progress-stream/index
-   regular-expressions/index
    sql/index
    strings/index
    system/index
