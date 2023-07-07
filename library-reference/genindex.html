@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="common-dylan/index.html">The common-dylan Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dood/index.html">The DOOD library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dylan/index.html">The dylan Library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hash-algorithms/index.html">The hash-algorithms Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io/index.html">The io Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network/index.html">The network Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="progress-stream/index.html">The progress-stream Library</a></li>
@@ -606,6 +605,8 @@
 </li>
       <li><a href="system/date.html#system:date:[duration]">&lt;duration&gt;</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="sql/index.html#sql:sql:[dynamic-sql-error]">&lt;dynamic-sql-error&gt;</a>
 </li>
       <li><a href="sql/index.html#sql:sql:[empty-result-set]">&lt;empty-result-set&gt;</a>
@@ -614,8 +615,6 @@
 </li>
       <li><a href="sql/index.html#sql:sql:[error-in-assignment]">&lt;error-in-assignment&gt;</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dylan/threads.html#dylan:threads:[exclusive-lock]">&lt;exclusive-lock&gt;</a>
 </li>
       <li><a href="sql/index.html#sql:sql:[feature-not-supported]">&lt;feature-not-supported&gt;</a>
@@ -653,8 +652,6 @@
       <li><a href="system/locators.html#system:locators:[ftp-server]">&lt;ftp-server&gt;</a>
 </li>
       <li><a href="collections/table-extensions.html#collections:table-extensions:[hash-state]">&lt;hash-state&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[hash]">&lt;hash&gt;</a>
 </li>
       <li><a href="network/index.html#network:sockets:[host-not-found]">&lt;host-not-found&gt;</a>
 </li>
@@ -751,8 +748,6 @@
       <li><a href="c-ffi/index.html#index-33">&lt;machine-word&gt; class</a>, <a href="c-ffi/index.html#index-34">[1]</a>
 </li>
       <li><a href="system/locators.html#system:locators:[mail-to-locator]">&lt;mail-to-locator&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[md5]">&lt;md5&gt;</a>
 </li>
       <li><a href="system/file-system.html#system:file-system:[microsoft-directory-locator]">&lt;microsoft-directory-locator&gt;</a>
 </li>
@@ -871,16 +866,6 @@
       <li><a href="system/locators.html#system:locators:[server-url]">&lt;server-url&gt;</a>
 </li>
       <li><a href="collections/set.html#collections:set:[set]">&lt;set&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[sha1]">&lt;sha1&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[sha224]">&lt;sha224&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[sha256]">&lt;sha256&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[sha384]">&lt;sha384&gt;</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:[sha512]">&lt;sha512&gt;</a>
 </li>
       <li><a href="common-dylan/common-extensions.html#common-dylan:common-extensions:[simple-condition]">&lt;simple-condition&gt;</a>
 </li>
@@ -1287,11 +1272,9 @@
 </li>
       <li><a href="collections/bit-vector.html#collections:bit-vector:bit-vector-xor">bit-vector-xor</a>
 </li>
-      <li><a href="collections/bit-vector.html#collections:bit-vector:bit-vector-xor!">bit-vector-xor!</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:block-size">block-size</a>
+      <li><a href="collections/bit-vector.html#collections:bit-vector:bit-vector-xor!">bit-vector-xor!</a>
 </li>
       <li><a href="common-dylan/byte-vector.html#common-dylan:byte-vector:byte-storage-address">byte-storage-address</a>
 
@@ -2038,10 +2021,6 @@
 </li>
       <li><a href="common-dylan/common-extensions.html#common-dylan:common-extensions:difference">difference</a>
 </li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:digest">digest</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:digest-size">digest-size</a>
-</li>
       <li><a href="system/file-system.html#system:file-system:directory-contents">directory-contents</a>
 </li>
       <li><a href="system/file-system.html#system:file-system:directory-empty?">directory-empty?</a>
@@ -2542,15 +2521,6 @@
       <li><a href="win32/index.html#index-11">handling return of multiple values</a>
 </li>
       <li>
-    hexdigest
-
-      <ul>
-        <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:hexdigest([byte-vector])">hexdigest(&lt;byte-vector&gt;)</a>
-</li>
-        <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:hexdigest([hash])">hexdigest(&lt;hash&gt;)</a>
-</li>
-      </ul></li>
-      <li>
     hexstring
 
       <ul>
@@ -2561,10 +2531,10 @@
 </li>
       <li><a href="network/index.html#network:sockets:host-address">host-address</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="network/index.html#network:sockets:host-name">host-name</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="network/index.html#network:sockets:host-order">host-order</a>
 
       <ul>
@@ -2881,8 +2851,6 @@
         <li><a href="win32/index.html#index-7">null value, the</a>
 </li>
       </ul></li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:md5">md5</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="collections/bit-set.html#collections:bit-set:member?">member?</a>
@@ -3660,16 +3628,6 @@
 </li>
       <li><a href="collections/bit-set.html#collections:bit-set:set-union!">set-union!</a>
 </li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:sha1">sha1</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:sha224">sha224</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:sha256">sha256</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:sha384">sha384</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:sha512">sha512</a>
-</li>
       <li><a href="system/file-system.html#system:file-system:shorten-pathname">shorten-pathname</a>
 
       <ul>
@@ -4061,8 +4019,6 @@
       <li><a href="common-dylan/common-extensions.html#common-dylan:common-extensions:unsupplied">unsupplied</a>
 </li>
       <li><a href="common-dylan/common-extensions.html#common-dylan:common-extensions:unsupplied?">unsupplied?</a>
-</li>
-      <li><a href="hash-algorithms/index.html#hash-algorithms:hash-algorithms:update-hash">update-hash</a>
 </li>
       <li><a href="sql/index.html#sql:sql:user">user</a>
 </li>
