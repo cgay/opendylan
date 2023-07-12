@@ -128,7 +128,7 @@ configured to use the platform default C compiler instead. If you have
 installed Clang 7.0 or later, you can edit
 <code class="docutils literal notranslate"><span class="pre">share/opendylan/build-scripts/config.jam</span></code> and set the CC variable
 to point to your Clang executable:</p>
-<div class="highlight-jam notranslate"><div class="highlight"><pre><span></span>CC                ?= clang-7 ;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CC                ?= clang-7 ;
 CCFLAGS           ?= -w -g -O2 ;
 C++               ?= clang++-7 ;
 C++FLAGS          ?= $(CCFLAGS) ;

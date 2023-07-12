@@ -123,7 +123,7 @@ included in Open Dylan as git submodules, may be in other repositories.)</p>
 <li><p>The default compiler-back-end is now selected by querying the
 <code class="docutils literal notranslate"><span class="pre">SUPPORTED_COMPILER_BACK_ENDS</span></code> build system variable, normally set
 at configuration time within the <code class="docutils literal notranslate"><span class="pre">config.jam</span></code> build script:</p>
-<div class="highlight-jam notranslate"><div class="highlight"><pre><span></span>SUPPORTED_COMPILER_BACK_ENDS ?= llvm c ;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SUPPORTED_COMPILER_BACK_ENDS ?= llvm c ;
 </pre></div>
 </div>
 <p>At build time, if the selected back-end is not supported by the
