@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="LID File Format" href="../lid.html" /><link rel="prev" title="Numeric Literal Syntax" href="numeric-literals.html" />
 
-    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>String Literal Syntax - Open Dylan</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
@@ -469,10 +469,13 @@ processing (“raw” strings) and multi-line strings. Briefly,</p>
 <ol class="arabic simple">
 <li><p>Multi-line strings begin with three double-quote characters: <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;</span></code></p></li>
 <li><p>End-of-line sequences in multi-line strings are always parsed as a single
-Newline (<code class="docutils literal notranslate"><span class="pre">\\n</span></code>) character, regardless of source file line endings or the
+Newline (<code class="docutils literal notranslate"><span class="pre">\n</span></code>) character, regardless of source file line endings or the
 conventions of the operating system.</p></li>
 <li><p>Any string, whether delimited by <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;</span></code> may be prefixed with
 <code class="docutils literal notranslate"><span class="pre">#r</span></code> or <code class="docutils literal notranslate"><span class="pre">#R</span></code> to disable escape sequence processing.</p></li>
+<li><p>Any leading whitespace that <em>matches the whitespace preceding the end
+``”””`` delimiter</em> is removed, allowing multi-line strings to be formatted
+nicely in source code.</p></li>
 </ol>
 <p>See <a class="reference external" href="https://opendylan.org/proposals/dep-0012-string-literals.html">DEP 12</a>
 for details.</p>

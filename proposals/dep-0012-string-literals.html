@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="A Quick Tour of Dylan" href="../about/index.html" /><link rel="prev" title="Numeric Literal Syntax" href="dep-0011-numeric-literal-syntax.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>String Literal Syntax - Open Dylan</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -602,12 +602,12 @@ a “raw” quoted symbols, i.e., quoted symbols without escape processing.</p>
 rectangle, containing all of that subtree’s text and none of any other
 subtree’s.</p>
 </div></blockquote>
-<p>To conform to that rule, multi-line string literals need special treatment of
-leading whitespace. In the following two examples the programmer wants to
-ensure that there’s no leading whitespace on any line in the resulting string
-literal token:</p>
+<p>To permit (but not require) Dylan source code to conform to that rule,
+multi-line string literals need special treatment of leading whitespace. In the
+following two examples the programmer wants to ensure that there is no leading
+whitespace on any line in the resulting string literal token:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Without the Rectangle Rule</span><a class="headerlink" href="#id2" title="Permalink to this code">#</a></div>
+<div class="code-block-caption"><span class="caption-text">Without support for the Rectangle Rule</span><a class="headerlink" href="#id2" title="Permalink to this code">#</a></div>
 <div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">define</span><span class="w"> </span><span class="nb">method</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="p">()</span>
 <span class="linenos">2</span><span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;bits on the wire</span>
 <span class="hll"><span class="linenos">3</span><span class="n">protocols</span><span class="w"> </span><span class="n">well</span><span class="w"> </span><span class="n">understood</span>
@@ -622,21 +622,22 @@ literal token:</p>
 to put the first line of text on the same line with <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;</span></code> and to left-align
 the highlighted lines, harming readability due to violating the Rectangle Rule.</p>
 <div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">With the Rectangle Rule</span><a class="headerlink" href="#id3" title="Permalink to this code">#</a></div>
+<div class="code-block-caption"><span class="caption-text">With support for the Rectangle Rule</span><a class="headerlink" href="#id3" title="Permalink to this code">#</a></div>
 <div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">define</span><span class="w"> </span><span class="nb">method</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="p">()</span>
 <span class="linenos">2</span><span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
-<span class="hll"><span class="linenos">3</span><span class="w">        </span><span class="n">bits</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">wire</span>
-</span><span class="hll"><span class="linenos">4</span><span class="w">        </span><span class="n">protocols</span><span class="w"> </span><span class="n">well</span><span class="w"> </span><span class="n">understood</span>
-</span><span class="hll"><span class="linenos">5</span><span class="w">        </span><span class="n">where</span><span class="w"> </span><span class="n">did</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="n">mail</span><span class="w"> </span><span class="n">go?</span>
-</span><span class="hll"><span class="linenos">6</span><span class="w">        </span><span class="s">&quot;&quot;&quot;;</span>
+<span class="hll"><span class="linenos">3</span><span class="w">             </span><span class="n">bits</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">wire</span>
+</span><span class="hll"><span class="linenos">4</span><span class="w">             </span><span class="n">protocols</span><span class="w"> </span><span class="n">well</span><span class="w"> </span><span class="n">understood</span>
+</span><span class="hll"><span class="linenos">5</span><span class="w">             </span><span class="n">where</span><span class="w"> </span><span class="n">did</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="n">mail</span><span class="w"> </span><span class="n">go?</span>
+</span><span class="hll"><span class="linenos">6</span><span class="w">             </span><span class="s">&quot;&quot;&quot;;</span>
 </span><span class="linenos">7</span><span class="w">  </span><span class="p">...</span>
 <span class="linenos">8</span><span class="k">end</span><span class="w"> </span><span class="nb">method</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
-<p>Here, the <code class="docutils literal notranslate"><span class="pre">\n</span></code> after the opening delimiter is removed and leading whitespace
-is removed from the highlighted lines in the resulting string literal token, so
-they may be moved (as a unit) left or right without affecting the result.</p>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">\n</span></code> (and any other whitespace) after the opening delimiter is
+removed and leading whitespace is removed from the highlighted lines in the
+resulting string literal token, so they may be moved (as a unit) left or right
+without affecting the result.</p>
 <p>To achieve this we adopt the techniques used for <a class="reference external" href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/strings/#raw-string-literals">raw strings in C#</a>.</p>
 <p>The following rules apply to both raw and non-raw multi-line string literals:</p>
 <ul class="simple">
