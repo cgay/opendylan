@@ -21,7 +21,7 @@ define method emit-lambda(back-end :: <harp-back-end>, stream, o :: <&iep>,
     end if;
   let (static?, export?) =
     select(fun by instance?)
-      <&c-callable-function> => 
+      <&c-callable-function> =>
 	let export? = if (fun.dll-export?) #"code-stub" else #f end;
 	values(~ fun.c-function-name, export?);
       <&lambda> =>
@@ -219,14 +219,14 @@ end function;
 
 // define inline function emit-references-on-stack
 //     (back-end :: <harp-back-end>, #rest objects) => (#rest references)
-// 
+//
 //   for (object in objects,
 //        index :: <integer> from 0)
 //     objects[index] := emit-reference(back-end, #f, object);
 //   end for;
-// 
+//
 //   apply(values, objects);
-// 
+//
 // end function;
 
 define method closure? (o) => (closure? :: <boolean>)
@@ -253,7 +253,7 @@ define method emit-computation
 	list()
       end if;
 
-    if (c.closure-has-dynamic-extent?) 
+    if (c.closure-has-dynamic-extent?)
       let fn-size = if (key?) back-end.keyword-closure-size
 		    else back-end.simple-closure-size
 		    end if;
@@ -269,7 +269,7 @@ define method emit-computation
       ins--sub(back-end, stack, stack, total-size);
       ins--move(back-end, fn, stack);
       ins--copy-words-down-w(back-end, fn, template, fn-size-in-words);
-      let env-offset = 
+      let env-offset =
 	if (key?) back-end.keyword-closure-environment-offset
 	else back-end.closure-environment-offset
 	end if;
@@ -438,7 +438,7 @@ define method emit-multiple-value
       let mv-elt = mvalues[index];
       case
 	mv-elt => mv-elt;
-	dest => 
+	dest =>
 	  ins--load(back-end, dest,
 		    multiple-values-area(back-end),
 		    bytes%(back-end, index));
@@ -581,7 +581,7 @@ define method emit-computation
     unless(instance?(values-generator, <primitive-call>))
       ins--move(back-end,
 		emit-reference(back-end, #f, c.temporary),
-		emit-multiple-value(back-end, #f, 
+		emit-multiple-value(back-end, #f,
 				    emit-mv-reference(back-end, #f, c.computation-value),
 				    c.index));
     end unless;
@@ -772,7 +772,7 @@ define method emit-reference-to-locked-lval
 
   if (emit-import-adjustment?(back-end) & imported-object?(back-end, o))
     let new-register = make-g-register(back-end);
-    ins--move(back-end, new-register, cref); 
+    ins--move(back-end, new-register, cref);
     new-register;  // New register contains address of locked variable
   else
     cref           // constant ref actually describes the data but HARP is
@@ -816,7 +816,7 @@ define method emit-computation
   // transfer any required mv-temp values out of global MV area
   if (instance?(c.temporary, <multiple-value-temporary>))
     unspill-multiple-values(back-end, c.temporary, c);
-  end if;  
+  end if;
 end method emit-computation;
 
 define function maybe-emit-merge-transfer
@@ -1467,7 +1467,7 @@ define method emit-type-check-internal
 	  let mask = make-n-register(back-end);
 	  let bit = make-n-register(back-end);
 	  let temp2 = make-n-register(back-end);
-	  
+
 	  ins--and(back-end, temp, object, 3);
 	  ins--beq(back-end, integer, temp, 1);
 	  ins--beq(back-end, character, temp, 2);
@@ -1744,10 +1744,10 @@ end method;
 
 /// EMIT-CALL
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <primitive-call>, f :: <&primitive>) => ()
 
-  let destinations-size = 
+  let destinations-size =
     max(1, f.primitive-signature.^signature-number-values);
   let args :: <simple-object-vector> =
     make(<vector>,
@@ -1766,11 +1766,11 @@ define method emit-call
 
 end method emit-call;
 
-define method emit-test 
+define method emit-test
     (back-end :: <harp-back-end>, test, c, t) => ()
 end method emit-test;
 
-define method emit-test 
+define method emit-test
     (back-end :: <harp-back-end>, test :: <test-result>, c, t) => ()
 
   unless (test.false-tag-internal)
@@ -1842,11 +1842,11 @@ define function primitive-destinations
 
   for (i :: <integer> from 1 to values-size)
     let c = multiple-values[i - 1];
-    
+
     if (instance?(c, <extract-single-value>))
       let index = c.index;
       unless (index = 0)
-	destinations[index] := 
+	destinations[index] :=
 	  emit-temporary(back-end, #f, c.temporary,
 			 type: multiple-types[index]);
       end unless;
@@ -1863,7 +1863,7 @@ define function primitive-arguments
   end for;
 end function primitive-arguments;
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <simple-call>, f) => ()
 
   if (tail-call-optimizable?(back-end, c))
@@ -1879,10 +1879,10 @@ define method emit-call
       (c, result, c.function, rest c.arguments)
     end;
   end if;
-   
+
 end method emit-call;
 
-define method emit-iep-call 
+define method emit-iep-call
     (back-end :: <harp-back-end>, result, c :: <simple-call>, f :: <&iep>) => ()
 
   if (tail-call-optimizable?(back-end, c))
@@ -1901,14 +1901,14 @@ define method emit-iep-call
 
 end method emit-iep-call;
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <simple-call>, f :: <&iep>) => ()
 
     emit-iep-call(back-end, result, c, f);
 
 end method emit-call;
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <simple-call>, f :: <&generic-function>) => ()
 
   if (call-congruent?(c))
@@ -1931,7 +1931,7 @@ define method emit-call
 
 end method emit-call;
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <engine-node-call>, f :: <&generic-function>) => ()
 
   if (tail-call-optimizable?(back-end, c))
@@ -1951,7 +1951,7 @@ define method emit-call
 end method emit-call;
 
 /*
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <engine-node-apply>, f :: <&generic-function>) => ()
 
   call-protocol
@@ -1963,7 +1963,7 @@ define method emit-call
 end method emit-call;
 */
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <method-call>, f) => ()
 
   if (tail-call-optimizable?(back-end, c))
@@ -1982,14 +1982,14 @@ define method emit-call
 
 end method emit-call;
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <method-call>, f :: <&iep>) => ()
 
     emit-iep-call(back-end, result, c, f);
 
 end method emit-call;
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <apply>, f) => ()
 
   call-protocol
@@ -2000,7 +2000,7 @@ define method emit-call
 
 end method emit-call;
 
-define method emit-call 
+define method emit-call
 (back-end :: <harp-back-end>, result, c :: <method-apply>, f) => ()
 
   call-protocol
@@ -2014,7 +2014,7 @@ end method emit-call;
 
 /// FFI SUPPORT
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <primitive-call>, f :: <&c-function>) => ()
 
   let calling-convention =
@@ -2066,7 +2066,7 @@ define method op--dylan-object-as-boolean(back-end :: <harp-back-end>, result) =
 end method;
 */
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <primitive-indirect-call>, f :: <&c-function>) => ()
 
   let calling-convention =
@@ -2097,7 +2097,7 @@ end method;
 
 define method parameter-typespecs
     (back-end :: <harp-back-end>, signature) => (typedefs :: false-or(<sequence>))
-  local method maybe-trim-sig-types 
+  local method maybe-trim-sig-types
 	    (v :: <simple-object-vector>, n :: <integer>) => (res :: <simple-object-vector>)
 	    if (n = size(v)) v else copy-sequence(v, end: n) end if
 	end method;
@@ -2197,7 +2197,7 @@ end method emit-ffi-result;
 
 
 
-define method emit-call 
+define method emit-call
     (back-end :: <harp-back-end>, result, c :: <c-variable-pointer-call>, f) => ()
   let c-var = c.c-variable;
   let c-name = c-name(back-end, c-var.name);
@@ -2428,7 +2428,7 @@ end function;
 /// variables imported from other libraries must be treated specially, because
 /// they can no longer be represented with a simple constant reference
 
-define sideways method emit-reference 
+define sideways method emit-reference
 (back-end :: <harp-back-end>, stream, o :: <module-binding>) => (reference :: <object>)
   let cref = emit-module-reference(back-end, stream, o);
 
@@ -2448,7 +2448,7 @@ end method;
 
 // References for interactor variables
 
-define sideways method emit-reference 
+define sideways method emit-reference
 (back-end :: <harp-back-end>, stream, o :: <interactor-binding>) => (reference :: <object>)
   if (*emitting-data?*)
     error("Internal error in harp-cg: attempt to reference interactor binding from data");
@@ -2555,7 +2555,7 @@ end method;
 
 // Map these compiler entry-point-models to runtime-models
 
-define method emit-xep-reference 
+define method emit-xep-reference
     (back-end :: <harp-back-end>, stream, ep :: <&lambda-xep>)
  => (xep :: <runtime-object>)
   let size     = ^entry-point-number-required(ep);
@@ -2565,7 +2565,7 @@ define method emit-xep-reference
     $rest-key-xeps[index]
   elseif (^entry-point-rest?(ep))
     $rest-xeps[index]
-  else 
+  else
     $xeps[index]
   end if
 end method;
@@ -2576,16 +2576,16 @@ define method emit-xep-reference
   entry-point-reference(^entry-point-name(ep))
 end method;
 
-define method emit-xep-reference 
+define method emit-xep-reference
     (back-end :: <harp-back-end>, stream, ep :: <&generic-function-xep>)
  => (xep :: <runtime-object>)
 
   let req-size = ^entry-point-number-required(ep);
   let index    = min(req-size, $number-gf-xeps);
 
-  if (^entry-point-optionals?(ep)) 
+  if (^entry-point-optionals?(ep))
     $new-gf-optional-xeps[index]
-  else 
+  else
     $new-gf-xeps[index]
   end if
 end method;
@@ -2660,7 +2660,7 @@ define method emit-engine-node-ep-reference
 
 end method;
 
-  
+
 define sideways method emit-reference
     (back-end :: <harp-back-end>, stream, o :: <&keyword-method-mep>) => (reference :: <string>)
   let size  = ^entry-point-number-required(o);
@@ -2977,17 +2977,17 @@ define method emit-temporary
       end);
 end method emit-temporary;
 
-define sideways method emit-object 
+define sideways method emit-object
     (back-end :: <harp-back-end>, stream, o :: <entry-state>) => (object :: <object>)
   emit-temporary(back-end, stream, o);
 end method;
 
-define sideways method emit-object 
+define sideways method emit-object
     (back-end :: <harp-back-end>, stream, o :: <temporary>) => (object :: <object>)
   emit-temporary(back-end, stream, o);
 end method;
 
-define sideways method emit-object 
+define sideways method emit-object
 (back-end :: <harp-back-end>, stream, o :: <lexical-variable>) => (object)
 
   emit-temporary(back-end, stream, o);
@@ -2996,17 +2996,17 @@ end method emit-object;
 
 define method same-name? (x, y) => (same? :: <boolean>) x == y end;
 
-define method same-name? 
+define method same-name?
     (x :: <variable-name-fragment>, y :: <variable-name-fragment>) => (same? :: <boolean>)
   x.fragment-identifier = y.fragment-identifier
 end method;
-  
-define method ambiguous-lexical-variable? 
-    (var :: <temporary>) 
+
+define method ambiguous-lexical-variable?
+    (var :: <temporary>)
  => (ambiguous? :: <boolean>)
   block (return)
     for (tmp in var.environment.temporaries)
-      if (tmp ~== var 
+      if (tmp ~== var
           & same-name?(var.name, tmp.name))
         return(#t);
       end if;
@@ -3020,7 +3020,7 @@ define method name-of-temporary(back-end :: <harp-back-end>, o :: <temporary>) =
 end method name-of-temporary;
 
 define method name-of-temporary(back-end :: <harp-back-end>, o :: <lexical-local-variable>) => (name :: <string>)
-  if (o.frame-offset & ambiguous-lexical-variable?(o)) 
+  if (o.frame-offset & ambiguous-lexical-variable?(o))
     hygienic-mangle(back-end, o.name, o.frame-offset);
   else
     local-mangle(back-end, o.name);
@@ -3032,7 +3032,7 @@ define method name-of-temporary(back-end :: <harp-back-end>, o :: <lexical-varia
 end method name-of-temporary;
 
 define method name-of-temporary(back-end :: <harp-back-end>, o :: <named-temporary>) => (name :: <string>)
-  if (o.frame-offset & ambiguous-lexical-variable?(o)) 
+  if (o.frame-offset & ambiguous-lexical-variable?(o))
     hygienic-mangle(back-end, o.name, o.frame-offset);
   else
     local-mangle(back-end, o.name);

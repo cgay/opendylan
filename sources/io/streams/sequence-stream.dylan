@@ -28,7 +28,6 @@ end class <byte-string-stream>;
 define sealed domain lock-stream (<byte-string-stream>);
 define sealed domain unlock-stream (<byte-string-stream>);
 
-
 /// Macros
 
 define macro with-output-to-string
@@ -63,7 +62,7 @@ define macro with-input-from-string
     }
 end macro with-input-from-string;
 
-
+
 /// Creating sequence streams
 
 define method make
@@ -111,7 +110,6 @@ define method type-for-sequence-stream
   <string-stream>
 end method type-for-sequence-stream;
 
-
 /// Readable stream protocol
 
 define method read-element
@@ -225,7 +223,7 @@ define method stream-input-available?
   & ~stream-at-end?(stream)
 end method stream-input-available?;
 
-
+
 /// Writable stream protocol
 
 define method write-element
@@ -284,7 +282,7 @@ define method grow-for-stream
   vec
 end method grow-for-stream;
 
-
+
 /// Stream query and contents accessing
 
 define method stream-at-end?
@@ -334,7 +332,7 @@ define method stream-sequence-class
   type-for-copy(stream-sequence(stream))
 end method stream-sequence-class;
 
-
+
 /// Seal some domains
 
 define sealed domain make (singleton(<byte-string-stream>));

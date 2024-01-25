@@ -58,7 +58,7 @@ define function op--allocate-double-integer
   double-integer
 end function;
 
-
+
 /// Primitives
 
 define side-effect-free stateless dynamic-extent model-parameter &primitive-descriptor primitive-cast-machine-word

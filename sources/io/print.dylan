@@ -34,7 +34,7 @@ Copyright: See below.
 /// Library designed by Functional Objects and CMU.
 ///
 
-
+
 // Print-length holds the maximum number of elements the user wants a
 // sequence to be printed.  This does not apply to some sequences, such as
 // strings.
@@ -96,7 +96,7 @@ define sealed domain make (singleton(<circular-print-stream>));
 define sealed domain initialize (<circular-print-stream>);
 */
 
-
+
 /// <print-reference> Class.
 ///
 
@@ -128,7 +128,7 @@ define sealed domain make (singleton(<print-reference>));
 define sealed domain initialize (<print-reference>);
 */
 
-
+
 /// Print-reference routines.
 ///
 
@@ -166,7 +166,7 @@ end method;
 
 
 
-
+
 /// Print and global defaults.
 ///
 
@@ -343,7 +343,7 @@ define method output-print-reference (ref :: <print-reference>, stream :: <strea
   end;
 end method;
 
-
+
 /// Print-object generic function and its default method.
 ///
 
@@ -415,7 +415,6 @@ define method print-object-slots
 end method print-object;
 */
 
-
 /// Print-object <string> and <character> methods.
 ///
 
@@ -549,7 +548,7 @@ define method write-string-escaped
 end method write-string-escaped;
 
 
-
+
 /// Print-object <list> method.
 ///
 
@@ -645,7 +644,7 @@ define method print-list (object :: <list>, stream :: <stream>) => ()
   end block;
 end method;
 
-
+
 /// Print-object <simple-object-vector> method.
 ///
 
@@ -658,7 +657,7 @@ define sealed method print-object
   end
 end method;
 
-
+
 /// Print-object <function> method.
 ///
 
@@ -807,7 +806,7 @@ define method print-items
 end method;
 
 
-
+
 /// Print-specializer generic function and methods.
 ///
 
@@ -912,7 +911,7 @@ define method print-specializer (type :: <limited-function>, stream :: <stream>)
   end;
 end method print-specializer;
 
-
+
 /// Print-object methods for <type> and its subclasses.
 ///
 
@@ -974,7 +973,7 @@ define method write-class-name (obj-class :: <class>, stream :: <stream>) => ()
 end method;
 
 
-
+
 /// Print-object miscellaneous methods.
 ///
 
@@ -1080,7 +1079,7 @@ define sealed method print-object
   write(stream, machine-word-to-string(object))
 end method;
 
-
+
 /// Float printing.
 ///
 
@@ -1089,7 +1088,7 @@ define sealed method print-object
   write(stream, float-to-string(float))
 end;
 
-
+
 /// Locator printing.
 ///
 
@@ -1105,7 +1104,7 @@ define sealed method print-object
   end;
 end method;
 
-
+
 /// print-to-string -- Exported.
 ///
 define generic print-to-string (object, #rest args,
@@ -1124,7 +1123,7 @@ define method print-to-string
 end method;
 
 
-
+
 /// Output methods for <circular-print-stream>s.
 ///
 
@@ -1202,7 +1201,7 @@ define method stream-at-end?
   end;
 end method;
 
-
+
 /// Pretty-printer support.
 
 /// The methods on this page extend the pprint interface to <print-stream>s.
@@ -1304,7 +1303,7 @@ define sealed method pprint-tab
   end;
 end;
 
-
+
 /// 'printing-object'
 
 define macro printing-object

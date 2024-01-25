@@ -6,10 +6,10 @@ Copyright:    Original Code is Copyright (c) 1995-2004 Functional Objects, Inc.
 License:      See License.txt in this distribution for details.
 Warranty:     Distributed WITHOUT WARRANTY OF ANY KIND
 
-// The liason function to convert result records into corresponding instances 
+// The liason function to convert result records into corresponding instances
 // of <employee>.
 
-define method employee-maker 
+define method employee-maker
     (boss :: false-or(<employee>), record :: <record>)
  => (employee :: <employee>)
   let (id, last-name, first-name, extension) = apply(values, record);
@@ -24,7 +24,7 @@ define method employee-maker
   employee
 end method;
 
-// Called by the Explorer to compute the root set of the employee 
+// Called by the Explorer to compute the root set of the employee
 // hierarchy.
 
 define method compute-bosses () => (bosses :: <sequence>)
@@ -53,10 +53,9 @@ define method compute-subordinates (boss :: <employee>) => (subs :: <sequence>)
   as(<simple-object-vector>, result-set);
 end method;
 
-define method do-with-open-database 
-    (datasource :: <string>, 
-       user-name :: <string>, user-password :: <string>,
-       f :: <function>) 
+define method do-with-open-database
+    (datasource :: <string>, user-name :: <string>, user-password :: <string>,
+     f :: <function>)
   with-dbms (make(<odbc-dbms>))
     with-database(make(<database>, datasource-name: datasource),
                   make(<user>, user-name: user-name, password: user-password))
@@ -69,8 +68,8 @@ end method;
 // A... stubbery!!
 
 define method compute-bosses () => (bosses :: <sequence>)
-  map(method (id) 
-        make(<employee>, id: id, 
+  map(method (id)
+        make(<employee>, id: id,
              first-name: "Boss",
              last-name:  format-to-string("Number %d", id),
              boss:       #f)
@@ -79,8 +78,8 @@ define method compute-bosses () => (bosses :: <sequence>)
 end method;
 
 define method compute-subordinates (e :: <employee>) => (sub :: <sequence>)
-  map(method (id) 
-        make(<employee>, id: id, 
+  map(method (id)
+        make(<employee>, id: id,
              first-name: format-to-string
                            ("Subo of %s %s", first-name(e), last-name(e)),
              last-name:  format-to-string("Number %d", id),

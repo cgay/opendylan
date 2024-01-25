@@ -34,7 +34,7 @@ Copyright: See below.
 ///
 
 
-
+
 /// format-to-string.
 ///
 
@@ -55,7 +55,7 @@ define method format-to-string (control-string :: <string>, #rest args)
 end method;
 
 
-
+
 /// Print-message.
 ///
 
@@ -98,7 +98,7 @@ define sealed method print-message (object :: <symbol>, stream :: <stream>)
 end method;
 
 
-
+
 /// Format.
 ///
 

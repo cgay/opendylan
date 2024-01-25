@@ -57,7 +57,7 @@ define constant $accessor-method-type                  = 40;
 
 define constant $signature+values-type                     = 41;
 define constant $signature+values+rest-value-type          = 42;
-define constant $signature+rest-value-type                 = 43; 
+define constant $signature+rest-value-type                 = 43;
 define constant $keyword-signature+values-type             = 44;
 define constant $keyword-signature+values+rest-value-type  = 45;
 define constant $keyword-signature+rest-value-type         = 46;
@@ -89,7 +89,7 @@ define constant $string-clip-limit = 500;
 define method truncated-dylan-string-data
     (application :: <debug-target>, str :: <remote-value>)
       => (str :: <string>)
-  let (str, clipped?) = 
+  let (str, clipped?) =
     dylan-string-data(application, str, clip-at: $string-clip-limit);
   if (clipped?)
     concatenate(str, "...")
@@ -131,7 +131,7 @@ end method;
 //    Slightly more general than the above function, returns the type of
 //    an instance, whether it be a tagged immediate or a pointer.
 
-define method classify-dylan-object 
+define method classify-dylan-object
     (application :: <debug-target>, instance :: <remote-value>,
      #key address? :: <boolean>)
  => (type-descr :: <object-type-description>)
@@ -166,7 +166,7 @@ define method classify-dylan-object
 	      elseif (instance = sod.canonical-unbound-object)
 		$unbound-type;
 	      elseif (dylan-object?(application, instance, address?: address?))
-		let (wrapper, read-ok) 
+		let (wrapper, read-ok)
 		  = read-instance-header(application, instance);
 		get-type-from-wrapper(application, wrapper)
 	      else
@@ -216,9 +216,9 @@ define method flatten-type-union-members
      (application :: <debug-target>, union :: <remote-value>)
   => (seq :: <sequence>)
   let seq = make(<stretchy-vector>, size: 1);
-  let union-first :: <remote-value> = 
+  let union-first :: <remote-value> =
     dylan-union-type-first-member(application, union);
-  let union-second :: <remote-value> = 
+  let union-second :: <remote-value> =
     dylan-union-type-second-member(application, union);
   seq[0] := union-second;
   while (classify-dylan-object(application, union-first) == $union-type)
@@ -271,7 +271,7 @@ define method singleton-false-type?
   => (well? :: <boolean>)
   (classify-dylan-object(application, instance) == $singleton-type) &
   (classify-dylan-object
-     (application, 
+     (application,
         dylan-singleton-object(application, instance)) == $boolean-false)
 end method;
 
@@ -285,8 +285,8 @@ end method;
 define generic dylan-printable-representation
     (type :: <object-type-description>, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
-     #key decorate? :: <boolean> = #t, 
+     level-now :: <integer>,
+     #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>))
  => (rep :: <string>);
 
@@ -296,9 +296,9 @@ define generic dylan-printable-representation
 define method dylan-printable-representation
     (type :: <object-type-description>, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   dylan-printable-representation
       ($user-defined-type, application, instance, length, level, level-now,
@@ -311,8 +311,8 @@ end method;
 define method dylan-printable-representation
     (type == $simple-warning-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
-     #key decorate? :: <boolean> = #t, 
+     level-now :: <integer>,
+     #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   let format-string =
@@ -320,7 +320,7 @@ define method dylan-printable-representation
   let remote-format-args =
     dylan-simple-condition-format-arguments(application, instance);
   if (classify-dylan-object(application, format-string) == $string-type)
-    let format-arg-seq = 
+    let format-arg-seq =
       canonicalize-sequence(application, remote-format-args);
     let uploaded-format-string =
       truncated-dylan-string-data(application, format-string);
@@ -336,7 +336,7 @@ end method;
 define method dylan-printable-representation
     (type == $simple-error-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -345,7 +345,7 @@ define method dylan-printable-representation
   let remote-format-args =
     dylan-simple-condition-format-arguments(application, instance);
   if (classify-dylan-object(application, format-string) == $string-type)
-    let format-arg-seq = 
+    let format-arg-seq =
       canonicalize-sequence(application, remote-format-args);
     let uploaded-format-string =
       truncated-dylan-string-data(application, format-string);
@@ -361,7 +361,7 @@ end method;
 define method dylan-printable-representation
     (type == $simple-restart-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -370,7 +370,7 @@ define method dylan-printable-representation
   let remote-format-args =
     dylan-simple-condition-format-arguments(application, instance);
   if (classify-dylan-object(application, format-string) == $string-type)
-    let format-arg-seq = 
+    let format-arg-seq =
       canonicalize-sequence(application, remote-format-args);
     let uploaded-format-string =
       truncated-dylan-string-data(application, format-string);
@@ -386,19 +386,19 @@ end method;
 define method dylan-printable-representation
     (type == $union-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
-  local method print-members (members :: <sequence>, dec? :: <boolean>) 
+  local method print-members (members :: <sequence>, dec? :: <boolean>)
               => (printed :: <string>)
-          let initial = 
+          let initial =
             dude-print-dylan-object(application, members[0],
                                     length, level, level-now + 1,
                                     decorate?: dec?);
           let others = make(<vector>, size: members.size - 1);
           for (i from 1 below members.size)
-            others[i - 1] := 
+            others[i - 1] :=
               format-to-string(", %s",
                  dude-print-dylan-object
                    (application, members[i], length, level, level-now + 1,
@@ -431,7 +431,7 @@ define method dylan-printable-representation
       #"false-or" =>
         format-to-string("false-or(%s)", print-the-other-one(seq));
       #"one-of" =>
-        let new-seq = 
+        let new-seq =
           map(curry(dylan-singleton-object, application), seq);
         format-to-string("one-of(%s)", print-members(new-seq, #t));
       #"normal" =>
@@ -443,9 +443,9 @@ end method;
 define method dylan-printable-representation
     (type == $subclass-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   let c = dylan-subclass-type-class(application, instance);
   let c-printed =
@@ -461,9 +461,9 @@ end method;
 define method dylan-printable-representation
     (type == $bottom-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   if (decorate?)
     "{<bottom-type>}"
@@ -475,9 +475,9 @@ end method;
 define method dylan-printable-representation
     (type == $symbol-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
 
   let str = dylan-symbol-name (application, instance);
@@ -494,9 +494,9 @@ end method;
 define method dylan-printable-representation
     (type == $boolean-true, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   "#t"
 end method;
@@ -504,19 +504,19 @@ end method;
 define method dylan-printable-representation
     (type == $boolean-false, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   "#f"
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $integer-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   integer-to-string(dylan-integer-data(application, instance),
 		    base: select (format)
@@ -527,12 +527,12 @@ define method dylan-printable-representation
 			  end)
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $character-type, application :: <debug-target>,
      instance :: <remote-value>, length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   local method char-code-as-string (i :: <integer>) => (s :: <string>)
           let hex = format-to-string("%x", i);
@@ -573,16 +573,16 @@ define method dylan-printable-representation
   end if
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $string-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   if (decorate?)
-    format-to-string("\"%s\"", 
+    format-to-string("\"%s\"",
 		     truncated-dylan-string-data(application, instance));
   else
     truncated-dylan-string-data(application, instance);
@@ -593,7 +593,7 @@ define method dylan-printable-representation
     (type == $empty-list-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -608,7 +608,7 @@ define method dylan-printable-representation
     (type == $unbound-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -619,16 +619,16 @@ define method dylan-printable-representation
     (type == $singleton-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
-  
-  let (singleton-instance, ok?) = 
+
+  let (singleton-instance, ok?) =
     dylan-singleton-object(application, instance);
   let singleton-printed =
     dude-print-dylan-object(application, singleton-instance,
-                            length, level, level-now + 1, 
+                            length, level, level-now + 1,
                             decorate?: decorate?);
   if (decorate?)
     format-to-string("{<singleton>: %s}", singleton-printed);
@@ -641,7 +641,7 @@ define method dylan-printable-representation
     (type == $simple-method-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -654,7 +654,7 @@ define method dylan-printable-representation
     format-to-string("{<method>: %s %s}",
                      name,
                      dude-print-dylan-object
-                       (application, 
+                       (application,
                         sig,
                         length,
                         level,
@@ -669,7 +669,7 @@ define method dylan-printable-representation
     (type == $keyword-method-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -682,7 +682,7 @@ define method dylan-printable-representation
     format-to-string("{<method>: %s %s}",
                      name,
                      dude-print-dylan-object
-                       (application, 
+                       (application,
                         sig,
                         length,
                         level,
@@ -695,8 +695,8 @@ end method;
 
 define method signature-printable-representation
     (application :: <debug-target>, instance :: <remote-value>,
-     length :: <integer>, level :: <integer>, 
-     level-now :: <integer>, 
+     length :: <integer>, level :: <integer>,
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -708,7 +708,7 @@ define method signature-printable-representation
   let first? = #t;
 
   local method this-one (x :: <remote-value>) => (str :: <string>)
-    let str = 
+    let str =
       if (first?)
         first? := #f;
         ""
@@ -743,7 +743,7 @@ define method signature-printable-representation
   first? := #t;
   if (sig-rest-type)
     rest-bit := concatenate(maybe-space, "#rest ", this-one(sig-rest-type))
-  end if;  
+  end if;
 
   first? := #t;
   if (sig-keys)
@@ -758,11 +758,11 @@ define method signature-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $signature-required-only-type, 
+    (type == $signature-required-only-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -771,11 +771,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $keyword-signature-type, 
+    (type == $keyword-signature-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -784,11 +784,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $signature+values-type, 
+    (type == $signature+values-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -797,11 +797,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $signature+values+rest-value-type, 
+    (type == $signature+values+rest-value-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -810,11 +810,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $signature+rest-value-type, 
+    (type == $signature+rest-value-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -823,11 +823,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $keyword-signature+values-type, 
+    (type == $keyword-signature+values-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -836,11 +836,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $keyword-signature+values+rest-value-type, 
+    (type == $keyword-signature+values+rest-value-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -849,11 +849,11 @@ define method dylan-printable-representation
 end method;
 
 define method dylan-printable-representation
-    (type == $keyword-signature+rest-value-type, 
+    (type == $keyword-signature+rest-value-type,
      application :: <debug-target>,
-     instance :: <remote-value>, 
+     instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -865,12 +865,12 @@ define method dylan-printable-representation
     (type == $generic-function-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
-  
-  let (lib, mod, name, exact?) 
+
+  let (lib, mod, name, exact?)
     = dylan-instance-symbolic-name (application, instance);
 
   unless (exact?)
@@ -879,7 +879,7 @@ define method dylan-printable-representation
 
   if (decorate?)
     let sig = dylan-lambda-signature(application, instance);
-    let printed-sig = 
+    let printed-sig =
       dude-print-dylan-object(application, sig, length, level, level-now + 1);
     format-to-string ("{<generic-function>: %s %s}", name, printed-sig);
   else
@@ -891,7 +891,7 @@ define method dylan-printable-representation
     (type == $single-float-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -902,7 +902,7 @@ define method dylan-printable-representation
     (type == $double-float-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -913,7 +913,7 @@ define method dylan-printable-representation
     (type == $machine-integer-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -932,7 +932,7 @@ define method dylan-printable-representation
     (type == $double-integer-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -945,7 +945,7 @@ define method dylan-printable-representation
     (type == $class-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -959,7 +959,7 @@ define method dylan-printable-representation
               ($class-type, application, classes[0], length, level,
                level-now, decorate?: #f)
           else
-            let initial = 
+            let initial =
               dylan-printable-representation
                 ($class-type, application, classes[0], length, level,
                  level-now, decorate?: #f);
@@ -997,11 +997,11 @@ define method dylan-printable-representation
     (type == $user-defined-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
-  
+
   let (wrapper, ok) = read-instance-header (application, instance);
   if (ok)
     let (cl, ok) = wrapper-to-class (application, wrapper);
@@ -1022,11 +1022,11 @@ define method dylan-table-printable-representation
     (type :: <object-type-description>, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-	  format :: false-or(<symbol>) = #f) 
+	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
-  let opener = 
+  let opener =
     if (type == $string-table-type)
       "{<string-table>: "
     else
@@ -1081,9 +1081,9 @@ define method dylan-printable-representation
     (type == $table-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-	  format :: false-or(<symbol>) = #f) 
+	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   dylan-table-printable-representation
     (type, application, instance, length, level, level-now,
@@ -1094,9 +1094,9 @@ define method dylan-printable-representation
     (type == $string-table-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-	  format :: false-or(<symbol>) = #f) 
+	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   dylan-table-printable-representation
     (type, application, instance, length, level, level-now,
@@ -1107,15 +1107,15 @@ define method dylan-printable-representation
     (type == $unknown-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
 
   if (decorate?)
-    format-to-string ("{? 0x%s}", 
+    format-to-string ("{? 0x%s}",
       remote-value-as-string(application.debug-target-access-path,
-                             instance, 
+                             instance,
                              16));
   else
     format-to-string("?0x%s",
@@ -1129,7 +1129,7 @@ define method dylan-printable-representation
    (type == $thread-type, application :: <debug-target>,
     instance :: <remote-value>,
     length :: <integer>, level :: <integer>,
-    level-now :: <integer>, 
+    level-now :: <integer>,
     #key decorate? :: <boolean> = #t,
          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -1147,11 +1147,11 @@ define method dylan-printable-representation
   end if;
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $vector-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -1163,7 +1163,7 @@ define method dylan-printable-representation
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1180,7 +1180,7 @@ define method dylan-printable-representation
       else
         elstring := concatenate(elstring, seperator)
       end if;
-      let element-printed = 
+      let element-printed =
         dude-print-dylan-object(application, elements[i], length, level,
                                 level-now + 1, decorate?: decorate?);
       elstring := concatenate(elstring, element-printed);
@@ -1195,17 +1195,17 @@ define method dylan-printable-representation
   end if;
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $limited-vector-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   let element-type-name
     = dude-print-dylan-object
-        (application, dylan-limited-vector-element-type(application, instance), 
+        (application, dylan-limited-vector-element-type(application, instance),
 	 length, level, level-now + 1, decorate?: decorate?);
   let type-name = if (decorate?) format-to-string("limited(<vector>, of: %s)", element-type-name) end;
   let opener = if (decorate?) format-to-string("{%s: ", type-name) else "(" end if;
@@ -1217,7 +1217,7 @@ define method dylan-printable-representation
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1237,7 +1237,7 @@ define method dylan-printable-representation
 	else
 	  elstring := concatenate(elstring, seperator)
 	end if;
-	let element-printed = 
+	let element-printed =
 	  dude-print-dylan-object(application, elements[i], length, level,
 				  level-now + 1, decorate?: decorate?);
 	elstring := concatenate(elstring, element-printed);
@@ -1253,11 +1253,11 @@ define method dylan-printable-representation
   end if;
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $stretchy-vector-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -1270,7 +1270,7 @@ define method dylan-printable-representation
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1290,7 +1290,7 @@ define method dylan-printable-representation
         else
           elstring := concatenate(elstring, seperator)
         end if;
-        let element-printed = 
+        let element-printed =
           dude-print-dylan-object(application, elements[i], length, level,
                                   level-now + 1, decorate?: decorate?);
         elstring := concatenate(elstring, element-printed);
@@ -1306,17 +1306,17 @@ define method dylan-printable-representation
   end if
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $limited-stretchy-vector-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
           format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   let element-type-name
     = dude-print-dylan-object
-        (application, dylan-limited-stretchy-vector-element-type(application, instance), 
+        (application, dylan-limited-stretchy-vector-element-type(application, instance),
 	 length, level, level-now + 1, decorate?: decorate?);
   let type-name = if (decorate?) format-to-string("limited(<stretchy-vector>, of: %s)", element-type-name) end;
   let opener = if (decorate?) format-to-string("{%s: ", type-name) else "(" end if;
@@ -1328,7 +1328,7 @@ define method dylan-printable-representation
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1348,7 +1348,7 @@ define method dylan-printable-representation
         else
           elstring := concatenate(elstring, seperator)
         end if;
-        let element-printed = 
+        let element-printed =
           dude-print-dylan-object(application, elements[i], length, level,
                                   level-now + 1, decorate?: decorate?);
         elstring := concatenate(elstring, element-printed);
@@ -1364,31 +1364,31 @@ define method dylan-printable-representation
   end if
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $array-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   let opener = if (decorate?) "{<array>: " else "(" end if;
-  let empty = if (decorate?) 
-                "{<array>: size 0}" 
-              else 
-                "()" 
+  let empty = if (decorate?)
+                "{<array>: size 0}"
+              else
+                "()"
               end if;
   let closer = if (decorate?) "}" else ")" end if;
   let seperator = if (decorate?) ", " else " " end if;
   let ellipsis = "...";
   let dims = dylan-multidimensional-array-dimensions(application, instance);
   let printed-dims = print-dylan-object(application, dims, length: 5);
-  let elstring = 
+  let elstring =
     format-to-string("dimensions: %s, elements: ", printed-dims);
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1408,7 +1408,7 @@ define method dylan-printable-representation
         else
           elstring := concatenate(elstring, seperator)
         end if;
-        let element-printed = 
+        let element-printed =
           dude-print-dylan-object(application, elements[i], length, level,
                                   level-now + 1, decorate?: decorate?);
         elstring := concatenate(elstring, element-printed);
@@ -1424,17 +1424,17 @@ define method dylan-printable-representation
   end if
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $limited-array-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
   let element-type-name
     = dude-print-dylan-object
-        (application, dylan-limited-array-element-type(application, instance), 
+        (application, dylan-limited-array-element-type(application, instance),
 	 length, level, level-now + 1, decorate?: decorate?);
   let type-name = if (decorate?) format-to-string("limited(<array>, of: %s)", element-type-name) end;
   let opener = if (decorate?) format-to-string("{%s: ", type-name) else "(" end if;
@@ -1444,12 +1444,12 @@ define method dylan-printable-representation
   let ellipsis = "...";
   let dims = dylan-limited-array-dimensions(application, instance);
   let printed-dims = print-dylan-object(application, dims, length: 5);
-  let elstring = 
+  let elstring =
     format-to-string("dimensions: %s, elements: ", printed-dims);
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1469,7 +1469,7 @@ define method dylan-printable-representation
         else
           elstring := concatenate(elstring, seperator)
         end if;
-        let element-printed = 
+        let element-printed =
           dude-print-dylan-object(application, elements[i], length, level,
                                   level-now + 1, decorate?: decorate?);
         elstring := concatenate(elstring, element-printed);
@@ -1485,11 +1485,11 @@ define method dylan-printable-representation
   end if
 end method;
 
-define method dylan-printable-representation 
+define method dylan-printable-representation
     (type == $deque-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -1502,7 +1502,7 @@ define method dylan-printable-representation
   if (level-now > level)
     format-to-string("%s%s%s", opener, ellipsis, closer);
   else
-    let elements = 
+    let elements =
       canonicalize-sequence
         (application, instance, max-size-override: length + 1);
     let num-elements = size(elements);
@@ -1522,7 +1522,7 @@ define method dylan-printable-representation
         else
           elstring := concatenate(elstring, seperator)
         end if;
-        let element-printed = 
+        let element-printed =
           dude-print-dylan-object(application, elements[i], length, level,
                                   level-now + 1, decorate?: decorate?);
         elstring := concatenate(elstring, element-printed);
@@ -1542,7 +1542,7 @@ define method dylan-printable-representation
     (type == $pair-type, application :: <debug-target>,
      instance :: <remote-value>,
      length :: <integer>, level :: <integer>,
-     level-now :: <integer>, 
+     level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
 	  format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
@@ -1558,7 +1558,7 @@ define method dylan-printable-representation
     if (level-now > level)
       format-to-string("%s%s%s", opener, ellipsis, closer);
     else
-      let elements = 
+      let elements =
         canonicalize-sequence
           (application, instance, max-size-override: length + 1);
       let num-elements = size(elements);
@@ -1575,7 +1575,7 @@ define method dylan-printable-representation
         else
           elstring := concatenate(elstring, seperator)
         end if;
-        let element-printed = 
+        let element-printed =
           dude-print-dylan-object(application, elements[i], length, level,
                                   level-now + 1, decorate?: decorate?);
         elstring := concatenate(elstring, element-printed);
@@ -1605,18 +1605,18 @@ define method dylan-printable-representation
   end if
 end method;
 
-       
+
 ///// PRINT-DYLAN-OBJECT
 //    Given a dylan instance, returns its printable representation as a string.
 
 // dude-print-dylan-object
 // is delegated to by print-dylan-object
 
-define method dude-print-dylan-object 
+define method dude-print-dylan-object
     (application :: <debug-target>, object :: <remote-value>,
-     length :: <integer>, level :: <integer>, level-now :: <integer>, 
+     length :: <integer>, level :: <integer>, level-now :: <integer>,
      #key decorate? :: <boolean> = #t,
-          format :: false-or(<symbol>) = #f) 
+          format :: false-or(<symbol>) = #f)
  => (rep :: <string>)
 
   let type-description :: <object-type-description>
@@ -1627,7 +1627,7 @@ define method dude-print-dylan-object
 				 decorate?: decorate?, format: format);
 end method;
 
-define method print-dylan-object 
+define method print-dylan-object
     (application :: <debug-target>, instance :: <remote-value>,
      #key length = $maximum-print-length, level = $maximum-print-level,
           decorate? :: <boolean> = #t,
@@ -1737,21 +1737,21 @@ define method get-inspector-values
 
     let (wrapper :: <remote-value>, valid-wrapper?) =
       read-instance-header (application, instance);
-    class-object 
+    class-object
       := wrapper-to-iclass (application, wrapper);
     let (fixed-slot-count, vector-scaling) =
       dylan-wrapper-properties(application, wrapper);
     let has-byte-repeats? = (vector-scaling == 1);
-    let slot-descriptors 
+    let slot-descriptors
       = dylan-iclass-instance-slot-descriptors (application, class-object);
     let slot-count
       = dylan-vector-size (application, slot-descriptors);
     rdescriptor
       := dylan-iclass-repeated-slot-descriptor (application, class-object);
- 
+
     // Get details of repeated slots if their are any.
 
-    if ((classify-dylan-object (application, rdescriptor) ~= 
+    if ((classify-dylan-object (application, rdescriptor) ~=
              $boolean-false) &
         (type-description ~= $string-type))
 
@@ -1799,16 +1799,16 @@ define method get-inspector-values
    end if;
 
    values (dylan-iclass-class(application, class-object),
-           slot-vector, 
-           getter-vector, 
+           slot-vector,
+           getter-vector,
            setter-vector,
-           repeat-count, 
-           rdescriptor, 
-           rgetter, 
+           repeat-count,
+           rdescriptor,
+           rgetter,
            rsetter,
            nonword-repeats,
            nonword-vector);
-    
+
 end method;
 
 
@@ -1877,7 +1877,7 @@ define method describe-dylan-object
 
     values (class-name, slot-names, slot-vals, repeats,
             rslot-name, rslot-vals);
-  end if 
+  end if
 end method;
 
 
@@ -1895,18 +1895,18 @@ define method resolve-dylan-name
                       context.context-library,
                       default: #f)
             | find-library-called
-                (application, 
+                (application,
                  obtain-component-name(application, context.context-library));
 
-  let sym = 
+  let sym =
     if (indirect?)
       symbol-table-find-symbol (application.debug-target-symbol-table,
-                                mangle-in-context 
+                                mangle-in-context
                                   (name, context, as-static-object?: #f),
                                 library: lib);
     else
       symbol-table-find-symbol (application.debug-target-symbol-table,
-                                mangle-in-context 
+                                mangle-in-context
                                   (name, context, as-static-object?: #t),
                                 library: lib);
     end if;
@@ -1914,7 +1914,7 @@ define method resolve-dylan-name
   if (sym)
     let address = sym.remote-symbol-address;
     if (indirect?)
-      let val = 
+      let val =
         read-dylan-value(application, address);
       values(val, address);
     else
@@ -1929,7 +1929,7 @@ end method;
 ///// FIND-DYLAN-NAME
 //    TODO: The same (in reverse) has for RESOLVE-DYLAN-NAME
 
-define method find-dylan-name 
+define method find-dylan-name
     (application :: <debug-target>, address :: <remote-value>,
      #key disambiguate-methods? = #t)
   => (name :: <string>, context :: <dylan-name-context>,
@@ -1946,12 +1946,12 @@ define method find-dylan-name
 
   if (closest)
     let (nm, mod, lib,
-         is-method?, is-iep?, defining-library, method-number) 
+         is-method?, is-iep?, defining-library, method-number)
       = demangle-dylan-name (closest.remote-symbol-name);
     if (is-method? & disambiguate-methods?)
       nm := format-to-string("%s#%s", nm, method-number)
     end if;
-    values (nm, 
+    values (nm,
             make (<dylan-name-context>, library: lib, module: mod),
             address = closest.remote-symbol-address,
             closest.remote-symbol-name[0] == 'K');
@@ -2102,7 +2102,7 @@ define method remote-format-to-string
       let control-char = element(format-string, i + 1, default: '%');
       i := i + 2;
       if (next-argument < max-arguments)
-	let (printed-rep, consume?) = 
+	let (printed-rep, consume?) =
 	  printable-representation-of-single-argument
 	    (application, control-char, remote-format-args[next-argument]);
 	build-string := concatenate(build-string, printed-rep);
@@ -2125,7 +2125,7 @@ end method;
 //    A new innovation for DM5. Inpsects the given runtime value, which
 //    is assumed to be some kind of sequence. No matter what the precise
 //    kind of sequence is (be it a list or a simple-object-vector), this
-//    generates a LOCAL sequence of <remote-value> instances. The 
+//    generates a LOCAL sequence of <remote-value> instances. The
 //    remote values are the runtime elements of the sequence. This is
 //    very useful for interpreting runtime sequences when there is no
 //    precise protocol dictating what kind of sequence it is.
@@ -2150,7 +2150,7 @@ define method canonicalize-sequence
       end if;
       build-sequence := make(<vector>, size: vsize);
       for (i from 0 below vsize)
-        build-sequence[i] := 
+        build-sequence[i] :=
           dylan-vector-element(application, sequence-instance, i);
       end for;
 
@@ -2161,7 +2161,7 @@ define method canonicalize-sequence
       end if;
       build-sequence := make(<vector>, size: vsize);
       for (i from 0 below vsize)
-        build-sequence[i] := 
+        build-sequence[i] :=
           dylan-limited-vector-element(application, sequence-instance, i);
       end for;
 
@@ -2173,7 +2173,7 @@ define method canonicalize-sequence
       end if;
       build-sequence := make(<vector>, size: asize);
       for (i from 0 below asize)
-        build-sequence[i] := 
+        build-sequence[i] :=
           dylan-multidimensional-array-row-major-element
             (application, sequence-instance, i);
       end for;
@@ -2186,7 +2186,7 @@ define method canonicalize-sequence
       end if;
       build-sequence := make(<vector>, size: asize);
       for (i from 0 below asize)
-        build-sequence[i] := 
+        build-sequence[i] :=
           dylan-limited-array-row-major-element
             (application, sequence-instance, i);
       end for;
@@ -2203,7 +2203,7 @@ define method canonicalize-sequence
       end for;
 
     $stretchy-vector-type =>
-      let svrep = 
+      let svrep =
          dylan-stretchy-vector-representation(application, sequence-instance);
       let svsize =
          dylan-stretchy-vector-size(application, svrep);
@@ -2217,7 +2217,7 @@ define method canonicalize-sequence
       end for;
 
     $limited-stretchy-vector-type =>
-      let svrep = 
+      let svrep =
          dylan-limited-stretchy-vector-representation(application, sequence-instance);
       let svsize =
          dylan-limited-stretchy-vector-size(application, svrep);
@@ -2241,7 +2241,7 @@ define method canonicalize-sequence
         if (max-size-override & (max-size-override == build-sequence.size))
           keep-going := #f
 	else
-          add!(build-sequence, 
+          add!(build-sequence,
                dylan-head(application, list-so-far));
           list-so-far := dylan-tail(application, list-so-far);
 	end if;
@@ -2251,7 +2251,7 @@ define method canonicalize-sequence
       build-sequence := #[];
 
   end select;
-  build-sequence; 
+  build-sequence;
 end method;
 
 
@@ -2265,7 +2265,7 @@ end method;
 
 define method get-keyword-value-from-vector
     (application :: <debug-target>, vector-instance :: <remote-value>,
-     keyword-item :: <symbol>) 
+     keyword-item :: <symbol>)
        => (maybe-value :: false-or(<remote-value>))
   if (classify-dylan-object(application, vector-instance) == $vector-type)
     let sz = dylan-vector-size(application, vector-instance);
@@ -2341,9 +2341,9 @@ define method resolve-dylan-keyword
                         sym);
     if (stringval & headerval)
       run-spy-on-thread
-         (application, spy-thread, 
+         (application, spy-thread,
           application.dylan-spy.resolve-string-to-symbol,
-          headerval) 
+          headerval)
     else
       #f
     end if;
@@ -2386,7 +2386,7 @@ define method resolve-symbolic-name
                                symbolic-name,
                                library: library);
     else
-      symbol-table-find-symbol(application.debug-target-symbol-table, 
+      symbol-table-find-symbol(application.debug-target-symbol-table,
                                symbolic-name)
     end if;
   if (sym)
@@ -2434,12 +2434,12 @@ define method dylan-object-class
       immediate? := #t;
 
     $dylan-tag-pointer =>
-      let (wrapper-instance, ok?) = 
+      let (wrapper-instance, ok?) =
         read-instance-header(application, instance);
       if (ok?)
-         let (class-val, ok?) = 
+         let (class-val, ok?) =
            wrapper-to-class(application, wrapper-instance);
-         let (iclass-val, ok2?) = 
+         let (iclass-val, ok2?) =
            wrapper-to-iclass(application, wrapper-instance);
         if (ok? & ok2?)
           class-instance := class-val;
