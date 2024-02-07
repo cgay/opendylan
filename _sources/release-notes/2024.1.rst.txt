@@ -31,17 +31,6 @@ Compiler
   adhere to the Rectangle Rule, as laid out in
   https://opendylan.org/proposals/dep-0012-string-literals.html#the-rectangle-rule
 
-Tooling
-=======
-
-* A protocol buffer plug-in to generate Dylan code from .proto files is now
-  supported. See `the protocol-buffer docs
-  <https://github.com/cgay/protocol-buffers/blob/main/documentation/source/generated.rst#using-protobufs-in-open-dylan-projects>`_
-  for details. (Note that the protocol-buffers library is not ready for general
-  use, but this integration simplifies development of the protocol-buffers
-  library itself.)
-
-
 Library Updates
 ===============
 
