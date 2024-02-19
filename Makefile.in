@@ -322,6 +322,7 @@ distclean: clean
 	-rm -f sources/lib/run-time/Makefile
 	-rm -f sources/jamfiles/Makefile sources/jamfiles/config.jam
 	-rm -rf build-aux
+	-rm -rf config/build-aux
 	-rm -rf autom4te.cache
 
 mostlyclean:
