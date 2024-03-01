@@ -20,7 +20,7 @@ environment variable in the system.
 The following constants contain machine-specific information:
 
 - :const:`$architecture-little-endian?`
-- :const:`$machine-name`
+- :const:`$machine-architecture`
 - :const:`$os-name`
 - :const:`$os-variant`
 - :const:`$os-version`
@@ -93,7 +93,7 @@ System library's operating-system module.
 
    :seealso:
 
-     - :const:`$machine-name`
+     - :const:`$machine-architecture`
      - :const:`$os-name`
      - :const:`$os-variant`
      - :const:`$os-version`
@@ -223,12 +223,12 @@ System library's operating-system module.
 
      - :func:`login-name`
 
-.. constant:: $machine-name
+.. constant:: $machine-architecture
 
    Constant specifying the type of hardware installed in the host machine.
 
-   :type: :drm:`<symbol>`
-   :value: One of ``#"aarch64"``, ``#"arm"``, ``#"riscv64"``  ``#"x86"``, ``#"x86-64"``
+   :type: <symbol>
+   :value: #"x86", #"x86-64", #"ppc"
 
    :description:
 
@@ -243,12 +243,17 @@ System library's operating-system module.
      - :const:`$os-version`
      - :const:`$platform-name`
 
+.. constant:: $machine-name
+
+   This constant is the **deprecated** name for :const:`$machine-architecture`
+   and will be removed in a future release.
+
 .. constant:: $os-name
 
    Constant specifying the operating system running on the host machine.
 
-   :type: :drm:`<symbol>`
-   :value: One of  ``#"darwin"``, ``#"freebsd"``, ``#"linux"``, ``#"netbsd"``, ``#"win32"``
+   :type: <symbol>
+   :value: #"win32", #"linux", #"darwin", #"freebsd"
 
    :description:
 
@@ -258,7 +263,7 @@ System library's operating-system module.
    :seealso:
 
      - :const:`$architecture-little-endian?`
-     - :const:`$machine-name`
+     - :const:`$machine-architecture`
      - :const:`$os-variant`
      - :const:`$os-version`
      - :const:`$platform-name`
@@ -268,7 +273,7 @@ System library's operating-system module.
    Constant specifying which variant of an operating system the current
    machine is running, where relevant.
 
-   :type: :drm:`<symbol>`
+   :type: <symbol>
 
    :description:
 
@@ -281,7 +286,7 @@ System library's operating-system module.
    :seealso:
 
      - :const:`$architecture-little-endian?`
-     - :const:`$machine-name`
+     - :const:`$machine-architecture`
      - :const:`$os-name`
      - :const:`$os-version`
      - :const:`$platform-name`
@@ -291,7 +296,7 @@ System library's operating-system module.
    Constant specifying which version of an operating system the current
    machine is running.
 
-   :type: :drm:`<string>`
+   :type: <string>
 
    :description:
 
@@ -303,7 +308,7 @@ System library's operating-system module.
    :seealso:
 
      - :const:`$architecture-little-endian?`
-     - :const:`$machine-name`
+     - :const:`$machine-architecture`
      - :const:`$os-name`
      - :const:`$os-variant`
      - :const:`$platform-name`
@@ -361,15 +366,15 @@ System library's operating-system module.
    Constant specifying the operating system running on and the type of
    hardware installed in the host machine.
 
-   :type: :drm:`<symbol>`
+   :type: <symbol>
    :value: ``#"x86-win32"``, ``#"x86-linux"``, etc.
 
    :description:
 
-     Represents both the architecture and the operating system running on the
-     host machine. It is a concatenation of :const:`$machine-name`, ``"-"``,
-     and :const:`$os-name`.  See those constants to determine the full list of
-     possible values.
+     This constant is a symbol that represents the both the operating
+     system running on, and the type of hardware installed in, the host
+     machine. It is a combination of the :const:`$os-name` and
+     :const:`$machine-architecture` constants.
 
    :example:
 
@@ -377,7 +382,7 @@ System library's operating-system module.
 
    :seealso:
 
-     - :const:`$machine-name`
+     - :const:`$machine-architecture`
      - :const:`$os-name`
 
 .. function:: machine-concurrent-thread-count
@@ -417,8 +422,7 @@ System library's operating-system module.
    :parameter #key under-shell?: An instance of :drm:`<boolean>`. If true (the
       default), use a shell to invoke the *command*. On Unix systems this is
       equivalent to ``/bin/sh -c '...command...'``. On Windows the
-      :envvar:`COMSPEC` environment variable specifies which command
-      interpreter to use.
+      :envvar:`COMSPEC` environment variable specifies
 
    :parameter #key inherit-console?: An instance of :drm:`<boolean>`. Whether
       to run in the same session and process group as the calling process and
