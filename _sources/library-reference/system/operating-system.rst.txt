@@ -232,10 +232,11 @@ System library's operating-system module.
 
    :description:
 
-     This constant is a symbol that represents the type of hardware installed
-     in the host machine, or the type of hardware being simulated. For example,
-     code compiled for ``x86_64`` on macOS on Apple Silicon running under
-     Rosetta will report ``x86_64`` as the hardware architecture.
+     This constant represents the execution platform's instruction set
+     architecture. Note that this is usually, but not always, the same as the
+     architecture of the hardware installed in the host machine. For example,
+     when running ``x86_64`` code on Apple Silicon the value is ``#"x86_64``,
+     not ``#"aarch64"``.
 
    :seealso:
 
