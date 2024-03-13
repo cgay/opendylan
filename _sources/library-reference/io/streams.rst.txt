@@ -1285,73 +1285,35 @@ are exported from the *streams* module.
 
 .. class:: <incomplete-read-error>
 
-   Signaled on encountering the end of a stream before reading the requested
-   number of elements.
+   Error type signaled on encountering the end of a stream before
+   reading the required number of elements.
 
    :superclasses: :class:`<end-of-stream-error>`
 
    :keyword sequence: An instance of :drm:`<sequence>`.
-   :keyword count: An instance of :drm:`<object>`.
+   :keyword count: An instance of :drm:`<integer>`.
 
    :description:
 
-     This error is signaled when an input function reaches the end of the
-     stream before reading the requested number of elements.
+     This error is signaled when input functions are reading a required
+     number of elements, but the end of the stream is read before
+     completing the required read.
 
-     The *sequence:* init-keyword specifies a sequence of elements read from
-     the stream; it's value depends on which read function signaled the
-     error. Its accessor is :gf:`stream-error-sequence`.
+     The ``sequence:`` init-keyword contains the input that was read
+     before reaching the end of the stream. Its accessor is
+     ``incomplete-read-error-sequence``.
 
-     The *count:* init-keyword specifies the number of elements that were
-     actually read. Its accessor is :gf:`stream-error-count`.
-
-   :seealso:
-
-     - :gf:`stream-error-count`
-     - :gf:`stream-error-sequence`
-
-.. generic-function:: stream-error-count
-
-   Returns the number of elements read before the end of the stream was
-   encountered.
-
-   :signature: stream-error-count *stream-error* => *count*
-
-   :parameter stream-error: An instance of :class:`<end-of-stream-error>`.
-   :value count: An instance of :drm:`<object>`.
-
-   :description:
-
-      Returns the number of elements read before the end of the stream was
-      encountered.
+     The ``count:`` init-keyword contains the number of elements that were
+     requested to be read. Its accessor is
+     ``incomplete-read-error-count``.
 
    :seealso:
 
-     - :gf:`stream-error-sequence`
-     - :class:`<incomplete-read-error>`
      - :class:`<end-of-stream-error>`
-
-.. generic-function:: stream-error-sequence
-
-   Returns a sequence of elements read before the end of the stream was
-   encountered.
-
-   :signature: stream-error-sequence *stream-error* => *sequence*
-
-   :parameter stream-error: An instance of :class:`<end-of-stream-error>`.
-   :value sequence: An instance of :drm:`<object>`.
-
-   :description:
-
-      Returns the number of elements read before the end of the stream was
-      encountered. The exact semantics differ depending on which read function
-      signaled the error.
-
-   :seealso:
-
-     - :gf:`stream-error-count`
-     - :class:`<incomplete-read-error>`
-     - :class:`<end-of-stream-error>`
+     - :class:`<file-does-not-exist-error>`
+     - :class:`<file-error>`
+     - :class:`<file-exists-error>`
+     - :class:`<invalid-file-permissions-error>`
 
 .. class:: <indenting-stream>
    :sealed:
@@ -1886,34 +1848,25 @@ are exported from the *streams* module.
    :parameter input-stream: An instance of :class:`<stream>`.
    :parameter n: An instance of :drm:`<integer>`.
    :parameter sequence: An instance of :drm:`<mutable-sequence>`.
-   :parameter #key start: An instance of :drm:`<integer>`. Defaults to ``0``.
+   :parameter #key start: An instance of :drm:`<integer>`.
    :parameter #key on-end-of-stream: An instance of :drm:`<object>`.
    :value count-or-eof: An instance of :drm:`<integer>`, or an instance of
-     :drm:`<object>` if the end of stream is reached.
+     :drm:`<object>` if the end of stream is reached..
 
    :description:
 
-     Reads the next *n* elements from *input-stream*, and inserts them into
-     *sequence* starting at the position *start*. Returns the number of
-     elements actually inserted into *sequence* unless the end of the stream is
-     reached, in which case the *on-end-of-stream* behavior is as follows.
+     Reads the next *n* elements from *input-stream*, and inserts them
+     into a mutable sequence starting at the position *start*. Returns
+     the number of elements actually inserted into *sequence* unless the
+     end of the stream is reached, in which case the *on-end-of-stream*
+     behavior is as for :gf:`read`.
 
-     - If a value for the *on-end-of-stream* argument was supplied, it
-       is returned as the value of *read-into!*.
-     - If a value for the *on-end-of-stream* argument was not supplied, and at
-       least one element was read from the stream, then an
-       :class:`<incomplete-read-error>` condition is signaled. When signaling
-       this condition, *read-into!* supplies two values: a sequence of the
-       elements that were read successfully, and *n*.
-     - If the *on-end-of-stream* argument was not supplied, and no
-       elements were read from the stream, an
-       :class:`<end-of-stream-error>` condition is signalled.
+     If the sum of *start* and *n* is greater than the size of
+     *sequence*, ``read-into!`` reads only enough elements to fill
+     sequence up to the end. If *sequence* is a stretchy vector, no
+     attempt is made to grow it.
 
-     If the sum of *start* and *n* is greater than the size of *sequence*,
-     :gf:`read-into!` reads only enough elements to fill sequence up to the
-     end. If *sequence* is a stretchy vector, no attempt is made to grow it.
-
-     If the stream is not at its end, :gf:`read-into!` waits until input
+     If the stream is not at its end, ``read-into!`` waits until input
      becomes available.
 
    :seealso:

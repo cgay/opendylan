@@ -1796,8 +1796,8 @@ concerned about system failure causing loss of data.</p>
 <dl class="dylan class">
 <dt class="sig sig-object dylan-api dylan" id="io:streams:[incomplete-read-error]">
 <span class="sig-name descname"><span class="pre">&lt;incomplete-read-error&gt;</span></span> <em class="property"><span class="pre">Class</span></em><a class="headerlink" href="#io:streams:[incomplete-read-error]" title="Permalink to this definition">#</a></dt>
-<dd><p>Signaled on encountering the end of a stream before reading the requested
-number of elements.</p>
+<dd><p>Error type signaled on encountering the end of a stream before
+reading the required number of elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Superclasses<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#io:streams:[end-of-stream-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;end-of-stream-error&gt;</span></code></a></p>
@@ -1805,92 +1805,28 @@ number of elements.</p>
 <dt class="field-even">Init-Keywords<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>sequence</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#sequence"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;sequence&gt;</span></code></a>.</p></li>
-<li><p><strong>count</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Object_Classes#object"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code></a>.</p></li>
+<li><p><strong>count</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Discussion<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>This error is signaled when an input function reaches the end of the
-stream before reading the requested number of elements.</p>
-<p>The <em>sequence:</em> init-keyword specifies a sequence of elements read from
-the stream; it’s value depends on which read function signaled the
-error. Its accessor is <a class="reference internal" href="#io:streams:stream-error-sequence"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">stream-error-sequence</span></code></a>.</p>
-<p>The <em>count:</em> init-keyword specifies the number of elements that were
-actually read. Its accessor is <a class="reference internal" href="#io:streams:stream-error-count"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">stream-error-count</span></code></a>.</p>
+<dd class="field-odd"><p><p>This error is signaled when input functions are reading a required
+number of elements, but the end of the stream is read before
+completing the required read.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sequence:</span></code> init-keyword contains the input that was read
+before reaching the end of the stream. Its accessor is
+<code class="docutils literal notranslate"><span class="pre">incomplete-read-error-sequence</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">count:</span></code> init-keyword contains the number of elements that were
+requested to be read. Its accessor is
+<code class="docutils literal notranslate"><span class="pre">incomplete-read-error-count</span></code>.</p>
 </p>
 </dd>
 <dt class="field-even">See also<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><a class="reference internal" href="#io:streams:stream-error-count"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">stream-error-count</span></code></a></p></li>
-<li><p><a class="reference internal" href="#io:streams:stream-error-sequence"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">stream-error-sequence</span></code></a></p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="dylan generic-function">
-<dt class="sig sig-object dylan-api dylan" id="io:streams:stream-error-count">
-<span class="sig-name descname"><span class="pre">stream-error-count</span></span> <em class="property"><span class="pre">Generic</span> <span class="pre">function</span></em><a class="headerlink" href="#io:streams:stream-error-count" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the number of elements read before the end of the stream was
-encountered.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Signature<span class="colon">:</span></dt>
-<dd class="field-odd"><p>stream-error-count <em>stream-error</em> =&gt; <em>count</em></p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>stream-error</strong> – An instance of <a class="reference internal" href="#io:streams:[end-of-stream-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;end-of-stream-error&gt;</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Values<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Object_Classes#object"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Discussion<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns the number of elements read before the end of the stream was
-encountered.</p>
-</dd>
-<dt class="field-odd">See also<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><a class="reference internal" href="#io:streams:stream-error-sequence"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">stream-error-sequence</span></code></a></p></li>
-<li><p><a class="reference internal" href="#io:streams:[incomplete-read-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;incomplete-read-error&gt;</span></code></a></p></li>
 <li><p><a class="reference internal" href="#io:streams:[end-of-stream-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;end-of-stream-error&gt;</span></code></a></p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="dylan generic-function">
-<dt class="sig sig-object dylan-api dylan" id="io:streams:stream-error-sequence">
-<span class="sig-name descname"><span class="pre">stream-error-sequence</span></span> <em class="property"><span class="pre">Generic</span> <span class="pre">function</span></em><a class="headerlink" href="#io:streams:stream-error-sequence" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a sequence of elements read before the end of the stream was
-encountered.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Signature<span class="colon">:</span></dt>
-<dd class="field-odd"><p>stream-error-sequence <em>stream-error</em> =&gt; <em>sequence</em></p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>stream-error</strong> – An instance of <a class="reference internal" href="#io:streams:[end-of-stream-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;end-of-stream-error&gt;</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Values<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sequence</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Object_Classes#object"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Discussion<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns the number of elements read before the end of the stream was
-encountered. The exact semantics differ depending on which read function
-signaled the error.</p>
-</dd>
-<dt class="field-odd">See also<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><a class="reference internal" href="#io:streams:stream-error-count"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">stream-error-count</span></code></a></p></li>
-<li><p><a class="reference internal" href="#io:streams:[incomplete-read-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;incomplete-read-error&gt;</span></code></a></p></li>
-<li><p><a class="reference internal" href="#io:streams:[end-of-stream-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;end-of-stream-error&gt;</span></code></a></p></li>
+<li><p><a class="reference internal" href="#io:streams:[file-does-not-exist-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-does-not-exist-error&gt;</span></code></a></p></li>
+<li><p><a class="reference internal" href="#io:streams:[file-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-error&gt;</span></code></a></p></li>
+<li><p><a class="reference internal" href="#io:streams:[file-exists-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-exists-error&gt;</span></code></a></p></li>
+<li><p><a class="reference internal" href="#io:streams:[invalid-file-permissions-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;invalid-file-permissions-error&gt;</span></code></a></p></li>
 </ul>
 </p>
 </dd>
@@ -2610,37 +2546,27 @@ of a sequence:</p>
 <li><p><strong>input-stream</strong> – An instance of <a class="reference internal" href="#io:streams:[stream]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;stream&gt;</span></code></a>.</p></li>
 <li><p><strong>n</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a>.</p></li>
 <li><p><strong>sequence</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#mutable-sequence"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;mutable-sequence&gt;</span></code></a>.</p></li>
-<li><p><strong>start</strong> (<em>#key</em>) – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a>. Defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>start</strong> (<em>#key</em>) – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a>.</p></li>
 <li><p><strong>on-end-of-stream</strong> (<em>#key</em>) – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Object_Classes#object"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Values<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>count-or-eof</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a>, or an instance of
-<a class="reference external" href="https://opendylan.org/books/drm/Object_Classes#object"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code></a> if the end of stream is reached.</p></li>
+<a class="reference external" href="https://opendylan.org/books/drm/Object_Classes#object"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code></a> if the end of stream is reached..</p></li>
 </ul>
 </dd>
 <dt class="field-even">Discussion<span class="colon">:</span></dt>
-<dd class="field-even"><p><p>Reads the next <em>n</em> elements from <em>input-stream</em>, and inserts them into
-<em>sequence</em> starting at the position <em>start</em>. Returns the number of
-elements actually inserted into <em>sequence</em> unless the end of the stream is
-reached, in which case the <em>on-end-of-stream</em> behavior is as follows.</p>
-<ul class="simple">
-<li><p>If a value for the <em>on-end-of-stream</em> argument was supplied, it
-is returned as the value of <em>read-into!</em>.</p></li>
-<li><p>If a value for the <em>on-end-of-stream</em> argument was not supplied, and at
-least one element was read from the stream, then an
-<a class="reference internal" href="#io:streams:[incomplete-read-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;incomplete-read-error&gt;</span></code></a> condition is signaled. When signaling
-this condition, <em>read-into!</em> supplies two values: a sequence of the
-elements that were read successfully, and <em>n</em>.</p></li>
-<li><p>If the <em>on-end-of-stream</em> argument was not supplied, and no
-elements were read from the stream, an
-<a class="reference internal" href="#io:streams:[end-of-stream-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;end-of-stream-error&gt;</span></code></a> condition is signalled.</p></li>
-</ul>
-<p>If the sum of <em>start</em> and <em>n</em> is greater than the size of <em>sequence</em>,
-<a class="reference internal" href="#io:streams:read-into!"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">read-into!</span></code></a> reads only enough elements to fill sequence up to the
-end. If <em>sequence</em> is a stretchy vector, no attempt is made to grow it.</p>
-<p>If the stream is not at its end, <a class="reference internal" href="#io:streams:read-into!"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">read-into!</span></code></a> waits until input
+<dd class="field-even"><p><p>Reads the next <em>n</em> elements from <em>input-stream</em>, and inserts them
+into a mutable sequence starting at the position <em>start</em>. Returns
+the number of elements actually inserted into <em>sequence</em> unless the
+end of the stream is reached, in which case the <em>on-end-of-stream</em>
+behavior is as for <a class="reference internal" href="#io:streams:read"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">read</span></code></a>.</p>
+<p>If the sum of <em>start</em> and <em>n</em> is greater than the size of
+<em>sequence</em>, <code class="docutils literal notranslate"><span class="pre">read-into!</span></code> reads only enough elements to fill
+sequence up to the end. If <em>sequence</em> is a stretchy vector, no
+attempt is made to grow it.</p>
+<p>If the stream is not at its end, <code class="docutils literal notranslate"><span class="pre">read-into!</span></code> waits until input
 becomes available.</p>
 </p>
 </dd>
