@@ -475,11 +475,12 @@ which can be downloaded from <a class="reference external" href="https://github.
 <p>Next set up your <code class="file docutils literal notranslate"><span class="pre">.emacs</span></code> file as follows.  Adjust the pathnames to match
 your Open Dylan installation location and the directory where you put the
 dylan-emacs-support repository.</p>
-<div class="highlight-elisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">add-to-list</span><span class="w"> </span><span class="ss">&#39;load-path</span><span class="w"> </span><span class="s">&quot;/path/to/dylan-mode&quot;</span><span class="p">)</span>
-<span class="p">(</span><span class="k">setq</span><span class="w"> </span><span class="nv">inferior-dylan-program</span><span class="w"> </span><span class="s">&quot;/opt/opendylan/bin/dswank&quot;</span><span class="p">)</span>
+<div class="highlight-emacs-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">add-to-list</span><span class="w"> </span><span class="ss">&#39;load-path</span><span class="w"> </span><span class="s">&quot;/path/to/dylan-mode&quot;</span><span class="p">)</span>
 <span class="p">(</span><span class="nb">require</span><span class="w"> </span><span class="ss">&#39;dime</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">dime-setup</span><span class="w"> </span><span class="o">&#39;</span><span class="p">(</span><span class="nv">dime-dylan</span><span class="w"> </span><span class="nv">dime-repl</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">setenv</span><span class="w"> </span><span class="s">&quot;OPEN_DYLAN_USER_REGISTRIES&quot;</span><span class="w"> </span><span class="s">&quot;/path/to/your/registry:...more...&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">dime-setup</span><span class="w"> </span><span class="o">&#39;</span><span class="p">(</span><span class="nv">dime-repl</span><span class="w"> </span><span class="nv">dime-note-tree</span><span class="p">))</span>
+<span class="p">(</span><span class="k">setq</span><span class="w"> </span><span class="nv">dime-dylan-implementations</span>
+<span class="w">      </span><span class="o">&#39;</span><span class="p">((</span><span class="nv">opendylan</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;/opt/opendylan/bin/dswank&quot;</span><span class="p">)</span>
+<span class="w">                   </span><span class="nb">:env</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;OPEN_DYLAN_USER_REGISTRIES=/tmp/dime-test/registry&quot;</span><span class="p">))))</span>
 </pre></div>
 </div>
 <p>Setting <a class="reference external" href="source-registries.html#open-dylan-user-registries">OPEN_DYLAN_USER_REGISTRIES</a> is important because

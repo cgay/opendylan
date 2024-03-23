@@ -15,13 +15,14 @@ Next set up your :file:`.emacs` file as follows.  Adjust the pathnames to match
 your Open Dylan installation location and the directory where you put the
 dylan-emacs-support repository.
 
-.. code-block:: elisp
+.. code-block:: emacs-lisp
 
    (add-to-list 'load-path "/path/to/dylan-mode")
-   (setq inferior-dylan-program "/opt/opendylan/bin/dswank")
    (require 'dime)
-   (dime-setup '(dime-dylan dime-repl))
-   (setenv "OPEN_DYLAN_USER_REGISTRIES" "/path/to/your/registry:...more...")
+   (dime-setup '(dime-repl dime-note-tree))
+   (setq dime-dylan-implementations
+         '((opendylan ("/opt/opendylan/bin/dswank")
+                      :env ("OPEN_DYLAN_USER_REGISTRIES=/tmp/dime-test/registry"))))
 
 Setting `OPEN_DYLAN_USER_REGISTRIES
 <source-registries.html#open-dylan-user-registries>`_ is important because
