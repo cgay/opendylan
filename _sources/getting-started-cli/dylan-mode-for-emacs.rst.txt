@@ -26,7 +26,8 @@ dylan-emacs-support repository.
 
 Setting `OPEN_DYLAN_USER_REGISTRIES
 <source-registries.html#open-dylan-user-registries>`_ is important because
-that's how DIME finds your projects.
+that's how DIME finds your projects. Above we set it to the dime-test registry
+that is created in the example below.
 
 For this tutorial let's use a "dime-test" project created with the
 :program:`dylan` tool.  Create the project with ::
