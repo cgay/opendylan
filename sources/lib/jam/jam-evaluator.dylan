@@ -226,13 +226,7 @@ define function jam-expand-arg-colon
             if (replace?)
               method (name :: <string>) => (modified :: <string>);
                 let locator = as(<file-locator>, strip-grist(name));
-<<<<<<< HEAD
-                  
                 as(<string>,
-=======
-
-                as(<byte-string>,
->>>>>>> bb1206747 (Remove end-of-line whitespace in all .dylan files)
                    make(<file-locator>,
                         directory: locator.locator-directory,
                         base: locator.locator-base,

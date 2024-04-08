@@ -243,7 +243,7 @@ define method emit-object-slot
  => ();
   let repeated-size-value = ^slot-value(o, ^size-slot-descriptor(slotd));
   let (repeated-size, terminated?)
-    = if (o.^object-class == dylan-value(#"<byte-string>"))
+    = if (o.^object-class == dylan-value(#"<string>"))
         values(repeated-size-value + 1, #t)
       else
         values(repeated-size-value, #f)
@@ -256,8 +256,7 @@ define method emit-object-slot
       repeated-elements[i] := llvm-raw-byte(back-end, byte);
     end;
     if (terminated?)
-      repeated-elements[repeated-size-value]
-        := llvm-raw-byte-character(back-end, '\0');
+      repeated-elements[repeated-size-value] := llvm-raw-byte(back-end, 0);
     end if;
   else
     for (i from 0 below repeated-size)

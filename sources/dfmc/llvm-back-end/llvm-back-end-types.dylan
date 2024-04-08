@@ -171,7 +171,7 @@ define method llvm-object-type
   let repeated-size-value
     = rslotd & ^slot-value(o, ^size-slot-descriptor(rslotd));
   let repeated-size
-    = if (o.^object-class == dylan-value(#"<byte-string>"))
+    = if (o.^object-class == dylan-value(#"<string>"))
         repeated-size-value + 1 // for NUL termination
       else
         repeated-size-value
