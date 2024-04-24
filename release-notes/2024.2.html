@@ -482,6 +482,23 @@ repositories.</p>
 <section id="compiler">
 <h2>Compiler<a class="headerlink" href="#compiler" title="Permalink to this heading">#</a></h2>
 </section>
+<section id="tools">
+<h2>Tools<a class="headerlink" href="#tools" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><p>A new binary, <code class="docutils literal notranslate"><span class="pre">dylan-lsp-server</span></code>, is bundled in this release. This is a
+Language Server Protocol (LSP) implementation for use with VS Code and
+emacs. It currently supports jump to definition/declaration, compiler
+warnings, and hover text.</p>
+<p>See the <a class="reference external" href="https://opendylan.org/package/lsp-dylan/index.html">lsp-server documentation</a> for configuration
+details.</p>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">dylan</span></code> tool has been renamed to <a class="reference external" href="https://opendylan.org/package/deft/index.html">deft</a>.  This was done primarily
+because it avoids some awkwardness when having to distinguish between the
+Dylan language and the <code class="docutils literal notranslate"><span class="pre">dylan</span></code> tool. The <code class="docutils literal notranslate"><span class="pre">dylan</span></code> binary continues to
+exist for backward compatibility (for example in GitHub workflows) but it
+will be removed in a future release.</p></li>
+</ul>
+</section>
 <section id="library-updates">
 <h2>Library Updates<a class="headerlink" href="#library-updates" title="Permalink to this heading">#</a></h2>
 <section id="system">
@@ -537,6 +554,7 @@ The old name will remain, for backward compatibility.</p></li>
             <ul>
 <li><a class="reference internal" href="#">Open Dylan 2024.2</a><ul>
 <li><a class="reference internal" href="#compiler">Compiler</a></li>
+<li><a class="reference internal" href="#tools">Tools</a></li>
 <li><a class="reference internal" href="#library-updates">Library Updates</a><ul>
 <li><a class="reference internal" href="#system">System</a></li>
 </ul>
