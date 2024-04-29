@@ -11,10 +11,9 @@ now here is a manual check-list.
    a release.
 
 #. Update submodules to the latest stable version tags and document the version
-   number changes in the release notes. These commands may help::
+   number changes in the release notes. This command may help::
 
-     git submodule foreach --quiet '/bin/echo -n "$name "; git describe --always --tags $sha1'
-     deft list -a      # Show latest version of each package.
+     git submodule foreach --quiet 'echo -n "$name "; git describe --always --tags $sha1'
 
    What "stable" means isn't well-defined; use your discretion. The important
    point is that libraries are bundled with the release so people may use them

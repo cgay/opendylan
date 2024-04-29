@@ -473,9 +473,8 @@ now here is a manual check-list.</p>
 <li><p>Tell <a class="reference external" href="https://matrix.to/#/#dylan-lang_general:gitter.im">the Matrix channel</a> that you plan to build
 a release.</p></li>
 <li><p>Update submodules to the latest stable version tags and document the version
-number changes in the release notes. These commands may help:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="n">foreach</span> <span class="o">--</span><span class="n">quiet</span> <span class="s1">&#39;/bin/echo -n &quot;$name &quot;; git describe --always --tags $sha1&#39;</span>
-<span class="n">deft</span> <span class="nb">list</span> <span class="o">-</span><span class="n">a</span>      <span class="c1"># Show latest version of each package.</span>
+number changes in the release notes. This command may help:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="n">foreach</span> <span class="o">--</span><span class="n">quiet</span> <span class="s1">&#39;echo -n &quot;$name &quot;; git describe --always --tags $sha1&#39;</span>
 </pre></div>
 </div>
 <p>What “stable” means isn’t well-defined; use your discretion. The important
