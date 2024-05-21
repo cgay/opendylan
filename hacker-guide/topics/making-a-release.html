@@ -470,6 +470,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2024.2.html">Open Dylan 2024.2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2022.1.html">Open Dylan 2022.1</a></li>
@@ -553,8 +554,9 @@ now here is a manual check-list.</p>
 <li><p>Tell <a class="reference external" href="https://matrix.to/#/#dylan-lang_general:gitter.im">the Matrix channel</a> that you plan to build
 a release.</p></li>
 <li><p>Update submodules to the latest stable version tags and document the version
-number changes in the release notes. This command may help:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="n">foreach</span> <span class="o">--</span><span class="n">quiet</span> <span class="s1">&#39;echo -n &quot;$name &quot;; git describe --always --tags $sha1&#39;</span>
+number changes in the release notes. These commands may help:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="n">foreach</span> <span class="o">--</span><span class="n">quiet</span> <span class="s1">&#39;/bin/echo -n &quot;$name &quot;; git describe --always --tags $sha1&#39;</span>
+<span class="n">deft</span> <span class="nb">list</span> <span class="o">-</span><span class="n">a</span>      <span class="c1"># Show latest version of each package.</span>
 </pre></div>
 </div>
 <p>What “stable” means isn’t well-defined; use your discretion. The important
@@ -562,6 +564,9 @@ point is that libraries are bundled with the release so people may use them
 without explicitly requesting a specific version. Therefore they shouldn’t
 be allowed to get too stale.</p>
 </li>
+<li><p>Update version numbers in <code class="docutils literal notranslate"><span class="pre">build/unix/release-with-batteries.sh</span></code>
+to the latest stable versions of the relevant software (Clang+LLVM,
+the Boehm-Demers-Weiser garbage collector, and libunwind).</p></li>
 <li><p>Test on supported platforms.</p>
 <ul class="simple">
 <li><p>To ensure that you catch any bootstrapping dependency issues, make sure
@@ -584,9 +589,6 @@ which currently only runs on Ubuntu.</p>
 <li><p>Do a <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">grep</span> <span class="pre">2019.\\d</span></code> to see if anything else needs to be updated.</p></li>
 </ul>
 </li>
-<li><p>Update version numbers in <code class="docutils literal notranslate"><span class="pre">build/unix/release-with-batteries.sh</span></code>
-to the latest stable versions of the relevant software (Clang+LLVM,
-the Boehm-Demers-Weiser garbage collector, and libunwind).</p></li>
 <li><p>Update the release notes if necessary. <em>Don’t actually create the release
 yet, until the release notes have been committed.</em></p>
 <p>To determine what to put in the Contributors section of the notes, this
