@@ -2,20 +2,18 @@
 Open Dylan 2024.2
 *****************
 
-This document describes the 2024.2 release of Open Dylan, released 25 May, 2024.
-The highlights of the release are listed below.  For complete details see the
-`commit logs
+This document describes the 2024.2 release of Open Dylan, released DD
+MMM, 2024.  The highlights of the release are listed below.  For complete
+details see the `commit logs
 <https://github.com/dylan-lang/opendylan/compare/v2024.1.0...v2024.2.0>`_ for
 this release.
 
-.. note:: Some commit logs, for example for deft testworks and other libraries that
+.. note:: Some commit logs, for example for testworks and other libraries that
           are included in Open Dylan as git submodules, may be in other
           repositories.
 
-* Download the release on `GitHub
-  <https://github.com/dylan-lang/opendylan/releases/tag/v2024.2.0>`_ or on
-  `opendylan.org <http://opendylan.org/download>`_.
-* Read documentation: http://opendylan.org
+* Download the release: https://opendylan.org/download
+* Read documentation: https://opendylan.org
 * Report problems: https://github.com/dylan-lang/opendylan/issues
 
 
@@ -56,19 +54,6 @@ System
   :const:`$machine-architecture`.  The old name will remain, for backward
   compatibility.
 
-Testworks
----------
-
-* The ``--report-file`` option has been restored in the Testworks command line.
-
-* An `expect-true
-  <https://package.opendylan.org/testworks/reference.html#testworks:testworks:expect-true>`_
-  macro was added, for symmetry with ``assert-true``.
-
 Contributors
 ============
 
-* Bruce Mitchener
-* Carl Gay
-* Fernando Raya
-* Peter Housel

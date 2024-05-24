@@ -11,19 +11,14 @@ now here is a manual check-list.
    a release.
 
 #. Update submodules to the latest stable version tags and document the version
-   number changes in the release notes. These commands may help::
+   number changes in the release notes. This command may help::
 
-     git submodule foreach --quiet '/bin/echo -n "$name "; git describe --always --tags $sha1'
-     deft list -a      # Show latest version of each package.
+     git submodule foreach --quiet 'echo -n "$name "; git describe --always --tags $sha1'
 
    What "stable" means isn't well-defined; use your discretion. The important
    point is that libraries are bundled with the release so people may use them
    without explicitly requesting a specific version. Therefore they shouldn't
    be allowed to get too stale.
-
-#. Update version numbers in ``build/unix/release-with-batteries.sh``
-   to the latest stable versions of the relevant software (Clang+LLVM,
-   the Boehm-Demers-Weiser garbage collector, and libunwind).
 
 #. Test on supported platforms.
 
@@ -49,6 +44,10 @@ now here is a manual check-list.
    * In the release-info library
    * In the configure.ac file
    * Do a ``git grep 2019.\\d`` to see if anything else needs to be updated.
+
+#. Update version numbers in ``build/unix/release-with-batteries.sh``
+   to the latest stable versions of the relevant software (Clang+LLVM,
+   the Boehm-Demers-Weiser garbage collector, and libunwind).
 
 #. Update the release notes if necessary. *Don't actually create the release
    yet, until the release notes have been committed.*
