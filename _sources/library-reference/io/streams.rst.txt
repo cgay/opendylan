@@ -1233,8 +1233,10 @@ are exported from the *streams* module.
    :keyword if-exists: One of :drm:`#f`, ``#"new-version"``,
      ``#"overwrite"``, ``#"replace"``, ``#"append"``, ``#"truncate"``,
      ``#"signal"``. Default value: :drm:`#f`.
-   :keyword if-does-not-exist: One of :drm:`#f`, ``#"signal"``, or
-     ``#"create"``. Default value: depends on the value of ``direction:``.
+   :keyword if-does-not-exist: Either ``#"signal"`` or ``#"create"``.
+      The default (and only valid value) for direction ``#"input"`` is
+      ``#"signal"``.  The default for direction ``#"output"`` and
+      ``#"input-output"`` is ``#"create"``.
    :keyword asynchronous?: If :drm:`#t`, all writes on this stream are
      performed asynchronously. Default value::drm:`#f`.
 
@@ -1898,7 +1900,7 @@ are exported from the *streams* module.
 
      The type of the result string is chosen so that the string can
      contain characters of *input-stream* 's element type. For example,
-     if the element type is `<byte-character>`_, the string will be a
+     if the element type is :type:`<byte-character>`, the string will be a
      :drm:`<byte-string>`.
 
      If *input-stream* is at its end immediately upon calling
@@ -2891,7 +2893,7 @@ are exported from the *streams* module.
    :statement:
 
    Provides a convenient way of returning a :drm:`<string>` after
-   performing a series of operations on a :drm:`<stream>`, and then
+   performing a series of operations on a :class:`<stream>`, and then
    close the stream.
 
    :macrocall:
