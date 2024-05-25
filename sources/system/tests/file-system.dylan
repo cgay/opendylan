@@ -180,8 +180,62 @@ end test;
 
 /// Macro tests
 
-define test test-with-open-file-test ()
-  // ---*** Fill this in.
+// For direction: #"input", #"signal" is the only valid option.
+define test test-with-open-file/if-does-not-exist/input ()
+  assert-signals(<file-does-not-exist-error>,
+                 with-open-file (stream = file-locator(test-temp-directory(), "input1"),
+                                 direction: #"input",
+                                 if-does-not-exist: #"signal")
+                   assert-true(#f, "input1 body should not be executed");
+                 end);
+  assert-signals(<error>,
+                 with-open-file (stream = file-locator(test-temp-directory(), "input2"),
+                                 direction: #"input",
+                                 if-does-not-exist: #"create")
+                   assert-true(#f, "input2 body should not be executed");
+                 end);
+  assert-signals(<error>,
+                 with-open-file (stream = file-locator(test-temp-directory(), "input3"),
+                                 direction: #"input",
+                                 if-does-not-exist: #f) // not a valid option anymore
+                   assert-true(#f, "input3 body should not be executed");
+                 end);
+  assert-signals(<error>,
+                 with-open-file (stream = file-locator(test-temp-directory(), "input4"),
+                                 direction: #"input",
+                                 if-does-not-exist: #"foo") // not a valid option
+                   assert-true(#f, "input4 body should not be executed");
+                 end);
+  // if-does-not-exist not specified.
+  assert-signals(<error>,
+                 with-open-file (stream = file-locator(test-temp-directory(), "input5"),
+                                 direction: #"input")
+                   assert-true(#f, "input5 body should not be executed");
+                 end);
+end test;
+
+// For direction: #"output", #"create" (default) and #"signal" are valid.
+define test test-with-open-file/if-does-not-exist/output ()
+  assert-signals(<file-does-not-exist-error>,
+                 with-open-file (stream = file-locator(test-temp-directory(), "output1"),
+                                 direction: #"output",
+                                 if-does-not-exist: #"signal")
+                   assert-true(#f, "output1 body should not be executed");
+                 end);
+  let output2 = file-locator(test-temp-directory(), "output2");
+  with-open-file (stream = output2 ,
+                  direction: #"output",
+                  if-does-not-exist: #"create")
+    write(stream, "output2");
+  end;
+  assert-equal("output2", with-open-file (stream = output2) read-to-end(stream) end);
+
+  // Same as above but if-does-not-exist: is not specified.
+  let output3 = file-locator(test-temp-directory(), "abc");
+  with-open-file (stream = output3 , direction: #"output")
+    write(stream, "output3");
+  end;
+  assert-equal("abc", with-open-file (stream = output3) read-to-end(stream) end);
 end test;
 
 

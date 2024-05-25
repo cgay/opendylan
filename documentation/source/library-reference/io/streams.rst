@@ -1233,8 +1233,10 @@ are exported from the *streams* module.
    :keyword if-exists: One of :drm:`#f`, ``#"new-version"``,
      ``#"overwrite"``, ``#"replace"``, ``#"append"``, ``#"truncate"``,
      ``#"signal"``. Default value: :drm:`#f`.
-   :keyword if-does-not-exist: One of :drm:`#f`, ``#"signal"``, or
-     ``#"create"``. Default value: depends on the value of ``direction:``.
+   :keyword if-does-not-exist: Either ``#"signal"`` or ``#"create"``.
+      The default (and only valid value) for direction ``#"input"`` is
+      ``#"signal"``.  The default for direction ``#"output"`` and
+      ``#"input-output"`` is ``#"create"``.
    :keyword asynchronous?: If :drm:`#t`, all writes on this stream are
      performed asynchronously. Default value::drm:`#f`.
 

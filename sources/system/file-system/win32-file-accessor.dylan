@@ -31,15 +31,28 @@ end function win32-file-error;
 define sideways method accessor-open
     (accessor :: <native-file-accessor>, locator :: <pathname>,
      #rest keywords,
-     #key direction = #"input", if-exists, if-does-not-exist,
-       file-descriptor: initial-file-handle = #f, // :: false-or(<machine-word>)
-       file-position: initial-file-position = #f, // :: false-or(<integer>)?
-       file-size: initial-file-size = #f, // :: false-or(<integer>)?
-       overlapped? :: <boolean> = #f,
-       share? :: <boolean> = #t, // only shared access allowed in the past
-       share-mode :: one-of(#"default", #"exclusive", #"share-read",
-                            #"share-write", #"share-read-write") = #"default",
-     #all-keys) => ();
+     #key direction = #"input",
+          if-exists,
+          if-does-not-exist = unsupplied(),
+          file-descriptor: initial-file-handle, // :: false-or(<machine-word>)
+          file-position: initial-file-position, // :: false-or(<integer>)?
+          file-size: initial-file-size, // :: false-or(<integer>)?
+          overlapped? :: <boolean>,
+          share? :: <boolean> = #t, // only shared access allowed in the past
+          share-mode :: one-of(#"default", #"exclusive", #"share-read",
+                               #"share-write", #"share-read-write") = #"default",
+     #all-keys) => ()
+  local
+    method check-if-does-not-exist (valid-options, default)
+      if (unsupplied?(if-does-not-exist))
+        default
+      elseif (~member?(if-does-not-exist, valid-options))
+        error("if-does-not-exist: %= is not valid for direction: %=",
+              if-does-not-exist, direction);
+      else
+        if-does-not-exist
+      end;
+    end;
   block (return)
     if (initial-file-position | initial-file-size)
       error("Cannot create a file accessor which specifies either"
@@ -49,13 +62,13 @@ define sideways method accessor-open
     select (direction)
       #"input" =>
         if-exists := #"overwrite";
-        if-does-not-exist := if-does-not-exist | #"signal";
+        if-does-not-exist := check-if-does-not-exist(#[#"signal"], #"signal");
       #"output" =>
         if-exists := if-exists | #"new-version";
-        if-does-not-exist := if-does-not-exist | #"create";
+        if-does-not-exist := check-if-does-not-exist(#[#"create", #"signal"], #"create");
       #"input-output" =>
         if-exists := if-exists | #"overwrite";
-        if-does-not-exist := if-does-not-exist | #"create";
+        if-does-not-exist := check-if-does-not-exist(#[#"create", #"signal"], #"create");
     end;
     let fdwAccess
       = select (direction)

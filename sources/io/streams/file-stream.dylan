@@ -14,7 +14,7 @@ end class <external-file-accessor>;
 
 /// File stream classes
 
-// File streams basically to not inherit any significant methods from
+// File streams basically do not inherit any significant methods from
 // <single-buffered-stream> or <positionable-stream>, only protocol.
 // This is because they use power of two sized buffers which are aligned with
 // disk segments.  <single-buffered-stream> uses non-aligned buffers

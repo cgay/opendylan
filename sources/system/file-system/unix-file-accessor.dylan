@@ -19,10 +19,22 @@ define constant $file_create_permissions
 define sideways method accessor-open
     (accessor :: <native-file-accessor>, locator :: <pathname>,
      #rest keywords,
-     #key direction = #"input", if-exists, if-does-not-exist,
-       file-position: initial-file-position = #f, // :: false-or(<integer>)?
-       file-size: initial-file-size = #f, // :: false-or(<integer>)?
+     #key direction = #"input", if-exists,
+          if-does-not-exist = unsupplied(),
+          file-position: initial-file-position, // :: false-or(<integer>)?
+          file-size: initial-file-size, // :: false-or(<integer>)?
      #all-keys) => ()
+  local
+    method check-if-does-not-exist (valid-options, default)
+      if (unsupplied?(if-does-not-exist))
+        default
+      elseif (~member?(if-does-not-exist, valid-options))
+        error("if-does-not-exist: %= is not valid for direction: %=",
+              if-does-not-exist, direction);
+      else
+        if-does-not-exist
+      end;
+    end;
   block (return)
     let locator = expand-pathname(locator);
     let pathstring = as(<byte-string>, locator);
@@ -32,15 +44,15 @@ define sideways method accessor-open
           #"input" =>
             values($O_RDONLY,
                    #"overwrite",
-                   (if-does-not-exist | #"signal"));
+                   check-if-does-not-exist(#[#"signal"], #"signal"));
           #"output" =>
             values(logior($O_WRONLY, $O_SYNC),
                    (if-exists | #"new-version"),
-                   (if-does-not-exist | #"create"));
+                   check-if-does-not-exist(#[#"signal", #"create"], #"create"));
           #"input-output" =>
             values(logior($O_RDWR, $O_SYNC),
                    (if-exists | #"overwrite"),
-                   (if-does-not-exist | #"create"));
+                   check-if-does-not-exist(#[#"signal", #"create"], #"create"));
         end;
     let mode-code
       = if (exists)

@@ -216,7 +216,9 @@ module.
 The :drm:`make` method on :class:`<file-stream>` does not create
 direct instances of :class:`<file-stream>`, but instead an instance of
 a subclass determined by :gf:`type-for-file-stream`. See
-`make`_ and `Options when creating file streams`_ below.
+`make`_ and :ref:`file-stream-options` below.
+
+.. _file-stream-options:
 
 Options when creating file streams
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -257,9 +259,9 @@ the file named by *filename* already exists. The options are:
 The ``if-does-not-exist:`` init-keyword allows you to specify an action to
 take if the file named by *filename* does not exist. The options are:
 
-- :drm:`#f` No action.
-- ``#"signal"`` Signal a :class:`<file-does-not-exist-error>` condition. This is
-  the default when the stream's direction is ``#"input"``.
+- ``#"signal"`` Signal a :class:`<file-does-not-exist-error>` condition. This
+  is the default (and the only valid value) when the stream's direction is
+  ``#"input"``.
 - ``#"create"`` Create a new zero-length file. This is the default when
   the stream's direction is ``#"output"`` or ``#"input-output"``.
 
@@ -933,8 +935,10 @@ File-System module.
    :parameter #key if-exists: One of :drm:`#f`, ``#"new-version"``,
      ``#"overwrite"``, ``#"replace"``, ``#"append"``, ``#"truncate"``,
      ``#"signal"``. Default value: :drm:`#f`.
-   :parameter #key if-does-not-exist: One of :drm:`#f`, ``#"signal"``, or
-     ``#"create"``. Default value: depends on the value of *direction*.
+   :parameter #key if-does-not-exist: Either ``#"signal"`` or ``#"create"``.
+      The default (and only valid value) for direction ``#"input"`` is
+      ``#"signal"``.  The default for direction ``#"output"`` and
+      ``#"input-output"`` is ``#"create"``.
    :parameter #key buffer-size: An instance of :drm:`<integer>`.
    :parameter #key element-type: One of :type:`<byte-character>`,
      :type:`<unicode-character>`, or :type:`<byte>`, or :drm:`#f`.
@@ -960,7 +964,7 @@ File-System module.
      The *if-exists* and *if-does-not-exist* init-keywords specify
      actions to take if the file named by *filename* does or does not
      already exist when the stream is created. These init-keywords are
-     discussed in more detail in `Options when creating file streams`_.
+     discussed in more detail in :ref:`file-stream-options`.
 
      The *buffer-size* init-keyword can be used to suggest the size of
      a stream's buffer. See :class:`<buffered-stream>`.
@@ -971,7 +975,7 @@ File-System module.
      treated as a single database record. This init-keyword defaults to
      something useful, potentially based on the properties of the file;
      :type:`<byte-character>` and :type:`<unicode-character>` are likely choices.
-     See `Options when creating file streams`_.
+     See :ref:`file-stream-options`.
 
    :seealso:
 
