@@ -757,9 +757,9 @@ module.</p>
 <p>The <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a> method on <a class="reference internal" href="../io/streams.html#io:streams:[file-stream]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-stream&gt;</span></code></a> does not create
 direct instances of <a class="reference internal" href="../io/streams.html#io:streams:[file-stream]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-stream&gt;</span></code></a>, but instead an instance of
 a subclass determined by <a class="reference internal" href="../io/streams.html#io:streams:type-for-file-stream"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">type-for-file-stream</span></code></a>. See
-<a class="reference internal" href="#make">make</a> and <a class="reference internal" href="#file-stream-options"><span class="std std-ref">Options when creating file streams</span></a> below.</p>
+<a class="reference internal" href="#make">make</a> and <a class="reference internal" href="#options-when-creating-file-streams">Options when creating file streams</a> below.</p>
 <section id="options-when-creating-file-streams">
-<span id="file-stream-options"></span><h3>Options when creating file streams<a class="headerlink" href="#options-when-creating-file-streams" title="Permalink to this heading">¶</a></h3>
+<h3>Options when creating file streams<a class="headerlink" href="#options-when-creating-file-streams" title="Permalink to this heading">¶</a></h3>
 <p>When creating file streams, you can supply the following init-keywords
 to <em>make</em> in addition to those described in <a class="reference internal" href="#file-streams">File streams</a>:</p>
 <ul class="simple">
@@ -796,9 +796,9 @@ of the file to 0. If the file does not exist, create a new file.</p></li>
 <p>The <code class="docutils literal notranslate"><span class="pre">if-does-not-exist:</span></code> init-keyword allows you to specify an action to
 take if the file named by <em>filename</em> does not exist. The options are:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">#&quot;signal&quot;</span></code> Signal a <a class="reference internal" href="#system:file-system:[file-does-not-exist-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-does-not-exist-error&gt;</span></code></a> condition. This
-is the default (and the only valid value) when the stream’s direction is
-<code class="docutils literal notranslate"><span class="pre">#&quot;input&quot;</span></code>.</p></li>
+<li><p><a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a> No action.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#&quot;signal&quot;</span></code> Signal a <a class="reference internal" href="#system:file-system:[file-does-not-exist-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-does-not-exist-error&gt;</span></code></a> condition. This is
+the default when the stream’s direction is <code class="docutils literal notranslate"><span class="pre">#&quot;input&quot;</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">#&quot;create&quot;</span></code> Create a new zero-length file. This is the default when
 the stream’s direction is <code class="docutils literal notranslate"><span class="pre">#&quot;output&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">#&quot;input-output&quot;</span></code>.</p></li>
 </ul>
@@ -1743,10 +1743,8 @@ non-link file or directory, or a non-existent link target.</p>
 <li><p><strong>if-exists</strong> (<em>#key</em>) – One of <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a>, <code class="docutils literal notranslate"><span class="pre">#&quot;new-version&quot;</span></code>,
 <code class="docutils literal notranslate"><span class="pre">#&quot;overwrite&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">#&quot;replace&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">#&quot;append&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">#&quot;truncate&quot;</span></code>,
 <code class="docutils literal notranslate"><span class="pre">#&quot;signal&quot;</span></code>. Default value: <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a>.</p></li>
-<li><p><strong>if-does-not-exist</strong> (<em>#key</em>) – Either <code class="docutils literal notranslate"><span class="pre">#&quot;signal&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">#&quot;create&quot;</span></code>.
-The default (and only valid value) for direction <code class="docutils literal notranslate"><span class="pre">#&quot;input&quot;</span></code> is
-<code class="docutils literal notranslate"><span class="pre">#&quot;signal&quot;</span></code>.  The default for direction <code class="docutils literal notranslate"><span class="pre">#&quot;output&quot;</span></code> and
-<code class="docutils literal notranslate"><span class="pre">#&quot;input-output&quot;</span></code> is <code class="docutils literal notranslate"><span class="pre">#&quot;create&quot;</span></code>.</p></li>
+<li><p><strong>if-does-not-exist</strong> (<em>#key</em>) – One of <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a>, <code class="docutils literal notranslate"><span class="pre">#&quot;signal&quot;</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">#&quot;create&quot;</span></code>. Default value: depends on the value of <em>direction</em>.</p></li>
 <li><p><strong>buffer-size</strong> (<em>#key</em>) – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a>.</p></li>
 <li><p><strong>element-type</strong> (<em>#key</em>) – One of <code class="xref dylan dylan-type docutils literal notranslate"><span class="pre">&lt;byte-character&gt;</span></code>,
 <a class="reference internal" href="../io/streams.html#io:streams:[unicode-character]"><code class="xref dylan dylan-type docutils literal notranslate"><span class="pre">&lt;unicode-character&gt;</span></code></a>, or <code class="xref dylan dylan-type docutils literal notranslate"><span class="pre">&lt;byte&gt;</span></code>, or <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a>.</p></li>
@@ -1772,7 +1770,7 @@ stream.  This can be one of <code class="docutils literal notranslate"><span cla
 <p>The <em>if-exists</em> and <em>if-does-not-exist</em> init-keywords specify
 actions to take if the file named by <em>filename</em> does or does not
 already exist when the stream is created. These init-keywords are
-discussed in more detail in <a class="reference internal" href="#file-stream-options"><span class="std std-ref">Options when creating file streams</span></a>.</p>
+discussed in more detail in <a class="reference internal" href="#options-when-creating-file-streams">Options when creating file streams</a>.</p>
 <p>The <em>buffer-size</em> init-keyword can be used to suggest the size of
 a stream’s buffer. See <a class="reference internal" href="../io/streams.html#io:streams:[buffered-stream]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;buffered-stream&gt;</span></code></a>.</p>
 <p>The <em>element-type</em> init-keyword specifies the type of the elements
@@ -1781,7 +1779,7 @@ represented abstractly; for instance, contiguous elements could be
 treated as a single database record. This init-keyword defaults to
 something useful, potentially based on the properties of the file;
 <code class="xref dylan dylan-type docutils literal notranslate"><span class="pre">&lt;byte-character&gt;</span></code> and <a class="reference internal" href="../io/streams.html#io:streams:[unicode-character]"><code class="xref dylan dylan-type docutils literal notranslate"><span class="pre">&lt;unicode-character&gt;</span></code></a> are likely choices.
-See <a class="reference internal" href="#file-stream-options"><span class="std std-ref">Options when creating file streams</span></a>.</p>
+See <a class="reference internal" href="#options-when-creating-file-streams">Options when creating file streams</a>.</p>
 </p>
 </dd>
 <dt class="field-odd">See also<span class="colon">:</span></dt>
