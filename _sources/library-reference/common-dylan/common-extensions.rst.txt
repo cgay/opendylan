@@ -144,16 +144,13 @@ The extensions are:
      Returns a string representation of a general instance of
      :drm:`<condition>`.
 
-     For many condition classes it is sufficient to subclass
-     :drm:`<simple-error>`, :drm:`<simple-warning>`, or :drm:`<simple-restart>`
-     and to use the ``format-string:`` and ``format-arguments:`` init keywords
-     they provide (via their superclass :class:`<simple-condition>`) in order
-     to control how the error is displayed to the user. However, in cases where
-     that is insufficient, this method should be implemented.
-
-   :seealso:
-
-      - :class:`<simple-condition>`
+     Note that it is often not necessary to write a method on this generic
+     function for your condition classes because you can use the method
+     provided by :class:`<simple-condition>`, usually via one of its
+     subclasses, :drm:`<simple-error>`, :drm:`<simple-warning>`, or
+     :drm:`<simple-restart>`. Simply make your condition a subclass of one of
+     these classes and provide the ``format-string:`` and ``format-arguments:``
+     init keywords.
 
 .. macro:: debug-assert
    :statement:

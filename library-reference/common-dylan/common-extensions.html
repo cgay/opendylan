@@ -711,18 +711,13 @@ sequence that may or may not be freshly allocated. If
 <dt class="field-even">Discussion<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>Returns a string representation of a general instance of
 <a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#condition"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;condition&gt;</span></code></a>.</p>
-<p>For many condition classes it is sufficient to subclass
-<a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#simple-error"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;simple-error&gt;</span></code></a>, <a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#simple-warning"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;simple-warning&gt;</span></code></a>, or <a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#simple-restart"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;simple-restart&gt;</span></code></a>
-and to use the <code class="docutils literal notranslate"><span class="pre">format-string:</span></code> and <code class="docutils literal notranslate"><span class="pre">format-arguments:</span></code> init keywords
-they provide (via their superclass <a class="reference internal" href="#common-dylan:common-extensions:[simple-condition]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;simple-condition&gt;</span></code></a>) in order
-to control how the error is displayed to the user. However, in cases where
-that is insufficient, this method should be implemented.</p>
-</p>
-</dd>
-<dt class="field-odd">See also<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><a class="reference internal" href="#common-dylan:common-extensions:[simple-condition]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;simple-condition&gt;</span></code></a></p></li>
-</ul>
+<p>Note that it is often not necessary to write a method on this generic
+function for your condition classes because you can use the method
+provided by <a class="reference internal" href="#common-dylan:common-extensions:[simple-condition]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;simple-condition&gt;</span></code></a>, usually via one of its
+subclasses, <a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#simple-error"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;simple-error&gt;</span></code></a>, <a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#simple-warning"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;simple-warning&gt;</span></code></a>, or
+<a class="reference external" href="https://opendylan.org/books/drm/Condition_Classes#simple-restart"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;simple-restart&gt;</span></code></a>. Simply make your condition a subclass of one of
+these classes and provide the <code class="docutils literal notranslate"><span class="pre">format-string:</span></code> and <code class="docutils literal notranslate"><span class="pre">format-arguments:</span></code>
+init keywords.</p>
 </p>
 </dd>
 </dl>
