@@ -587,15 +587,14 @@ a <a class="reference internal" href="../collections/table-extensions.html"><spa
 <dt class="field-even">Discussion<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>Returns the functions used to iterate over tables. These functions are
 in turn used to implement the other collection operations on <a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#table"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;table&gt;</span></code></a>.</p>
-<p>The <em>test-function</em> return value is for the table test function, which is
-used to compare table keys. It returns true if, according to the table’s
-equivalence predicate, the keys are members of the same equivalence
-class. Its signature must be:</p>
+<p>The <em>test-function</em> is used to compare table keys. It returns true if,
+according to the table’s equivalence predicate, the keys are members of
+the same equivalence class. Its signature must be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="o">-</span><span class="n">function</span> <span class="o">*</span><span class="n">key1</span><span class="o">*</span> <span class="o">*</span><span class="n">key2</span><span class="o">*</span> <span class="o">=&gt;</span> <span class="o">*</span><span class="n">boolean</span><span class="o">*</span>
 </pre></div>
 </div>
-<p>The <em>hash-function</em> return value must compute the hash code of a key. Its
-signature must be:</p>
+<p>The <em>hash-function</em> must compute the hash code of a key. Its signature
+must be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">hash</span><span class="o">-</span><span class="n">function</span> <span class="o">*</span><span class="n">key</span><span class="o">*</span> <span class="o">*</span><span class="n">initial</span><span class="o">-</span><span class="n">state</span><span class="o">*</span> <span class="o">=&gt;</span> <span class="o">*</span><span class="nb">id</span><span class="o">*</span> <span class="o">*</span><span class="n">result</span><span class="o">-</span><span class="n">state</span><span class="o">*</span>
 </pre></div>
 </div>

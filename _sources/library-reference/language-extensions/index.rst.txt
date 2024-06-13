@@ -3,7 +3,6 @@ Dylan Language Extensions
 *************************
 
 .. TODO: how do the ../dylan/ documents (finalization, primitives, threads) fit in?
-.. TODO: what about simple-profiling, simple-timing, byte-vector, threads, ...?
 
 .. current-library:: common-dylan
 .. current-module:: common-dylan
