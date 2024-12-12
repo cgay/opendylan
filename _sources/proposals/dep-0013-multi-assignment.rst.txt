@@ -50,9 +50,8 @@ The order of assignment of values to *places* is unspecified.
 BNF Changes
 -----------
 
-No changes are required to the Dylan BNF as described in the DRM.  *leaf* ``:=``
-*expression* is already valid and ``(`` *expression* ``)`` syntax is a valid ``<leaf>``
-production.
+No changes are required to the Dylan BNF as described in the DRM.  ``LEAF := EXPRESSION``
+is already valid and ``( EXPRESSION )`` syntax is a valid ``LEAF`` production.
 
 
 Rationale
@@ -220,8 +219,8 @@ Alternatives Considered
       ...; a, b := f(); ...
 
    **Decision:** To remove any ambiguity, and to match the existence of parentheses for
-   multiple value *bindings*, parentheses will be *required* for multiple value
-   assignments.
+   multiple value *bindings* with :drm:`let`, parentheses will be *required* for multiple
+   value assignments.
 
 
 Reference Implementation

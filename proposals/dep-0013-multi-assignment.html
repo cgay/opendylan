@@ -596,9 +596,8 @@ example, <code class="docutils literal notranslate"><span class="pre">(_,</span>
 <p>The order of assignment of values to <em>places</em> is unspecified.</p>
 <section id="bnf-changes">
 <h3>BNF Changes<a class="headerlink" href="#bnf-changes" title="Permalink to this heading">¶</a></h3>
-<p>No changes are required to the Dylan BNF as described in the DRM.  <em>leaf</em> <code class="docutils literal notranslate"><span class="pre">:=</span></code>
-<em>expression</em> is already valid and <code class="docutils literal notranslate"><span class="pre">(</span></code> <em>expression</em> <code class="docutils literal notranslate"><span class="pre">)</span></code> syntax is a valid <code class="docutils literal notranslate"><span class="pre">&lt;leaf&gt;</span></code>
-production.</p>
+<p>No changes are required to the Dylan BNF as described in the DRM.  <code class="docutils literal notranslate"><span class="pre">LEAF</span> <span class="pre">:=</span> <span class="pre">EXPRESSION</span></code>
+is already valid and <code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">EXPRESSION</span> <span class="pre">)</span></code> syntax is a valid <code class="docutils literal notranslate"><span class="pre">LEAF</span></code> production.</p>
 </section>
 </section>
 <section id="rationale">
@@ -745,8 +744,8 @@ omitting the parentheses may be desirable as it is less “noisy”:</p>
 </pre></div>
 </div>
 <p><strong>Decision:</strong> To remove any ambiguity, and to match the existence of parentheses for
-multiple value <em>bindings</em>, parentheses will be <em>required</em> for multiple value
-assignments.</p>
+multiple value <em>bindings</em> with <a class="reference external" href="https://opendylan.org/books/drm/Local_Declaration_Macros#let"><code class="xref drm docutils literal notranslate"><span class="pre">let</span></code></a>, parentheses will be <em>required</em> for multiple
+value assignments.</p>
 </li>
 </ol>
 </section>
