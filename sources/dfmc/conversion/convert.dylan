@@ -2655,6 +2655,14 @@ define &converter \:=
                       ?getter-name ## "-setter" (_tmp, ?args);
                       _tmp
                     end });
+         <parens-fragment>      // multiple value assignment
+           =>
+           let fragments = lhs.fragment-nested-fragments;
+           let new-values = rhs;
+           convert(env, context,
+                   #{ begin
+                        let (_a, _b, ...) = ?new-values;
+                        
          otherwise
            => note(<invalid-left-hand-side-for-assignment>,
                    source-location: fragment-source-location(lhs),
