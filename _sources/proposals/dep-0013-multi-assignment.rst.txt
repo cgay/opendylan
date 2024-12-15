@@ -149,6 +149,16 @@ Some examples from the Open Dylan sources that can be made more concise:
 .. code:: dylan
 
    // old:
+   let (name, #rest arguments) = tokenize-command-line(command-line);
+   *application-name* := name;
+   *application-arguments* := apply(vector, arguments);
+
+   // new:
+   (*application-name*, #rest *application-arguments*) := tokenize-command-line(command-line);
+
+.. code:: dylan
+
+   // old:
    let (ins, outs) = split-operation-arguments(request-arguments(request));
    request-in-args(request) := ins;
    request-out-args(request) := outs;
