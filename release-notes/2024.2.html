@@ -558,7 +558,7 @@ repositories.</p>
 works properly.</p></li>
 <li><p>The build rules for unified executables now properly depend on
 copying included run-time libraries such as libunwind.</p></li>
-<li><p>Optimizations that allow the type of <code class="docutils literal notranslate"><span class="pre">if</span></code> expressions to be more
+<li><p>Optimizations that allow the type of <a class="reference external" href="https://opendylan.org/books/drm/Statement_Macros#if"><code class="xref drm docutils literal notranslate"><span class="pre">if</span></code></a> expressions to be more
 accurately estimated have been improved. For example, in this
 function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">function</span> <span class="k">if</span><span class="o">-</span><span class="n">example</span> <span class="p">(</span><span class="n">arg</span> <span class="p">::</span> <span class="n">false</span><span class="o">-</span><span class="ow">or</span><span class="p">(</span><span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="p">))</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">result</span> <span class="p">::</span> <span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span><span class="p">);</span>
