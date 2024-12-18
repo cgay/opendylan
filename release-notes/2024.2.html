@@ -571,6 +571,8 @@ argument to <a class="reference external" href="https://opendylan.org/books/drm/
 </li>
 <li><p><a class="reference external" href="https://github.com/dylan-lang/opendylan/issues/1523">Issue 1523</a>, which
 could result in a compiler abort during code generation, has been fixed.</p></li>
+<li><p>A <a class="reference external" href="https://github.com/dylan-lang/opendylan/issues/1624">serious bug</a> in the parsing
+of multi-line string literals has been fixed.</p></li>
 </ul>
 </section>
 <section id="tools">
@@ -591,6 +593,13 @@ future release.</p></li>
 </section>
 <section id="library-updates">
 <h2>Library Updates<a class="headerlink" href="#library-updates" title="Permalink to this heading">¶</a></h2>
+<section id="collections">
+<h3>collections<a class="headerlink" href="#collections" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">collectors</span></code> module is now <cite>fully documented
+&lt;https://opendylan.org/library-reference/collections/collectors.html&gt;, the API has been
+made more consistent, and a bug in :drm:`&lt;list&gt;</cite> collectors has been fixed. See <a class="reference external" href="https://github.com/dylan-lang/opendylan/pull/1627">the pull
+request</a> for details.</p>
+</section>
 <section id="dylan">
 <h3>Dylan<a class="headerlink" href="#dylan" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
@@ -669,6 +678,7 @@ documented.</p></li>
 <li><a class="reference internal" href="#compiler">Compiler</a></li>
 <li><a class="reference internal" href="#tools">Tools</a></li>
 <li><a class="reference internal" href="#library-updates">Library Updates</a><ul>
+<li><a class="reference internal" href="#collections">collections</a></li>
 <li><a class="reference internal" href="#dylan">Dylan</a></li>
 <li><a class="reference internal" href="#io">IO</a></li>
 <li><a class="reference internal" href="#system">System</a></li>
