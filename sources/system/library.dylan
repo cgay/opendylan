@@ -10,6 +10,7 @@ define library system
   use dylan;
   use common-dylan;
   use io;
+  use collections;
   export
     operating-system,
     date,
@@ -339,6 +340,7 @@ define module settings-internals
 end module settings-internals;
 
 define module system-internals
+  use collectors;
   use common-dylan;
   use dylan-extensions;
   use dylan-direct-c-ffi;

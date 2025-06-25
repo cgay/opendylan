@@ -23,8 +23,20 @@ Compiler
 Tools
 =====
 
-Library Updates
-===============
+Libraries
+=========
+
+System
+------
+
+* :gf:`resolve-locator` now returns the correct class of locator, :class:`<file-locator>`
+  or :class:`<directory-locator>`, depending on the actual file type of the fully
+  resolved locator.  It previously returned an instance of the same class as the locator
+  it was provided, but that is not always accurate when symbolic links are followed.
+
+* :gf:`directory-contents` has a new keyword argument ``resolve-links?``.  If true,
+  symbolic links are resolved as with :gf:`resolve-locator`.  See the
+  :gf:`directory-contents` documentation for caveats.
 
 Contributors
 ============
