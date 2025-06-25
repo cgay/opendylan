@@ -653,9 +653,10 @@ File-System module.
 
    :description:
 
-      In the result, each file is represented by a :class:`<file-locator>` and
-      each directory is represented by a :class:`<directory-locator>`. The "."
-      and ".." directories are not included in the result.
+      In the result, each regular file or symbolic link is represented by a
+      :class:`<file-locator>` and each directory is represented by a
+      :class:`<directory-locator>`.  The "."  and ".." directories are not included in
+      the result.
 
 .. generic-function:: directory-empty?
 
