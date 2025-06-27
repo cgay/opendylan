@@ -84,7 +84,13 @@ end method condition-to-string;
 
 /// And now, the functions ...
 
-/// Given a pathname, returns its fully expanded form.
+// Expand ~ and ~user in the given pathname.
+//
+// TODO(cgay): Seems like this should have "user" in its name. The fact that it doesn't
+// could explain why win32-file-system.dylan was apparently using it as a way to convert
+// to an absolute pathname.
+//   Racket: expand-user-path
+//   Python: os.path.expanduser
 define generic expand-pathname (path :: <pathname>) => (expanded-path :: <pathname>);
 
 define method expand-pathname (path :: <file-system-locator>) => (expanded-path :: <pathname>)
