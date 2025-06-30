@@ -10,6 +10,9 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pwd.h>
+#include <string.h>
+
 
 #ifdef __APPLE__
 #include <crt_externs.h>
@@ -142,4 +145,25 @@ int system_concurrent_thread_count(void)
     return 0;
   }
   return (int) count;
+}
+
+// Store the homedir associated with `username` into `homedir`.  Return 0 on success,
+// -1 on failure.
+int system_user_homedir (const char* username, char* homedir, int homedir_size) {
+  int passwd_bufsize = 0;
+  if ((passwd_bufsize = sysconf(_SC_GETPW_R_SIZE_MAX)) == -1) {
+    return -1;
+  }
+  char buffer[passwd_bufsize];
+  struct passwd pwd;
+  struct passwd *result = NULL;
+  if (getpwnam_r(username, &pwd, buffer, passwd_bufsize, &result) != 0 || !result) {
+    return -1;
+  }
+  int len = strlen(pwd.pw_dir);
+  if (len >= homedir_size) {
+    return -1;
+  }
+  strncpy(homedir, pwd.pw_dir, len);
+  return 0;
 }
