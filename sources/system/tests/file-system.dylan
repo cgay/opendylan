@@ -75,12 +75,19 @@ define test test-expand-pathname ()
     assert-equal(file-locator(home-directory(), "bar"),
                  expand-pathname(format-to-string("~%s/bar", login-name())),
                  "expand ~user/bar");
+    assert-equal(home-directory(),
+                 expand-pathname(format-to-string("~%s/", login-name())),
+                 "expand ~user/");
     assert-equal("a/~/c",
                  as(<string>, expand-pathname("a/~/c")),
                  "expand a/~/c is no-op");
     assert-equal("a/b/~c",
                  as(<string>, expand-pathname("a/b/~c")),
                  "expand a/b/~c is no-op");
+    assert-equal("~no-such-luser/foo",
+                 as(<string>, expand-pathname("~no-such-luser/foo")));
+    assert-equal("~no-such-luser",
+                 as(<string>, expand-pathname("~no-such-luser")));
   end;
 end test;
 
