@@ -578,6 +578,11 @@ unexpanded instances of <a class="reference internal" href="../library-reference
 to do the same thing as the Unix implementation.  Previously it erroniously did the
 same thing as <a class="reference internal" href="../library-reference/system/locators.html#system:locators:resolve-locator"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">resolve-locator</span></code></a>.</p>
 </li>
+<li><p><a class="reference external" href="https://github.com/dylan-lang/opendylan/issues/1408">Issue 1408</a>, which could result
+in an infinite loop in <a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:link-target"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">link-target</span></code></a>, has been fixed.  In addition, the
+<a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:link-target"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">link-target</span></code></a> function accepts a new keyword argument, <code class="docutils literal notranslate"><span class="pre">follow-links?</span></code>, which
+specifies whether to follow all links until a non-symlink file is found (the default)
+or just return the direct target of the given symlink.</p></li>
 </ul>
 </section>
 </section>

@@ -54,5 +54,11 @@ System
   to do the same thing as the Unix implementation.  Previously it erroniously did the
   same thing as :gf:`resolve-locator`.
 
+* `Issue 1408 <https://github.com/dylan-lang/opendylan/issues/1408>`_, which could result
+  in an infinite loop in :gf:`link-target`, has been fixed.  In addition, the
+  :gf:`link-target` function accepts a new keyword argument, ``follow-links?``, which
+  specifies whether to follow all links until a non-symlink file is found (the default)
+  or just return the direct target of the given symlink.
+
 Contributors
 ============
