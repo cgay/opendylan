@@ -243,6 +243,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../hacker-guide/glossary.html">Glossary</a></li>
@@ -453,7 +454,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -660,19 +661,26 @@ function and set a breakpoint on that instead.</p>
 Any LLDB arguments can be specified, as normal.</p>
 <p>The support library provides some extra commands and specialized
 summarizers for commonly-encountered Dylan objects.</p>
-<p>Note that if you’re using the Boehm GC, which is the default on Unix systems,
-it is necessary to tell <code class="docutils literal notranslate"><span class="pre">lldb</span></code> not to stop on the signals used by the GC.
-Which signals are used varies depending on the platform. For Linux:</p>
+<p>Note that if you’re using the Boehm GC, which is the default on Unix systems, it is
+necessary to tell <code class="docutils literal notranslate"><span class="pre">lldb</span></code> not to stop on the signals used by the GC, or on <code class="docutils literal notranslate"><span class="pre">SIGPIPE</span></code>,
+which is normally ignored by the Dylan run-time.  Which signals are used varies depending
+on the platform. For Linux:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGPWR</span>
 <span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGXCPU</span>
+<span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGPIPE</span>
 </pre></div>
 </div>
 <p>For FreeBSD:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGUSR1</span>
 <span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGUSR2</span>
+<span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGPIPE</span>
 </pre></div>
 </div>
-<p>On macOS (Darwin) Boehm GC doesn’t use any signals.</p>
+<p>For macOS (Darwin) Boehm GC doesn’t use any signals but you may still want tell <code class="docutils literal notranslate"><span class="pre">lldb</span></code>
+not to stop on <code class="docutils literal notranslate"><span class="pre">SIGPIPE</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">process</span> <span class="n">handle</span> <span class="o">-</span><span class="n">p</span> <span class="n">yes</span> <span class="o">-</span><span class="n">s</span> <span class="n">no</span> <span class="o">-</span><span class="n">n</span> <span class="n">no</span> <span class="n">SIGPIPE</span>
+</pre></div>
+</div>
 <p>The command <code class="docutils literal notranslate"><span class="pre">dylan-bt</span></code> prints a Dylan-friendly backtrace by
 stripping out all frames which refer to internal runtime functions,
 leaving only Dylan code. For example, a backtrace like this:</p>
@@ -978,7 +986,7 @@ used employs the <code class="docutils literal notranslate"><span class="pre">SI
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1028,7 +1036,7 @@ used employs the <code class="docutils literal notranslate"><span class="pre">SI
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="../_static/documentation_options.js?v=b916904f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

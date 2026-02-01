@@ -243,6 +243,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../hacker-guide/glossary.html">Glossary</a></li>
@@ -453,7 +454,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -989,13 +990,12 @@ name from the compiled C library to link with.</p>
 <p>In general, any C entity you can declare in C using <code class="docutils literal notranslate"><span class="pre">extern</span></code> can only be
 found by the C-FFI if you pass a <em>c-name</em> argument to the corresponding
 C-FFI definition.</p>
-<p>The sole exception to this is the <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">objc-selector</span></code> form which
+<p>The sole exception to this is the <a class="reference internal" href="#c-ffi:c-ffi:defineobjc-selector"><code class="xref dylan dylan-macro docutils literal notranslate"><span class="pre">define</span> <span class="pre">objc-selector</span></code></a> form which
 instead takes a <code class="docutils literal notranslate"><span class="pre">selector:</span></code> keyword.</p>
 </li>
-<li><p>A <em>pointer-type-name</em> argument. All the type-defining forms allow you
-to name the type for a pointer to the type being defined. This is
-normally specified throughout the <em>pointer-type-name:</em> keyword
-option.</p></li>
+<li><p>A <em>pointer-type-name</em> argument. All the type-defining forms (except for <a class="reference internal" href="#c-ffi:c-ffi:definec-pointer-type"><code class="xref dylan dylan-macro docutils literal notranslate"><span class="pre">define</span>
+<span class="pre">c-pointer-type</span></code></a>) allow you to name the type for a pointer to the type being defined.
+This is specified with the <code class="docutils literal notranslate"><span class="pre">pointer-type-name:</span></code> keyword option.</p></li>
 </ul>
 </section>
 <section id="designator-classes">
@@ -1044,9 +1044,9 @@ their properties. A few of these properties are accessible
 programmatically, but others are implicit and only really exist in the
 compiler. Some of the properties may be empty.</p>
 <p>A <em>referenced type</em> is the designator type to which a pointer refers. A
-designator’s <em>referenced-type</em> only has a value for subtypes of
+designator’s <em>referenced type</em> only has a value for subtypes of
 <a class="reference internal" href="#c-ffi:c-ffi:[c-statically-typed-pointer]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-statically-typed-pointer&gt;</span></code></a>. Programs can access the
-referenced type through the function <em>referenced-type</em>.</p>
+referenced type through the function <a class="reference internal" href="#c-ffi:c-ffi:referenced-type"><code class="xref dylan dylan-func docutils literal notranslate"><span class="pre">referenced-type</span></code></a>.</p>
 <p id="index-23">A designator class’s <em>pointer-type</em> only has a value for each of
 those types that has a pointer designator type that refers to it. Most
 of the constructs that define a new designator type also define a
@@ -1099,7 +1099,7 @@ between C and Dylan.</p>
 of <a class="reference internal" href="#c-ffi:c-ffi:[c-value]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-value&gt;</span></code></a>. It has neither an <em>export-type</em> nor an
 <em>import-type</em>, so you cannot use it when designating a transition
 between C and Dylan.</p>
-<p>This class is only useful in that it is the <em>referenced-type</em> for
+<p>This class is only useful in that it is the <em>referenced type</em> for
 <a class="reference internal" href="#c-ffi:c-ffi:[c-void*]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-void*&gt;</span></code></a>.</p>
 </p>
 </dd>
@@ -1377,9 +1377,9 @@ and unsafe integer designator types exported from the C-FFI module.</p>
 </tbody>
 </table>
 </div>
-<p>For each of the fundamental integer designator types, <em>&lt;C-</em> <em>xxx</em> <em>&gt;</em>,
-there is also a type designating pointers to that type called <em>&lt;C-</em>
-<em>xxx</em> <em>*&gt;</em>. In addition, the C-FFI defines methods for
+<p>For each of the fundamental integer designator types, <code class="docutils literal notranslate"><span class="pre">&lt;C-foo&gt;</span></code>,
+there is also a type designating pointers to that type called <code class="docutils literal notranslate"><span class="pre">&lt;C-foo*&gt;</span></code>
+In addition, the C-FFI defines methods for
 <a class="reference internal" href="#c-ffi:c-ffi:pointer-value"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">pointer-value</span></code></a> and <a class="reference internal" href="#c-ffi:c-ffi:pointer-value-setter"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">pointer-value-setter</span></code></a>, with appropriate
 translation behavior for each of the types designating pointers to the
 fundamental integer designator types.</p>
@@ -1607,7 +1607,7 @@ designator class name.</p>
 <dd class="field-even"><p>Defines a constant bound to a pointer class designating pointers to
 <em>designator-class-name</em>. Note that the pointer type may already
 exist. The class defined will be open, abstract and instantiable.
-Objects returned by <code class="docutils literal notranslate"><span class="pre">make(*pointer-class-name*)</span></code> will be
+Objects returned by <code class="docutils literal notranslate"><span class="pre">make(pointer-class-name)</span></code> will be
 instances of a sealed concrete subclass of <em>pointer-class-name</em>.</p>
 </dd>
 </dl>
@@ -1634,7 +1634,7 @@ pointer type.</p>
 </dd>
 <dt class="field-even">Discussion<span class="colon">:</span></dt>
 <dd class="field-even"><p>Returns the class designating the contents type of the C pointer
-type designated by pointer-designator-class. The same designator
+type designated by <em>pointer-designator-class</em>. The same designator
 class is returned whenever <em>referenced-type</em> is called with the
 same argument.</p>
 </dd>
@@ -2463,9 +2463,8 @@ general instance of <a class="reference internal" href="#c-ffi:c-ffi:[c-pointer]
 <span class="sig-name descname"><span class="pre">&lt;C-struct&gt;</span></span> <em class="property"><span class="pre">Open</span> <span class="pre">Abstract</span> <span class="pre">Class</span></em><a class="headerlink" href="#c-ffi:c-ffi:[c-struct]" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Discussion<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>The abstract superclass of all classes designating a C struct type.
-It is a subclass of <a class="reference internal" href="#c-ffi:c-ffi:[c-value]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-value&gt;</span></code></a>. It is a subclass of
-<a class="reference internal" href="#c-ffi:c-ffi:[c-value]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-value&gt;</span></code></a>. You can describe new struct types using the
+<dd class="field-odd"><p><p>The abstract superclass of all classes designating a C struct type.  It is a
+subclass of <a class="reference internal" href="#c-ffi:c-ffi:[c-value]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-value&gt;</span></code></a>.  You can describe new struct types using the
 <a class="reference internal" href="#c-ffi:c-ffi:definec-struct"><code class="xref dylan dylan-macro docutils literal notranslate"><span class="pre">define</span> <span class="pre">C-struct</span></code></a> macro.</p>
 <p>Classes designating C structs are not instantiable. Where a slot,
 array element, function parameter or function result is typed as a
@@ -2520,7 +2519,7 @@ struct</p>
 <span class="w">  </span><span class="nb">slot</span><span class="w"> </span><span class="n">string-val</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;C-string&gt;</span><span class="p">;</span>
 <span class="k">end</span><span class="w"> </span><span class="n">C-union</span><span class="p">;</span>
 
-<span class="k">define</span><span class="w"> </span><span class="n">C-struct</span><span class="w"> </span><span class="nc">&lt;anonymous-struct-1&gt;</span>
+<span class="k">define</span><span class="w"> </span><span class="n">C-struct</span><span class="w"> </span><span class="nc">&lt;something&gt;</span>
 <span class="w">  </span><span class="nb">slot</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;C-string&gt;</span><span class="p">;</span>
 <span class="w">  </span><span class="nb">slot</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;C-long&gt;</span><span class="p">;</span>
 <span class="w">  </span><span class="nb">slot</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;anonymous-union-1&gt;</span><span class="p">;</span>
@@ -2566,11 +2565,9 @@ subclass of the original designator class, and is a simple wrapper
 around <a class="reference external" href="https://opendylan.org/books/drm/Definition_Macros#define_class"><code class="xref drm docutils literal notranslate"><span class="pre">define</span> <span class="pre">class</span></code></a> from which it takes its syntax. The
 superclasses, slot-specs, and <em>modifiers</em> are passed on to <a class="reference external" href="https://opendylan.org/books/drm/Definition_Macros#define_class"><code class="xref drm docutils literal notranslate"><span class="pre">define</span>
 <span class="pre">class</span></code></a> unchanged. In effect, it expands to:</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">define</span><span class="w"> </span><span class="nb">class</span><span class="w"> </span><span class="vg">*name*</span><span class="w"> </span><span class="p">(</span><span class="vg">*superclasses*</span><span class="p">)</span>
-<span class="w">  </span><span class="vg">*slot-spec*</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">...</span>
-<span class="k">end</span><span class="w"> </span><span class="nb">class</span><span class="p">;</span>
-</pre></div>
-</div>
+<pre class="literal-block">define class <cite>name</cite> ( <cite>superclasses</cite> )
+  <cite>slot-spec</cite> ; ...
+end class;</pre>
 <span class="target" id="index-100"></span><p>In terms of C, <a class="reference internal" href="#c-ffi:c-ffi:definec-subtype"><code class="xref dylan dylan-macro docutils literal notranslate"><span class="pre">define</span> <span class="pre">C-subtype</span></code></a> can be thought of as
 implementing a strongly typed version of <code class="docutils literal notranslate"><span class="pre">typedef</span></code> because a new
 designator class is generated that Dylan’s type system can
@@ -2765,7 +2762,7 @@ subtype which specifies an export-map must specify an <em>export-function</em>.<
 <span class="c1">//end module</span>
 </pre></div>
 </div>
-<span class="target" id="index-104"></span><p>Mapped string example: an alternate version of C-string which
+<span class="target" id="index-104"></span><p>Mapped string example: an alternate version of C string which
 automatically converts instances of <a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#byte-string"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;byte-string&gt;</span></code></a> to instances
 of <code class="docutils literal notranslate"><span class="pre">&lt;C-example-string&gt;</span></code> on export.</p>
 <p>string-header.h</p>
@@ -2906,14 +2903,12 @@ may be needed to specify an in-line structure in another structure,
 union, or array, or a value-passed structure argument or result in
 a C function.</p>
 <p>A slot-spec has the following syntax:</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="vg">*slot-adjective*</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="nb">slot</span><span class="w"> </span><span class="vg">*getter-name*</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="vg">*c-type*</span><span class="w"> </span><span class="k">#key</span><span class="w"> </span><span class="vg">*setter*</span>
-<span class="w">  </span><span class="vg">*address-getter*</span><span class="w"> </span><span class="n">*c-name</span><span class="w"> </span><span class="n">length*</span><span class="w"> </span><span class="vg">*width*</span>
-</pre></div>
-</div>
+<pre class="literal-block">[ <cite>slot-adjective</cite> ] slot <cite>getter-name</cite> :: <cite>c-type</cite> #key <cite>setter</cite>
+  <cite>address-getter</cite>, <cite>c-name</cite>, <cite>length</cite>, <cite>width</cite></pre>
 <p>The <em>slot-adjective</em> can be <em>constant</em>,  <em>array</em> or <em>bitfield</em>. The
 <em>array</em> slot adjective indicates that the slot is repeated and the
-<em>dimensions</em> option is used to indicate how many repetitions are
-defined, and how it is accessed. The <em>bitfield</em> slot adjective
+<em>length</em> option indicates how many repetitions are
+defined. The <em>bitfield</em> slot adjective
 indicates that the slot is really a bitfield. If <em>bitfield</em> is
 given then the <em>width</em> option must also be given. The <em>c-type</em>
 given for a <em>bitfield</em> slot must be an integer designator. The
@@ -2931,18 +2926,16 @@ class. Unlike Dylan slot specifications, the type declaration here
 is not optional.</p>
 <p>The optional setter keyword specifies the generic function to which
 the setter method for the structure slot will be added. It defaults
-to getter-name*-setter*. No setter method is defined if the
+to <em>getter-name</em>-setter. No setter method is defined if the
 <em>setter</em> option is <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a>. If the <em>constant</em> keyword is supplied, no
 <em>setter</em> option should be supplied.</p>
 <span class="target" id="index-110"></span><p>The optional <em>address-getter</em> specifies the name of a function that
-can be used to return a pointer to the data in the member. It must
-return a <code class="docutils literal notranslate"><span class="pre">&lt;C-pointer&gt;</span></code> object that points to a C type. No
+can be used to return a pointer to the data in the member. It
+returns a <code class="docutils literal notranslate"><span class="pre">&lt;C-pointer&gt;</span></code> object that points to a C type. No
 <em>address-getter</em> is defined by default.</p>
-<p>You can use the <em>dimensions</em> keyword only if you used the <em>array</em>
-slot adjective. This <em>dimensions</em> value can be either a list of
-integers or a single integer. The accessor for an array slot is
-defined to take an extra integer parameter for each dimension
-given.</p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">length:</span></code> keyword only if you used the <code class="docutils literal notranslate"><span class="pre">array</span></code> slot
+adjective. The accessor for an array slot is defined to take an extra integer
+parameter indicating an index into the array.</p>
 <p>You can use the <em>width</em> keyword option only if you used the
 <em>bitfield</em> adjective.</p>
 <p>The optional c-name keyword allows you to document the original C
@@ -2959,13 +2952,13 @@ packing semantics of Microsoft’s <code class="docutils literal notranslate"><s
 </dd>
 <dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p>Example C declaration:</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">unsigned</span><span class="w"> </span><span class="n">short</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
-<span class="w">  </span><span class="n">unsigned</span><span class="w"> </span><span class="n">short</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Point</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="n">Point</span><span class="w"> </span><span class="n">*OnePoint</span><span class="p">();</span><span class="w"> </span><span class="cm">/* Returns a pointer to a Point */</span>
-<span class="n">Point</span><span class="w"> </span><span class="n">*PointArray</span><span class="p">();</span><span class="w"> </span><span class="cm">/* Returns a Point array */</span>
+<span class="n">Point</span><span class="w"> </span><span class="o">*</span><span class="nf">OnePoint</span><span class="p">();</span><span class="w"> </span><span class="cm">/* Returns a pointer to a Point */</span>
+<span class="n">Point</span><span class="w"> </span><span class="o">*</span><span class="nf">PointArray</span><span class="p">();</span><span class="w"> </span><span class="cm">/* Returns a Point array */</span>
 </pre></div>
 </div>
 <p>Example FFI definition:</p>
@@ -2987,26 +2980,26 @@ packing semantics of Microsoft’s <code class="docutils literal notranslate"><s
 </pre></div>
 </div>
 <p>Example transactions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>? define variable p = one-point();
-// Defined p.
+<div class="highlight-dylan-repl notranslate"><div class="highlight"><pre><span></span><span class="gp">?</span><span class="w"> </span><span class="k">define</span><span class="w"> </span><span class="nb">variable</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one-point</span><span class="p">();</span>
+<span class="go">// Defined p.</span>
 
-? values(p.x, p.y);
-100
-50
+<span class="gp">?</span><span class="w"> </span><span class="nb">values</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+<span class="go">100</span>
+<span class="go">50</span>
 
-? define variable array = point-array();
-// Defined array.
+<span class="gp">?</span><span class="w"> </span><span class="k">define</span><span class="w"> </span><span class="nb">variable</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point-array</span><span class="p">();</span>
+<span class="go">// Defined array.</span>
 
-? array[5].object-class; // implicit conversion to
-// the pointer type
-{&lt;Point&gt; pointer #xff5e00}
+<span class="gp">?</span><span class="w"> </span><span class="n">array</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="nb">object-class</span><span class="p">;</span><span class="w"> </span><span class="c1">// implicit conversion to</span>
+<span class="go">// the pointer type</span>
+<span class="go">{&lt;Point&gt; pointer #xff5e00}</span>
 
-? begin array[5].x := 10; array[5].y := 20 end;
-20
+<span class="gp">?</span><span class="w"> </span><span class="k">begin</span><span class="w"> </span><span class="n">array</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">array</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="k">end</span><span class="p">;</span>
+<span class="go">20</span>
 
-? values(array[5].x, array[5].y)
-10
-20
+<span class="gp">?</span><span class="w"> </span><span class="nb">values</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">array</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">y</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="go">20</span>
 </pre></div>
 </div>
 </dd>
@@ -3597,8 +3590,9 @@ for the selector. See the Objective C bridge documentation for more details.</p>
 </dd></dl>
 
 </section>
+</section>
 <section id="variables">
-<span id="index-128"></span><h3>Variables<a class="headerlink" href="#variables" title="Link to this heading">¶</a></h3>
+<span id="index-128"></span><h2>Variables<a class="headerlink" href="#variables" title="Link to this heading">¶</a></h2>
 <p>This section covers describing and accessing C variables.</p>
 <dl class="dylan macro" id="index-129">
 <dt class="sig sig-object dylan-api dylan" id="c-ffi:c-ffi:definec-variable">
@@ -3720,7 +3714,6 @@ then they will be in separate <em>.dll</em> s and <em>import:</em> needs to be
 </dd></dl>
 
 </section>
-</section>
 <section id="allocating-and-deallocating-c-storage">
 <span id="index-133"></span><h2>Allocating and deallocating C storage<a class="headerlink" href="#allocating-and-deallocating-c-storage" title="Link to this heading">¶</a></h2>
 <p>C objects can be allocated by calling <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a> on an associated wrapper
@@ -3758,7 +3751,7 @@ allocation function is in use on the target platform (typically
 <code class="docutils literal notranslate"><span class="pre">malloc</span></code>) to allocate the storage. This method is applicable to
 subclasses of <a class="reference internal" href="#c-ffi:c-ffi:[c-pointer]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-pointer&gt;</span></code></a> and returns an instance of its
 argument class.</p>
-<p>If the address option is provided, no new storage is allocated, but
+<p>If the <em>address</em> option is provided, no new storage is allocated, but
 instead, a new pointer with the given machine word address is
 returned.</p>
 <p>The <em>allocator</em> argument should be a Dylan function that can serve
@@ -3766,23 +3759,23 @@ as an allocator. It must accept a single integer argument — the
 number of bytes to be allocated — and return a Dylan
 <a class="reference internal" href="../common-dylan/machine-words.html#common-dylan:machine-words:[machine-word]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;machine-word&gt;</span></code></a> that represents the address of the memory it
 allocated.</p>
-<p>The amount of storage allocated by default is the result of:</p>
+<p>The amount of storage allocated by default is equivalent to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">size</span><span class="o">-</span><span class="n">of</span><span class="p">(</span><span class="o">*</span><span class="n">pointer</span><span class="o">-</span><span class="n">wrapper</span><span class="o">-</span><span class="n">class</span><span class="o">*.</span><span class="n">referenced</span><span class="o">-</span><span class="nb">type</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If a positive integer is passed as an extra-bytes option, that
+<p>If a positive integer is passed in the <em>extra-bytes</em> option, that
 number of extra bytes is also allocated.</p>
-<p>If a positive integer is passed as a element-count option, space
-for element-count copies of the referenced type is allocated,
-taking into account the extra-bytes option for each of them. The
-element-count argument can be used for allocating arrays of sizes
-that are not known statically. The keyword element-count is used
-for this option rather than size in order to avoid conflict with
-the size collection keyword. The logical size of a collection
+<p>If a positive integer is passed in the <em>element-count</em> option, space
+for <em>element-count</em> copies of the referenced type is allocated,
+taking into account the <em>extra-bytes</em> option for each of them. The
+<em>element-count</em> argument can be used for allocating arrays of sizes
+that are not known statically. The keyword <code class="docutils literal notranslate"><span class="pre">element-count:</span></code> is used
+for this option rather than <code class="docutils literal notranslate"><span class="pre">size:</span></code> in order to avoid conflict with
+the <code class="docutils literal notranslate"><span class="pre">size:</span></code> collection keyword. The logical size of a collection
 represented by a pointer wrapper and the number of array elements
 that implement it may differ; a null-terminated string is an
 example of such a case.</p>
-<p>This <code class="docutils literal notranslate"><span class="pre">make</span></code> method calls <code class="docutils literal notranslate"><span class="pre">initialize</span></code> on the wrapper object it
+<p>This <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a> method calls <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#initialize"><code class="xref drm docutils literal notranslate"><span class="pre">initialize</span></code></a> on the wrapper object it
 generates before returning it.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>? define variable *space-for-one-int* = make(&lt;C-int*&gt;);
 
@@ -3797,16 +3790,15 @@ generates before returning it.</p>
 0
 
 ? define variable *space-for-ten-ints*
-= make(&lt;C-int*&gt;, element-count: 10);
+    = make(&lt;C-int*&gt;, element-count: 10);
 
 ? define C-struct &lt;Z-properties&gt;
-  slot type :: &lt;C-int&gt;;
-  array slot properties :: &lt;C-int&gt;,
-end C-struct &lt;Z-properties&gt;;
+    slot type :: &lt;C-int&gt;;
+    array slot properties :: &lt;C-int&gt;,
+  end C-struct &lt;Z-properties&gt;;
 
-? define variable *props* =
-  make(&lt;Z-properties&gt;,
-    extra-bytes: 10 * size-of(&lt;C-int&gt;));
+? define variable *props*
+    = make(&lt;Z-properties&gt;, extra-bytes: 10 * size-of(&lt;C-int&gt;));
 </pre></div>
 </div>
 </p>
@@ -3820,12 +3812,12 @@ end C-struct &lt;Z-properties&gt;;
 <dd><p>Frees the allocated heap memory at a specified address.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Signature<span class="colon">:</span></dt>
-<dd class="field-odd"><p>destroy <em>C-pointer</em> #key <em>de-allocator</em> =&gt; ()</p>
+<dd class="field-odd"><p>destroy <em>C-pointer</em> #key <em>deallocator</em> =&gt; ()</p>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>c-pointer</strong> – An instance of <a class="reference internal" href="#c-ffi:c-ffi:[c-pointer]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-pointer&gt;</span></code></a>.</p></li>
-<li><p><strong>de-allocator</strong> (<em>#key</em>) – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Function_Classes#function"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;function&gt;</span></code></a>.</p></li>
+<li><p><strong>deallocator</strong> (<em>#key</em>) – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Function_Classes#function"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;function&gt;</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Discussion<span class="colon">:</span></dt>
@@ -3834,9 +3826,9 @@ end C-struct &lt;Z-properties&gt;;
 <p>The <em>deallocator</em> argument should be a Dylan function that can
 serve as a deallocation facility. It must accept an address as a
 <a class="reference internal" href="../common-dylan/machine-words.html#common-dylan:machine-words:[machine-word]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;machine-word&gt;</span></code></a> and free the storage allocated at that address.</p>
-<p>You should only use <code class="docutils literal notranslate"><span class="pre">destroy</span></code> on pointers allocated using
-<code class="docutils literal notranslate"><span class="pre">make</span></code> where no address was given. If <em>allocator</em> was passed to
-<code class="docutils literal notranslate"><span class="pre">make</span></code>, the matching deallocator should be passed to <code class="docutils literal notranslate"><span class="pre">destroy</span></code>.</p>
+<p>You should only use <a class="reference internal" href="#c-ffi:c-ffi:destroy"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">destroy</span></code></a> on pointers allocated using
+<a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a> where no address was given. If <em>allocator</em> was passed to
+<a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a>, the matching deallocator should be passed to <a class="reference internal" href="#c-ffi:c-ffi:destroy"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">destroy</span></code></a>.</p>
 <p>There is a default method for destroy on
 <a class="reference internal" href="#c-ffi:c-ffi:[c-statically-typed-pointer]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;C-statically-typed-pointer&gt;</span></code></a>.</p>
 </p>
@@ -3866,7 +3858,7 @@ end [with-stack-structure]</pre>
 </dd>
 <dt class="field-odd">Discussion<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>Allocates an object <em>name</em> within the scope of a <em>body</em>. The
-<em>element-count</em> and <em>extra-bytes</em> options behave as in <code class="docutils literal notranslate"><span class="pre">make</span></code>.
+<em>element-count</em> and <em>extra-bytes</em> options behave as in <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a>.
 The memory that was allocated is freed after <em>body</em> exits.</p>
 <p>This macro gives the object <em>dynamic extent</em>.</p>
 </p>
@@ -4258,7 +4250,7 @@ object as it normally would.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -4416,11 +4408,11 @@ object as it normally would.</p>
 <li><a class="reference internal" href="#c-ffi:c-ffi:defineobjc-selector"><code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">objc-selector</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a class="reference internal" href="#variables">Variables</a><ul>
 <li><a class="reference internal" href="#c-ffi:c-ffi:definec-variable"><code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">C-variable</span></code></a></li>
 <li><a class="reference internal" href="#c-ffi:c-ffi:definec-address"><code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">C-address</span></code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#allocating-and-deallocating-c-storage">Allocating and deallocating C storage</a><ul>
@@ -4456,7 +4448,7 @@ object as it normally would.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="../../_static/documentation_options.js?v=b916904f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

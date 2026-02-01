@@ -243,6 +243,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../hacker-guide/glossary.html">Glossary</a></li>
@@ -453,7 +454,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -533,8 +534,10 @@
 <span id="index-1"></span><span id="index-0"></span><h1>Extensions to the FOR iteration macro<a class="headerlink" href="#extensions-to-the-for-iteration-macro" title="Link to this heading">¶</a></h1>
 <p>We have also made two extensions to the <code class="docutils literal notranslate"><span class="pre">for</span></code> iteration construct: a
 <code class="docutils literal notranslate"><span class="pre">keyed-by</span></code> clause and <code class="docutils literal notranslate"><span class="pre">in</span> <span class="pre">...</span> <span class="pre">using</span></code> clauses.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">keyed-by</span></code> clause allows iteration over table elements:</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">my-element</span><span class="w"> </span><span class="n">keyed-by</span><span class="w"> </span><span class="n">my-key</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">my-table</span><span class="p">)</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">keyed-by</span></code> clause allows binding a variable to the collection key associated with
+each element.  This is particularly useful for iteration over tables or other explicit
+key collections:</p>
+<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="n">keyed-by</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">collection</span><span class="p">)</span>
 <span class="w">  </span><span class="p">...</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
@@ -577,7 +580,7 @@ other than the default (<a class="reference external" href="https://opendylan.or
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -597,7 +600,7 @@ other than the default (<a class="reference external" href="https://opendylan.or
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="../../_static/documentation_options.js?v=b916904f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

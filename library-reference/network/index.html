@@ -243,6 +243,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../hacker-guide/glossary.html">Glossary</a></li>
@@ -453,7 +454,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -1212,9 +1213,15 @@ one of <code class="docutils literal notranslate"><span class="pre">#&quot;input
 keyword is an inherited streams class keyword. See <a class="reference internal" href="../io/streams.html"><span class="doc">The streams Module</span></a>
 for a full description.</p></li>
 <li><p><strong>element-type</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Type_Classes#class"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;class&gt;</span></code></a>. Useful values are
-<code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;byte-character&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;byte&gt;</span></code>. This keyword is an
+<code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;byte-character&gt;</span></code> and <code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;byte&gt;</span></code>. This keyword is an
 inherited streams class keyword. See <a class="reference internal" href="../io/streams.html"><span class="doc">The streams Module</span></a>
 for a full description.</p></li>
+<li><p><strong>protocol</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#string"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code></a> or <a class="reference external" href="https://opendylan.org/books/drm/Simple_Object_Classes#symbol"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;symbol&gt;</span></code></a> naming the
+protocol.  Currently <code class="docutils literal notranslate"><span class="pre">#&quot;tcp&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">#&quot;udp&quot;</span></code> are the only supported protocols.
+You can create instances of protocol-specific subclasses as an alternative to using
+the <code class="docutils literal notranslate"><span class="pre">protocol:</span></code> keyword. For example <code class="docutils literal notranslate"><span class="pre">make(&lt;socket&gt;,</span> <span class="pre">protocol:</span> <span class="pre">#&quot;tcp&quot;,</span> <span class="pre">...)</span></code> is
+equivalent to <code class="docutils literal notranslate"><span class="pre">make(&lt;tcp-socket&gt;,</span> <span class="pre">...)</span></code>. <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a> on <a class="reference internal" href="#network:sockets:[socket]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;socket&gt;</span></code></a> returns
+an instance of <a class="reference internal" href="#network:sockets:[tcp-socket]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;tcp-socket&gt;</span></code></a> by default.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1279,13 +1286,6 @@ either a host name or a presentation-form Internet address. Required.</p></li>
 containing an abstract name for a service with a “well-known” port,
 such as <code class="docutils literal notranslate"><span class="pre">&quot;ftp&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;daytime&quot;</span></code>. Valid names depend on the
 configuration of the DNS. Required unless <code class="docutils literal notranslate"><span class="pre">port:</span></code> is supplied.</p></li>
-<li><p><strong>protocol</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#string"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code></a> naming the protocol.
-Currently <code class="docutils literal notranslate"><span class="pre">#&quot;tcp&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">#&quot;udp&quot;</span></code> are the only supported protocols.
-You can create instances of protocol-specific subclasses as an
-alternative to using the <code class="docutils literal notranslate"><span class="pre">protocol:</span></code> keyword. For example
-<code class="docutils literal notranslate"><span class="pre">make(&lt;socket&gt;,</span> <span class="pre">protocol:</span> <span class="pre">#&quot;tcp&quot;,</span> <span class="pre">...)</span></code> is equivalent to
-<code class="docutils literal notranslate"><span class="pre">make(&lt;tcp-socket&gt;,</span> <span class="pre">...)</span></code>. <a class="reference external" href="https://opendylan.org/books/drm/Constructing_and_Initializing_Instances#make"><code class="xref drm docutils literal notranslate"><span class="pre">make</span></code></a> on <a class="reference internal" href="#network:sockets:[socket]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;socket&gt;</span></code></a> returns
-an instance of <a class="reference internal" href="#network:sockets:[tcp-socket]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;tcp-socket&gt;</span></code></a> by default.</p></li>
 <li><p><strong>port</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Number_Classes#integer"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;integer&gt;</span></code></a> representing the remote
 port to connect to. Required unless <code class="docutils literal notranslate"><span class="pre">service:</span></code> is supplied.</p></li>
 <li><p><strong>element-type</strong> – An instance of <a class="reference external" href="https://opendylan.org/books/drm/Type_Classes#class"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;class&gt;</span></code></a>. Useful values for
@@ -1492,7 +1492,7 @@ some remedial action.</p>
 <dd class="field-even"><p><p>The general class of socket conditions for which an application may be
 able to take some remedial action.</p>
 <p>For instance, a web browser receiving such conditions as
-<code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;connection-refused&gt;</span></code> or <a class="reference internal" href="#network:sockets:[host-not-found]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;host-not-found&gt;</span></code></a> would
+<a class="reference internal" href="#network:sockets:[connection-failed]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;connection-failed&gt;</span></code></a> or <a class="reference internal" href="#network:sockets:[host-not-found]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;host-not-found&gt;</span></code></a> would
 normally expect to report those conditions to the user and continue
 with some other connection request from the user, while a server
 receiving a <a class="reference internal" href="#network:sockets:[connection-closed]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;connection-closed&gt;</span></code></a> condition from a connected
@@ -1731,7 +1731,7 @@ error code. An instance of <a class="reference external" href="https://opendylan
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1868,7 +1868,7 @@ error code. An instance of <a class="reference external" href="https://opendylan
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="../../_static/documentation_options.js?v=b916904f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

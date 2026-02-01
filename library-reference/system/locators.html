@@ -243,6 +243,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../hacker-guide/glossary.html">Glossary</a></li>
@@ -453,7 +454,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -1196,15 +1197,29 @@ path.</p>
 </dl>
 </dd></dl>
 
-<dl class="dylan constant">
+<dl class="dylan generic-function">
 <dt class="sig sig-object dylan-api dylan" id="system:locators:resolve-locator">
-<span class="sig-name descname"><span class="pre">resolve-locator</span></span> <em class="property"><span class="pre">Constant</span></em><a class="headerlink" href="#system:locators:resolve-locator" title="Link to this definition">¶</a></dt>
-<dd><div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 2025.2.</span></p>
-</div>
+<span class="sig-name descname"><span class="pre">resolve-locator</span></span> <em class="property"><span class="pre">Open</span> <span class="pre">Generic</span> <span class="pre">function</span></em><a class="headerlink" href="#system:locators:resolve-locator" title="Link to this definition">¶</a></dt>
+<dd><p>Resolves all links, parent references (<code class="docutils literal notranslate"><span class="pre">..</span></code>), self references (<code class="docutils literal notranslate"><span class="pre">.</span></code>), and
+removes unnecessary path separators. Similar to <a class="reference internal" href="#system:locators:simplify-locator"><code class="xref dylan dylan-func docutils literal notranslate"><span class="pre">simplify-locator</span></code></a>
+except that it consults the file system to resolve links. A
+<a class="reference internal" href="file-system.html#system:file-system:[file-system-error]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-system-error&gt;</span></code></a> is signaled if for any reason the path can’t be
+resolved. Examples include non-existent directory components, access denied,
+I/O error, etc.  In short, this function follows the semantics of POSIX
+<code class="docutils literal notranslate"><span class="pre">realpath(3)</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">See also<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="file-system.html#system:file-system:resolve-file"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">resolve-file</span></code></a></p>
+<dt class="field-odd">Signature<span class="colon">:</span></dt>
+<dd class="field-odd"><p>resolve-locator (locator) =&gt; (resolved-locator)</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>locator</strong> – An instance of <a class="reference internal" href="#system:locators:[physical-locator]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;physical-locator&gt;</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Values<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simplified-locator</strong> – An instance of <a class="reference internal" href="#system:locators:[physical-locator]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;physical-locator&gt;</span></code></a>.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1633,7 +1648,7 @@ protocols.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1726,7 +1741,7 @@ protocols.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="../../_static/documentation_options.js?v=b916904f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

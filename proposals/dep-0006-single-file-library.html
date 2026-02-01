@@ -243,6 +243,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../hacker-guide/glossary.html">Glossary</a></li>
@@ -453,7 +454,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -702,8 +703,8 @@ for existing Open Dylan LID file keywords.</p>
 <h4>Library Header<a class="headerlink" href="#library-header" title="Link to this heading">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">Library</span></code> header is optional. If missing, the library name is the same as
 the module name specified by the <code class="docutils literal notranslate"><span class="pre">Module</span></code> header.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition-rationale admonition">
+<p class="admonition-title">Rationale</p>
 <p>This decision could have gone the other way, with <code class="docutils literal notranslate"><span class="pre">Library</span></code> required and <code class="docutils literal notranslate"><span class="pre">Module</span></code>
 optional. However, it is normal for each .dylan file to have a <code class="docutils literal notranslate"><span class="pre">Module</span></code> header
 already, so this is consistent with current practice.</p>
@@ -736,18 +737,21 @@ the <code class="docutils literal notranslate"><span class="pre">Module</span></
 </ol>
 <p>In the library and module definitions section of the source file normal Dylan
 code comments are allowed and there must be:</p>
-<ul class="simple">
+<ul>
 <li><p>Any code needed by the library and module definitions.  For example, it is possible to
-define a macro to help define multiple modules. Note, however, that any code in this
-section is in the <code class="docutils literal notranslate"><span class="pre">dylan-user</span></code> module, which is defined by the Dylan implementation,
-so there is no way to export the code for use in other modules.  More specifically,
-there is no way to use the code in the main body of the same source file.</p></li>
+define a macro to help define multiple modules.  Note, however, that any code in this
+section is defined in the <code class="docutils literal notranslate"><span class="pre">dylan-user</span></code> module, which is defined by the Dylan
+implementation, so there is no way to export the code for use in other modules.  More
+specifically, there is no way to use the code in the main body of the same source file.</p>
+<p>This is no different from multi-file projects but may be less intuitive due to the code
+being in the same file.  This is acceptable because it happens extremely rarely.</p>
+</li>
 <li><p><em>Exactly one</em> <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">library</span></code> expression and its name must match the name
 specified in the <code class="docutils literal notranslate"><span class="pre">Library</span></code> header, or the <code class="docutils literal notranslate"><span class="pre">Module</span></code> header if there is no
 <code class="docutils literal notranslate"><span class="pre">Library</span></code> header.</p></li>
-<li><p><em>At least</em> one <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">module</span></code> expression whose name matches the name in the
-<code class="docutils literal notranslate"><span class="pre">Module</span></code> header.  This module definition terminates the library and module
-definition section of the source file.</p></li>
+<li><p><em>Exactly one</em> <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">module</span></code> expression whose name matches the name in the
+<code class="docutils literal notranslate"><span class="pre">Module</span></code> header.  This module definition terminates the library and module definition
+section of the source file.  Other module definitions may precede it.</p></li>
 </ul>
 <p>This construction allows the full power of Dylan’s module system to be used,
 for example defining both implementation and interface modules, exporting the
@@ -763,65 +767,20 @@ A non-exhaustive list:</p>
 <code class="docutils literal notranslate"><span class="pre">.dylan</span></code> extension and attempt to open them as projects, giving an appropriate error
 if the file is badly formed.</p></li>
 <li><p>Registry files must be able to point to <code class="docutils literal notranslate"><span class="pre">.dylan</span></code> files in addition to <code class="docutils literal notranslate"><span class="pre">.lid</span></code> files.</p></li>
-<li><p>The IDE will need to handle single-file libraries specially:</p>
-<ul>
-<li><p>It should be possible to open a new project by selecting a <code class="docutils literal notranslate"><span class="pre">.dylan</span></code> file, with an
-appropriate error if the file doesn’t contain library and module definitions.</p></li>
-<li><p>The library and module definitions should be treated as if in the <code class="docutils literal notranslate"><span class="pre">dylan-user</span></code>
-module.</p></li>
-</ul>
-</li>
+<li><p>The IDE could optionally be made to handle single-file libraries specially. However, it
+seems likely that there are deep assumptions built into the IDE about the meaning and
+behavior of “.dylan” and “.lid” files that would require more work than can be
+justified.  In contrast, on the command-line the context is quite clear, for example
+when invoking <code class="docutils literal notranslate"><span class="pre">dylan-compiler</span> <span class="pre">-build</span> <span class="pre">foo.dylan</span></code>.</p></li>
 </ul>
 </section>
 </section>
 <section id="model-implementation">
 <h2>Model Implementation<a class="headerlink" href="#model-implementation" title="Link to this heading">¶</a></h2>
-<p>A simple way to implement this proposal would be via the following source
-transformations. (Such a simplistic implementation is not recommended because
-it would cause problems mapping error messages back to the original source
-files, among other issues.  This example is provided primarily to demonstrate
-that a single-file library has the same semantics as a multi-file library.)</p>
-<ol class="arabic">
-<li><p>Generate a <code class="docutils literal notranslate"><span class="pre">library.dylan</span></code> file containing the entire library and module
-definitions section, verbatim, but in the <code class="docutils literal notranslate"><span class="pre">dylan-user</span></code> module. Using the
-hello-world example from above, we generate:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-------</span> <span class="n">file</span><span class="p">:</span> <span class="n">library</span><span class="o">.</span><span class="n">dylan</span> <span class="o">-------</span>
-<span class="n">Module</span><span class="p">:</span> <span class="n">dylan</span><span class="o">-</span><span class="n">user</span>
-
-<span class="n">define</span> <span class="n">libary</span> <span class="n">hello</span><span class="o">-</span><span class="n">world</span>
-  <span class="n">use</span> <span class="n">common</span><span class="o">-</span><span class="n">dylan</span><span class="p">;</span>
-  <span class="n">use</span> <span class="n">io</span><span class="p">;</span>
-<span class="n">end</span><span class="p">;</span>
-
-<span class="n">define</span> <span class="n">module</span> <span class="n">hello</span><span class="o">-</span><span class="n">world</span>
-  <span class="n">use</span> <span class="n">common</span><span class="o">-</span><span class="n">dylan</span><span class="p">;</span>
-  <span class="n">use</span> <span class="nb">format</span><span class="o">-</span><span class="n">out</span><span class="p">;</span>
-<span class="n">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</li>
-<li><p>Generate a “main.dylan” file containing the entire headers section and the
-entire main Dylan code section:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-------</span> <span class="n">file</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">dylan</span> <span class="o">-------</span>
-<span class="n">Module</span><span class="p">:</span> <span class="n">hello</span><span class="o">-</span><span class="n">world</span>
-
-<span class="nb">format</span><span class="o">-</span><span class="n">out</span><span class="p">(</span><span class="s2">&quot;Hello, world!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p>Generate a LID file that includes the entire headers section. Add a
-<code class="docutils literal notranslate"><span class="pre">Library</span></code> header matching the <code class="docutils literal notranslate"><span class="pre">Module</span></code> header if none was provided, and
-add “library.dylan” and “main.dylan” to the <code class="docutils literal notranslate"><span class="pre">Files</span></code> header:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-------</span> <span class="n">file</span><span class="p">:</span> <span class="n">hello</span><span class="o">-</span><span class="n">world</span><span class="o">.</span><span class="n">lid</span> <span class="o">-------</span>
-<span class="n">Library</span><span class="p">:</span> <span class="n">hello</span><span class="o">-</span><span class="n">world</span>
-<span class="n">Module</span><span class="p">:</span> <span class="n">hello</span><span class="o">-</span><span class="n">world</span>
-<span class="n">Files</span><span class="p">:</span> <span class="n">library</span><span class="o">.</span><span class="n">dylan</span>
-       <span class="n">main</span><span class="o">.</span><span class="n">dylan</span>
-</pre></div>
-</div>
-</li>
-<li><p>Compile the generated LID file in the normal way.</p></li>
-</ol>
+<p>A simple way to implement this proposal would be to reverse the source file
+transformations shown in the <a class="reference internal" href="#background">Background</a> section, going from one file to three, and
+then compiling the <code class="docutils literal notranslate"><span class="pre">.lid</span></code> file in the normal way.  A mechanism for mapping compiler
+warning source code locations back to the original file would have to be devised.</p>
 </section>
 <section id="alternatives-considered">
 <h2>Alternatives Considered<a class="headerlink" href="#alternatives-considered" title="Link to this heading">¶</a></h2>
@@ -862,7 +821,7 @@ of this file for more detail.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -918,7 +877,7 @@ of this file for more detail.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="../_static/documentation_options.js?v=b916904f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -241,6 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="hacker-guide/topics/porting.html">Porting to a New Target Platform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hacker-guide/topics/ppml.html">The PPML library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hacker-guide/topics/making-a-release.html">Release Check-list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hacker-guide/topics/opendylan.org.html">Maintaining opendylan.org</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hacker-guide/glossary.html">Glossary</a></li>
@@ -451,7 +452,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="release-notes/index.html">Release Notes</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Release Notes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="release-notes/2025.2.html">Open Dylan 2025.2 (coming soon)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release-notes/2026.1.html">Open Dylan 2026.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="release-notes/2025.1.html">Open Dylan 2025.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="release-notes/2024.1.html">Open Dylan 2024.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="release-notes/2023.1.html">Open Dylan 2023.1</a></li>
@@ -4791,6 +4792,8 @@
 </li>
           <li><a href="getting-started-cli/source-registries.html#index-0">OPEN_DYLAN_USER_REGISTRIES</a>, <a href="getting-started-cli/source-registries.html#index-1">[1]</a>, <a href="getting-started-cli/source-registries.html#index-2">[2]</a>, <a href="getting-started-cli/source-registries.html#index-3">[3]</a>
 </li>
+          <li><a href="hacker-guide/build-system.html#index-0">OPEN_DYLAN_USER_ROOT</a>
+</li>
           <li><a href="download/index.html#index-0">PATH</a>
 </li>
         </ul></li>
@@ -4876,7 +4879,13 @@
         <li><a href="duim-reference/gadgets.html#duim:duim-gadgets:expand-node">expand-node</a>
 </li>
         <li><a href="library-reference/system/file-system.html#system:file-system:expand-pathname">expand-pathname</a>
+
+        <ul>
+          <li><a href="library-reference/system/file-system.html#system:file-system:expand-pathname([file-system-locator])">expand-pathname(&lt;file-system-locator&gt;)</a>
 </li>
+          <li><a href="library-reference/system/file-system.html#system:file-system:expand-pathname([string])">expand-pathname(&lt;string&gt;)</a>
+</li>
+        </ul></li>
         <li><a href="library-reference/c-ffi/index.html#c-ffi:c-ffi:export-c-dylan-object">export-C-Dylan-object</a>
 </li>
         <li><a href="library-reference/c-ffi/index.html#index-143">export-C-Dylan-object function</a>
@@ -6702,6 +6711,8 @@
 </li>
         <li><a href="getting-started-cli/source-registries.html#index-0">OPEN_DYLAN_USER_REGISTRIES</a>, <a href="getting-started-cli/source-registries.html#index-1">[1]</a>, <a href="getting-started-cli/source-registries.html#index-2">[2]</a>, <a href="getting-started-cli/source-registries.html#index-3">[3]</a>
 </li>
+        <li><a href="hacker-guide/build-system.html#index-0">OPEN_DYLAN_USER_ROOT</a>
+</li>
         <li>
     optimization
 
@@ -7829,8 +7840,6 @@
         <li><a href="hacker-guide/runtime-manager/debugger-manager.html#debugger-manager:debugger-manager:resolve-dylan-keyword">resolve-dylan-keyword</a>
 </li>
         <li><a href="hacker-guide/runtime-manager/debugger-manager.html#debugger-manager:debugger-manager:resolve-dylan-name">resolve-dylan-name</a>
-</li>
-        <li><a href="library-reference/system/file-system.html#system:file-system:resolve-file">resolve-file</a>
 </li>
         <li><a href="library-reference/system/locators.html#system:locators:resolve-locator">resolve-locator</a>
 </li>
@@ -9263,7 +9272,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2011-2024, Dylan Hackers
+                Copyright &#169; 2011-2026, Dylan Hackers
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -9283,7 +9292,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=65f7d7c4"></script>
+</div><script src="_static/documentation_options.js?v=b916904f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
