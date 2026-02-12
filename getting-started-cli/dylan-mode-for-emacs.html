@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Debugging with GDB or LLDB" href="debugging-with-gdb-lldb.html" /><link rel="prev" title="Editor Support" href="editor-support.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Dylan Interactor Mode for Emacs (DIME) - Open Dylan</title>
@@ -267,7 +267,7 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Learning</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../about/index.html">Tour of Dylan</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Tour of Dylan</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../about/examples/hello_world.html">Hello, World!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../about/examples/everything_value.html">Everything is a value</a></li>
@@ -280,7 +280,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../about/examples/multiple_return_values.html">Multiple Return Values</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Getting Started Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Getting Started Guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Getting Started Guide</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Getting Started Guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="hello-world.html">Hello World</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source-registries.html">Using Source Registries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="managing-dependencies.html">Managing Dependencies</a></li>
@@ -288,7 +288,6 @@
 <li class="toctree-l2"><a class="reference internal" href="dylan-compiler.html">Using dylan-compiler interactively</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dylan-environment.html">An example of dylan-environment interactive functionality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="editor-support.html">Editor Support</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Dylan Interactor Mode for Emacs (DIME)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debugging-with-gdb-lldb.html">Debugging with GDB or LLDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="windows.html">Notes for Windows Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environment-variables.html">Environment Variables</a></li>
@@ -566,7 +565,7 @@ command for more.</p>
 <p><strong>Start dime:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export PATH=/opt/opendylan/bin:$PATH
 $ cd dime-test         # Created by deft new application, above.
-$ emacs dime-test-app.dylan
+$ emacs src/app/main.dylan
 M-x dime &lt;Enter&gt;
 </pre></div>
 </div>
@@ -579,30 +578,27 @@ like this:</p>
 <p>This is the Open Dylan compiler interactive shell.  You can issue
 commands directly here if you like, but mostly you’ll issue dime
 commands from your Dylan source buffers.</p>
-<p><strong>Change projects:</strong> Switch back to the <code class="file docutils literal notranslate"><span class="pre">dime-test.dylan</span></code> buffer and type
+<p><strong>Change projects:</strong> Switch back to the <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> buffer and type
 <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">M-p</span> <span class="pre">dime-test-app</span></code> to tell DIME to switch to the dime-test-app project.
 If DIME doesn’t let you enter “dime-test-app” as the project name that means it
 couldn’t find the registry entry.  Make sure <code class="docutils literal notranslate"><span class="pre">OPEN_DYLAN_USER_REGISTRIES</span></code>
 (see above) is set correctly.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>Press &lt;Tab&gt; to see a complete list of available projects and in the
-<code class="docutils literal notranslate"><span class="pre">*dime-repl</span> <span class="pre">nil*</span></code> buffer run the “show registries” command to see
-the active registries the order they’re searched.</p>
+<p>When entering the project name press tab to see a complete list of available
+projects and in the <code class="docutils literal notranslate"><span class="pre">*dime-repl</span> <span class="pre">nil*</span></code> buffer run the “show registries”
+command to see the active registries in the order they’re searched.</p>
 </div>
-<p><strong>Compile:</strong> To build the project, type <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-k</span></code>.  You should see something
-like “Compilation finished: 15 notes”.  (The reason there are so many notes is
-because there are some non-serious warnings in the dylan library itself.  This
-is a bug that should be fixed eventually.)</p>
-<p><strong>Edit definition:</strong> There’s not much code in <code class="file docutils literal notranslate"><span class="pre">dime-test-app.dylan</span></code>
-except for a <code class="docutils literal notranslate"><span class="pre">main</span></code> function.  Move the cursor onto the call to “format-out”
-and type <code class="docutils literal notranslate"><span class="pre">M-.</span></code>.  It should jump to the format-out definition in the
-<code class="docutils literal notranslate"><span class="pre">io-internals</span></code> module.</p>
-<p><strong>Compiler warnings:</strong> Switch back to the <code class="file docutils literal notranslate"><span class="pre">dime-test-app.dylan</span></code> buffer
-and make a change that causes a compiler warning, such as removing the
-semicolon at the end of the <code class="docutils literal notranslate"><span class="pre">format-out</span></code> line.  Recompile with <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-k</span></code>
-and you should see something like “Compilation finished: 3 warnings, 15 notes”.
-You can jump to the first warning using the standard for emacs: <code class="docutils literal notranslate"><span class="pre">C-x</span> <span class="pre">`</span></code>.</p>
+<p><strong>Compile:</strong> To build the project, type <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-k</span></code> in the <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> buffer.
+You should see “Compilation finished: 1 note” (or similar) in the emacs message line.</p>
+<p><strong>Edit definition:</strong> There’s not much code in <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> except for a <code class="docutils literal notranslate"><span class="pre">main</span></code>
+function.  Move the cursor onto the call to “format-out” and type <code class="docutils literal notranslate"><span class="pre">M-.</span></code>.  It should
+jump to the <code class="docutils literal notranslate"><span class="pre">format-out</span></code> definition in the <code class="docutils literal notranslate"><span class="pre">io-internals</span></code> module.</p>
+<p><strong>Compiler warnings:</strong> Switch back to the <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> buffer using <code class="docutils literal notranslate"><span class="pre">M-,</span></code> and
+make a change that causes a compiler warning, such as changing <code class="docutils literal notranslate"><span class="pre">format-out</span></code> to
+<code class="docutils literal notranslate"><span class="pre">xformat-out</span></code>.  Recompile with <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-k</span></code> and you should see something like
+“Compilation finished: 1 warning, 1 note”.  You can jump to the first warning using the
+standard for emacs: <code class="docutils literal notranslate"><span class="pre">C-x</span> <span class="pre">`</span></code>.</p>
 <p><strong>Argument lists:</strong> Note that when you type an open parenthesis, or
 comma, or space after a function name dime will display the <strong>argument
 list</strong> and return values in the emacs minibuffer.  e.g., try typing
@@ -667,26 +663,8 @@ the standard emacs tools such as <code class="docutils literal notranslate"><spa
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="debugging-with-gdb-lldb.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Debugging with GDB or LLDB</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="editor-support.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Editor Support</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">

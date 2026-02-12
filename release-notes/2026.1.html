@@ -288,7 +288,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-compiler.html">Using dylan-compiler interactively</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-environment.html">An example of dylan-environment interactive functionality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/editor-support.html">Editor Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-mode-for-emacs.html">Dylan Interactor Mode for Emacs (DIME)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/debugging-with-gdb-lldb.html">Debugging with GDB or LLDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/windows.html">Notes for Windows Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/environment-variables.html">Environment Variables</a></li>
@@ -571,6 +570,8 @@ improve the integration with the garbage collector, reducing the
 number of GC roots that need to be registered to one per thread,
 thus increasing the number of threads that can be run. (No
 significant change in execution performance is expected.)</p></li>
+<li><p>Debug information for functions with code spanning multiple source
+files is now handled properly, fixing <a class="reference external" href="https://github.com/dylan-lang/opendylan/issues/1777">Issue 1777</a>.</p></li>
 </ul>
 </section>
 <section id="ide">

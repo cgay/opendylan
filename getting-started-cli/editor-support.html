@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Dylan Interactor Mode for Emacs (DIME)" href="dylan-mode-for-emacs.html" /><link rel="prev" title="An example of dylan-environment interactive functionality" href="dylan-environment.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Debugging with GDB or LLDB" href="debugging-with-gdb-lldb.html" /><link rel="prev" title="An example of dylan-environment interactive functionality" href="dylan-environment.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Editor Support - Open Dylan</title>
@@ -288,7 +288,6 @@
 <li class="toctree-l2"><a class="reference internal" href="dylan-compiler.html">Using dylan-compiler interactively</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dylan-environment.html">An example of dylan-environment interactive functionality</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Editor Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dylan-mode-for-emacs.html">Dylan Interactor Mode for Emacs (DIME)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debugging-with-gdb-lldb.html">Debugging with GDB or LLDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="windows.html">Notes for Windows Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environment-variables.html">Environment Variables</a></li>
@@ -534,13 +533,11 @@
 <h1>Editor Support<a class="headerlink" href="#editor-support" title="Link to this heading">¶</a></h1>
 <p>Dylan support is available in a broad range of editors.</p>
 <p>In alphabetical order:</p>
-<section id="atom">
-<h2>Atom<a class="headerlink" href="#atom" title="Link to this heading">¶</a></h2>
-<p>See the <a class="reference external" href="https://github.blog/news-insights/product-news/sunsetting-atom/">language-dylan</a> package.</p>
-</section>
 <section id="emacs">
 <h2>Emacs<a class="headerlink" href="#emacs" title="Link to this heading">¶</a></h2>
-<p>See <a class="reference internal" href="dylan-mode-for-emacs.html"><span class="doc">Dylan Interactor Mode for Emacs (DIME)</span></a>.</p>
+<p>The <a class="reference external" href="https://package.opendylan.org/dylan-emacs-support">dylan-emacs-support</a> package
+provides <code class="docutils literal notranslate"><span class="pre">dylan-mode</span></code>, <code class="docutils literal notranslate"><span class="pre">dylan-opt-mode</span></code>, <code class="docutils literal notranslate"><span class="pre">dylan-lid-mode</span></code>, and DIME (Dylan
+Interaction Mode for Emacs), an Emacs-based IDE.</p>
 </section>
 <section id="intellij">
 <h2>IntelliJ<a class="headerlink" href="#intellij" title="Link to this heading">¶</a></h2>
@@ -568,12 +565,12 @@ However, enhanced support is available in
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="dylan-mode-for-emacs.html">
+          <a class="next-page" href="debugging-with-gdb-lldb.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Dylan Interactor Mode for Emacs (DIME)</div>
+                <div class="title">Debugging with GDB or LLDB</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -619,7 +616,6 @@ However, enhanced support is available in
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Editor Support</a><ul>
-<li><a class="reference internal" href="#atom">Atom</a></li>
 <li><a class="reference internal" href="#emacs">Emacs</a></li>
 <li><a class="reference internal" href="#intellij">IntelliJ</a></li>
 <li><a class="reference internal" href="#sublime-text">Sublime Text</a></li>
