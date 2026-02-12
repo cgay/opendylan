@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Methods &amp; Generic Functions" href="methods-generic-functions.html" /><link rel="prev" title="Why Dylan?" href="why-dylan.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Debugging with GDB or LLDB" href="debugging-with-gdb-lldb.html" /><link rel="prev" title="Editor Support" href="editor-support.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Expressions &amp; Variables - Open Dylan</title>
+        <title>Dylan Interactor Mode for Emacs (DIME) - Open Dylan</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
@@ -180,7 +180,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -267,7 +267,7 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Learning</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../about/index.html">Tour of Dylan</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Tour of Dylan</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../about/examples/hello_world.html">Hello, World!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../about/examples/everything_value.html">Everything is a value</a></li>
@@ -280,21 +280,21 @@
 <li class="toctree-l2"><a class="reference internal" href="../about/examples/multiple_return_values.html">Multiple Return Values</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../getting-started-cli/index.html">Getting Started Guide</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Getting Started Guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/hello-world.html">Hello World</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/source-registries.html">Using Source Registries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/managing-dependencies.html">Managing Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/quick-tips.html">A Few More Quick Tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-compiler.html">Using dylan-compiler interactively</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-environment.html">An example of dylan-environment interactive functionality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/editor-support.html">Editor Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-mode-for-emacs.html">Dylan Interactor Mode for Emacs (DIME)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/debugging-with-gdb-lldb.html">Debugging with GDB or LLDB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/windows.html">Notes for Windows Users</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/environment-variables.html">Environment Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/cross-compilation.html">Cross Compilation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/platform-specific.html">Platform Specific Projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/copyright.html">Copyright</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Getting Started Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Getting Started Guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hello-world.html">Hello World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-registries.html">Using Source Registries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="managing-dependencies.html">Managing Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-tips.html">A Few More Quick Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dylan-compiler.html">Using dylan-compiler interactively</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dylan-environment.html">An example of dylan-environment interactive functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editor-support.html">Editor Support</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Dylan Interactor Mode for Emacs (DIME)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging-with-gdb-lldb.html">Debugging with GDB or LLDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html">Notes for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment-variables.html">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross-compilation.html">Cross Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform-specific.html">Platform Specific Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copyright.html">Copyright</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://package.opendylan.org/dylan-programming-book/">Dylan Programming Guide</a></li>
@@ -310,7 +310,7 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference external" href="https://opendylan.org/books/drm/">Dylan Reference Manual</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://package.opendylan.org/">Package Docs</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../library-reference/index.html">Bundled Libraries</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Bundled Libraries</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -383,18 +383,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../library-reference/copyright.html">Copyright</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../documentation/index.html">Other Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle navigation of Other Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../documentation/index.html">Other Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle navigation of Other Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../news/index.html">News</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../documentation/publications.html">Publications</a></li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Intro to Dylan</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle navigation of Intro to Dylan</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="why-dylan.html">Why Dylan?</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Expressions &amp; Variables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="methods-generic-functions.html">Methods &amp; Generic Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="multiple-dispatch.html">Multiple Dispatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules-libraries.html">Modules &amp; Libraries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="conditions.html">Conditions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copyright.html">Copyright</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../intro-dylan/index.html">Intro to Dylan</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle navigation of Intro to Dylan</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/why-dylan.html">Why Dylan?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/expressions-variables.html">Expressions &amp; Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/methods-generic-functions.html">Methods &amp; Generic Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/objects.html">Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/multiple-dispatch.html">Multiple Dispatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/modules-libraries.html">Modules &amp; Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/conditions.html">Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intro-dylan/copyright.html">Copyright</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../corba-guide/index.html">CORBA Guide</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle navigation of CORBA Guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -506,12 +506,12 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="https://github.com/dylan-lang/opendylan/blob/master/documentation/source/intro-dylan/expressions-variables.rst?plain=true" title="View this page">
+  <a class="muted-link" href="https://github.com/dylan-lang/opendylan/blob/master/documentation/source/getting-started-cli/dylan-mode-for-emacs.rst?plain=true" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
 </div><div class="edit-this-page">
-  <a class="muted-link" href="https://github.com/dylan-lang/opendylan/edit/master/documentation/source/intro-dylan/expressions-variables.rst" title="Edit this page">
+  <a class="muted-link" href="https://github.com/dylan-lang/opendylan/edit/master/documentation/source/getting-started-cli/dylan-mode-for-emacs.rst" title="Edit this page">
     <svg><use href="#svg-pencil"></use></svg>
     <span class="visually-hidden">Edit this page</span>
   </a>
@@ -524,204 +524,139 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="expressions-variables">
-<h1>Expressions &amp; Variables<a class="headerlink" href="#expressions-variables" title="Link to this heading">¶</a></h1>
-<p>Dylan identifiers may contain a greater variety of characters
-than those of C++ or Java. Specifically, variable names may contain all
-alphanumeric characters, plus the symbols <code class="docutils literal notranslate"><span class="pre">!</span> <span class="pre">&amp;</span> <span class="pre">*</span> <span class="pre">&lt;</span> <span class="pre">=</span> <span class="pre">&gt;</span>
-<span class="pre">|</span> <span class="pre">^</span> <span class="pre">$</span> <span class="pre">%</span> <span class="pre">&#64;</span> <span class="pre">_</span> <span class="pre">-</span> <span class="pre">+</span> <span class="pre">~</span> <span class="pre">?</span> <span class="pre">/</span></code>. Identifiers may not begin with the
-symbols <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">+</span> <span class="pre">~</span> <span class="pre">?</span> <span class="pre">/</span></code>, although identifiers may begin
-with numbers, provided they contain at least two alphabetic characters
-in a row. Variable names are not case sensitive.</p>
-<p>This means that <code class="docutils literal notranslate"><span class="pre">(a</span> <span class="pre">-</span> <span class="pre">b)</span></code> subtracts one variable from another,
-whereas <code class="docutils literal notranslate"><span class="pre">(a-b)</span></code> simply returns the value of the hyphenated variable
-named <code class="docutils literal notranslate"><span class="pre">a-b</span></code>.  Because of this, infix operators, such as addition,
-subtraction and equality, must be surrounded by whitespace.</p>
-<p>As in C++, Dylan infix operators may also be referred to as
-functions. In C++, <code class="docutils literal notranslate"><span class="pre">(a</span> <span class="pre">+</span> <span class="pre">b)</span></code> could also be written as <code class="docutils literal notranslate"><span class="pre">operator+(a,</span>
-<span class="pre">b)</span></code>. In Dylan, the same expression could be written <code class="docutils literal notranslate"><span class="pre">\+(a,</span> <span class="pre">b)</span></code>. In
-both languages, programmers can use this flexibility to define
-operators for custom numeric classes.</p>
-<section id="naming-conventions">
-<h2>Naming Conventions<a class="headerlink" href="#naming-conventions" title="Link to this heading">¶</a></h2>
-<p>Dylan uses the extra characters permitted in variable names to
-support a number of standard naming conventions, as shown in this table:</p>
-<div class="table-wrapper docutils container">
+          <section id="dylan-interactor-mode-for-emacs-dime">
+<h1>Dylan Interactor Mode for Emacs (DIME)<a class="headerlink" href="#dylan-interactor-mode-for-emacs-dime" title="Link to this heading">¶</a></h1>
+<p>DIME and its back-end, dswank, create a link between the Dylan
+compiler and emacs so that editor commands can leverage everything the
+compiler knows about your source code.  It allows you to view cross
+references, locate definitions, view argument lists, compile your
+code, browse class hierarchies, and more.  This section gives a
+brief introduction to using DIME.</p>
+<p>The first thing you need to use DIME is the emacs Lisp code for dylan-mode,
+which can be downloaded from <a class="reference external" href="https://github.com/dylan-lang/dylan-emacs-support">https://github.com/dylan-lang/dylan-emacs-support</a>.</p>
+<p>Next set up your <code class="file docutils literal notranslate"><span class="pre">.emacs</span></code> file as follows.  Adjust the pathnames to match
+your Open Dylan installation location and the directory where you put the
+dylan-emacs-support repository.</p>
+<div class="highlight-emacs-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">add-to-list</span><span class="w"> </span><span class="ss">&#39;load-path</span><span class="w"> </span><span class="s">&quot;/path/to/dylan-mode&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">require</span><span class="w"> </span><span class="ss">&#39;dime</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">dime-setup</span><span class="w"> </span><span class="o">&#39;</span><span class="p">(</span><span class="nv">dime-repl</span><span class="w"> </span><span class="nv">dime-note-tree</span><span class="p">))</span>
+<span class="p">(</span><span class="k">setq</span><span class="w"> </span><span class="nv">dime-dylan-implementations</span>
+<span class="w">      </span><span class="o">&#39;</span><span class="p">((</span><span class="nv">opendylan</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;/opt/opendylan/bin/dswank&quot;</span><span class="p">)</span>
+<span class="w">                   </span><span class="nb">:env</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;OPEN_DYLAN_USER_REGISTRIES=/tmp/dime-test/registry&quot;</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>Setting <a class="reference internal" href="source-registries.html#open-dylan-user-registries"><span class="std std-ref">OPEN_DYLAN_USER_REGISTRIES</span></a> is important because
+that’s how DIME finds your projects. Above we set it to the dime-test registry
+that is created in the example below.</p>
+<p>For this tutorial let’s use a “dime-test” project created with <strong class="program">deft</strong>.
+Create the project with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ deft new application dime-test
+</pre></div>
+</div>
+<p>which creates a library named “dime-test” and a corresponding executable
+library and test suite, as well as downloading dependencies and creating
+registry files.  See the <a class="reference external" href="https://package.opendylan.org/deft/index.html#deft-new-application">deft new application</a>
+command for more.</p>
+<p><strong>Start dime:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export PATH=/opt/opendylan/bin:$PATH
+$ cd dime-test         # Created by deft new application, above.
+$ emacs src/app/main.dylan
+M-x dime &lt;Enter&gt;
+</pre></div>
+</div>
+<p>You should now have a buffer called <code class="docutils literal notranslate"><span class="pre">*dime-repl</span> <span class="pre">nil*</span></code> that looks
+like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Welcome</span> <span class="n">to</span> <span class="n">dswank</span> <span class="o">-</span> <span class="n">the</span> <span class="n">Hacker</span> <span class="n">Edition</span> <span class="n">SLIME</span> <span class="n">interface</span>
+<span class="n">opendylan</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This is the Open Dylan compiler interactive shell.  You can issue
+commands directly here if you like, but mostly you’ll issue dime
+commands from your Dylan source buffers.</p>
+<p><strong>Change projects:</strong> Switch back to the <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> buffer and type
+<code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">M-p</span> <span class="pre">dime-test-app</span></code> to tell DIME to switch to the dime-test-app project.
+If DIME doesn’t let you enter “dime-test-app” as the project name that means it
+couldn’t find the registry entry.  Make sure <code class="docutils literal notranslate"><span class="pre">OPEN_DYLAN_USER_REGISTRIES</span></code>
+(see above) is set correctly.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>When entering the project name press tab to see a complete list of available
+projects and in the <code class="docutils literal notranslate"><span class="pre">*dime-repl</span> <span class="pre">nil*</span></code> buffer run the “show registries”
+command to see the active registries in the order they’re searched.</p>
+</div>
+<p><strong>Compile:</strong> To build the project, type <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-k</span></code> in the <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> buffer.
+You should see “Compilation finished: 1 note” (or similar) in the emacs message line.</p>
+<p><strong>Edit definition:</strong> There’s not much code in <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> except for a <code class="docutils literal notranslate"><span class="pre">main</span></code>
+function.  Move the cursor onto the call to “format-out” and type <code class="docutils literal notranslate"><span class="pre">M-.</span></code>.  It should
+jump to the <code class="docutils literal notranslate"><span class="pre">format-out</span></code> definition in the <code class="docutils literal notranslate"><span class="pre">io-internals</span></code> module.</p>
+<p><strong>Compiler warnings:</strong> Switch back to the <code class="file docutils literal notranslate"><span class="pre">main.dylan</span></code> buffer using <code class="docutils literal notranslate"><span class="pre">M-,</span></code> and
+make a change that causes a compiler warning, such as changing <code class="docutils literal notranslate"><span class="pre">format-out</span></code> to
+<code class="docutils literal notranslate"><span class="pre">xformat-out</span></code>.  Recompile with <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-k</span></code> and you should see something like
+“Compilation finished: 1 warning, 1 note”.  You can jump to the first warning using the
+standard for emacs: <code class="docutils literal notranslate"><span class="pre">C-x</span> <span class="pre">`</span></code>.</p>
+<p><strong>Argument lists:</strong> Note that when you type an open parenthesis, or
+comma, or space after a function name dime will display the <strong>argument
+list</strong> and return values in the emacs minibuffer.  e.g., try typing
+<code class="docutils literal notranslate"><span class="pre">+(</span></code>.</p>
+<p><strong>Cross references:</strong> To list cross references (e.g., who calls
+function F?) move the cursor over the name you want to look up and
+type <code class="docutils literal notranslate"><span class="pre">C-c</span> <span class="pre">C-w</span> <span class="pre">C-c</span></code> (‘c’ for call).  DIME will display a list of
+callers in a <code class="docutils literal notranslate"><span class="pre">*dime-xref*</span></code> buffer.  <code class="docutils literal notranslate"><span class="pre">C-M-.</span></code> will take you to the
+next caller.  Use it repeatedly to move to each caller definition in
+turn.  Move the cursor to a particular caller in the <code class="docutils literal notranslate"><span class="pre">*dime-xref*</span></code>
+buffer and press &lt;Enter&gt; to jump to that caller.</p>
+<p>That should be enough to give you the flavor of DIME.  Following is a
+table of useful commands, and you can of course find many more using
+the standard emacs tools such as <code class="docutils literal notranslate"><span class="pre">C-h</span> <span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">M-x</span> <span class="pre">apropos</span></code>.</p>
+<blockquote>
+<div><div class="table-wrapper docutils container">
 <table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyboard shortcut</p></th>
+<th class="head"><p>Effect</p></th>
+</tr>
+</thead>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference external" href="https://opendylan.org/books/drm/Collection_Classes#string"><code class="xref drm docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code></a></p></td>
-<td><p>a class</p></td>
+<tr class="row-even"><td><p>M-x dime</p></td>
+<td><p>start dime</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://opendylan.org/books/drm/Collection_Operations#add."><code class="xref drm docutils literal notranslate"><span class="pre">add!</span></code></a></p></td>
-<td><p>mutative function (modifies argument destructively)</p></td>
+<tr class="row-odd"><td><p>, change-project</p></td>
+<td><p>change project (in the repl buffer)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://opendylan.org/books/drm/Collection_Operations#empty_"><code class="xref drm docutils literal notranslate"><span class="pre">empty?</span></code></a></p></td>
-<td><p>predicate function (tests one or more arguments and
-returns either true or false)</p></td>
+<tr class="row-even"><td><p>C-c M-p</p></td>
+<td><p>change project (in Dylan source buffers)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">write-line</span></code></p></td>
-<td><p>a two word name</p></td>
+<tr class="row-odd"><td><p>M-.</p></td>
+<td><p>jump to definition</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$name</span></code></p></td>
-<td><p>constant</p></td>
+<tr class="row-even"><td><p>M-,</p></td>
+<td><p>jump backwards (return from definition)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*name*</span></code></p></td>
-<td><p>module-level variable</p></td>
+<tr class="row-odd"><td><p>C-c C-k</p></td>
+<td><p>compile project</p></td>
+</tr>
+<tr class="row-even"><td><p>C-c C-w C-a</p></td>
+<td><p>who specializes? (or who defines?)</p></td>
+</tr>
+<tr class="row-odd"><td><p>C-c C-w C-r</p></td>
+<td><p>who references?</p></td>
+</tr>
+<tr class="row-even"><td><p>C-c C-w C-b</p></td>
+<td><p>who binds?</p></td>
+</tr>
+<tr class="row-odd"><td><p>C-c C-w C-c</p></td>
+<td><p>who calls?</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="true-and-false">
-<h2>True and False<a class="headerlink" href="#true-and-false" title="Link to this heading">¶</a></h2>
-<p>Dylan represents true as <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#true"><code class="xref drm docutils literal notranslate"><span class="pre">#t</span></code></a> and false as <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a>. When evaluated in
-a Boolean context, all values other than <a class="reference external" href="https://opendylan.org/books/drm/Other_Built-In_Objects_Defined#false"><code class="xref drm docutils literal notranslate"><span class="pre">#f</span></code></a> are considered
-true. Thus, the number zero – and other common “false” values –
-evaluate as true in Dylan.</p>
-</section>
-<section id="the-nature-of-variables">
-<h2>The Nature of Variables<a class="headerlink" href="#the-nature-of-variables" title="Link to this heading">¶</a></h2>
-<p>Dylan variables differ from those found in C and Pascal. Instead
-of <em>holding</em> their values, Dylan variables
-<em>refer</em> to them. Conceptually, they resemble a
-cross between pointers and C++ references. Like references, Dylan
-variables may be evaluated without any indirection. Like pointers,
-they may be set to point to new objects whenever the programmer
-desires.</p>
-<p>Furthermore, there’s only one of any given numeric value in a
-Dylan program, at least from the programmer’s point of view. All
-variables which refer to the integer 2 – or, in Dylan terminology, are
-<a class="reference external" href="https://opendylan.org/books/drm/Bindings"><code class="xref drm docutils literal notranslate"><span class="pre">bound</span></code></a> to the integer 2 – point to the
-exact same thing.</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">  </span><span class="c1">// creates x and binds it to 2</span>
-<span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">    </span><span class="c1">// rebinds x to the value 3</span>
-<span class="k">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">  </span><span class="c1">// creates y, and binds it to whatever x is bound to</span>
-</pre></div>
-</div>
-<p>If two variables are bound to one object with internal
-structure, the results may surprise C and Pascal programmers.</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">car1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="nc">&lt;car&gt;</span><span class="p">);</span><span class="w">  </span><span class="c1">// bind car1 to a new car object</span>
-<span class="n">car1</span><span class="p">.</span><span class="n">odometer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span><span class="w">       </span><span class="c1">// set odometer</span>
-<span class="k">let</span><span class="w"> </span><span class="n">car2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">car1</span><span class="p">;</span><span class="w">              </span><span class="c1">// bind new name</span>
-<span class="n">car2</span><span class="p">.</span><span class="n">odometer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">           </span><span class="c1">// reset odometer</span>
-<span class="n">car1</span><span class="p">.</span><span class="n">odometer</span><span class="p">;</span><span class="w">                </span><span class="c1">// evaluates to 0</span>
-</pre></div>
-</div>
-<p>As long as one or more variables refer to an object, it
-continues to exist. However, as soon as the last reference either
-goes out of scope or gets rebound, the object becomes garbage.
-Since there’s no way that the program could ever refer to the object
-again, the garbage collector is free to reuse the memory
-which once held it.</p>
-<p>Note that Dylan variables <em>must</em> be bound to a
-particular value when they are declared. In the name of type safety
-and implementation efficiency, every variable must refer to some
-well-defined object.</p>
-</section>
-<section id="assignment-equality-and-identity">
-<h2>Assignment, Equality and Identity<a class="headerlink" href="#assignment-equality-and-identity" title="Link to this heading">¶</a></h2>
-<p>Dylan uses all three of the “equals” operators
-found in C and Pascal, albeit in a different fashion. The
-assignment operator, <a class="reference external" href="https://opendylan.org/books/drm/Function_Macros#assignment"><code class="xref drm docutils literal notranslate"><span class="pre">:=</span></code></a>, rebinds Dylan variable
-names to new values. The equality operator, <a class="reference external" href="https://opendylan.org/books/drm/Equality_and_Comparison#equal"><code class="xref drm docutils literal notranslate"><span class="pre">=</span></code></a>,
-tests for equality in Dylan and also appears in some
-language constructs such as <a class="reference external" href="https://opendylan.org/books/drm/Local_Declaration_Macros#let"><code class="xref drm docutils literal notranslate"><span class="pre">let</span></code></a>. (Two Dylan objects
-are equal, generally, if they belong to the same class and have equal
-substructure.)</p>
-<p>The <a class="reference external" href="https://opendylan.org/books/drm/Equality_and_Comparison#identity"><code class="xref drm docutils literal notranslate"><span class="pre">==</span></code></a> operator determines whether two objects are identical in
-Dylan. Two objects are identical if and only if they are the exact same
-object. For example, the following two expressions mean roughly the same
-thing:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>   <span class="o">//</span> <span class="ow">in</span> <span class="n">Dylan</span> <span class="ow">or</span> <span class="n">Java</span>
-<span class="p">(</span><span class="o">&amp;</span><span class="n">a</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="o">//</span> <span class="ow">in</span> <span class="n">C</span> <span class="ow">or</span> <span class="n">C</span><span class="o">++</span>
-</pre></div>
-</div>
-<p>The following piece of source code demonstrates all three
-operators in actual use.</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">car1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="nc">&lt;car&gt;</span><span class="p">);</span>
-<span class="k">let</span><span class="w"> </span><span class="n">car2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="nc">&lt;car&gt;</span><span class="p">);</span>
-<span class="k">let</span><span class="w"> </span><span class="n">car3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">car2</span><span class="p">;</span>
-
-<span class="n">car2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">car3</span><span class="p">;</span><span class="w">  </span><span class="c1">// #t</span>
-<span class="n">car1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">car2</span><span class="p">;</span><span class="w">  </span><span class="c1">// ??? (see below)</span>
-<span class="n">car2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">car3</span><span class="p">;</span><span class="w">  </span><span class="c1">// #t</span>
-<span class="n">car1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">car2</span><span class="p">;</span><span class="w">  </span><span class="c1">// #f</span>
-
-<span class="n">car2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">car1</span><span class="p">;</span><span class="w">  </span><span class="c1">// rebind</span>
-<span class="n">car1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">car2</span><span class="p">;</span><span class="w">  </span><span class="c1">// #t</span>
-
-<span class="k">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
-<span class="k">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
-
-<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">  </span><span class="c1">// #t</span>
-<span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">  </span><span class="c1">// #t (there is only one 2!)</span>
-</pre></div>
-</div>
-<p>Two of the examples merit further explanation. First, we don’t know if
-make creates each car with the same serial number, driver and other
-information as previous cars, or whether there is a method defined on
-<code class="docutils literal notranslate"><span class="pre">\=(&lt;car&gt;,</span> <span class="pre">&lt;car&gt;)</span></code> that compares cars slot-by-slot.</p>
-<p>Second, <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">y</span></code> because every variable bound to a
-given number refers to the exact same instance of that number, at least
-from the programmer’s perspective. (The compiler will normally do
-something more useful and efficient when generating the actual machine
-code.)  Strings behave in a fashion different from numbers –
-instances of strings are stored separately, and two equal strings are
-not necessarily the same string.</p>
-</section>
-<section id="parallel-values">
-<h2>Parallel Values<a class="headerlink" href="#parallel-values" title="Link to this heading">¶</a></h2>
-<p>It’s possible to bind more than one variable at a time in Dylan.
-For example, a single <a class="reference external" href="https://opendylan.org/books/drm/Local_Declaration_Macros#let"><code class="xref drm docutils literal notranslate"><span class="pre">let</span></code></a> statement could bind
-<code class="docutils literal notranslate"><span class="pre">x</span></code> to 2, <code class="docutils literal notranslate"><span class="pre">y</span></code> to 3 and <code class="docutils literal notranslate"><span class="pre">z</span></code> to 4.</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">values</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>In Perl, the equivalent statement would assign a vector of
-values to a vector of variables. In Dylan, no actual vectors or lists
-are used. All three values are assigned directly, using some
-implementation-dependent mechanism.</p>
-</section>
-<section id="type-declarations">
-<span id="id1"></span><h2>Type Declarations<a class="headerlink" href="#type-declarations" title="Link to this heading">¶</a></h2>
-<p>Dylan variables may have explicit types. This allows the
-compiler to generate better code and to catch type-mismatch errors at
-compile time. To take advantage of this feature, use the <code class="docutils literal notranslate"><span class="pre">::</span></code> operator:</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;integer&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
-<span class="k">let</span><span class="w"> </span><span class="n">vehicle</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;vehicle&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="nc">&lt;car&gt;</span><span class="p">);</span>
-<span class="k">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;number&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">  </span><span class="c1">// any numeric class</span>
-<span class="k">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;integer&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vehicle</span><span class="p">;</span><span class="w">  </span><span class="c1">// error!</span>
-</pre></div>
-</div>
-<p>As seen in the example, a variable may be bound to values of its
-declared type or to values of subclasses of its declared type. Type
-mismatch errors should be caught at compile time. In general, the
-compiler may infer the types of variables when generating machine
-code. If a local variable is never rebound to anything other than an
-integer, for example, the compiler can rely on this fact to optimize
-the resulting code.</p>
-</section>
-<section id="module-variables-and-constants">
-<h2>Module Variables and Constants<a class="headerlink" href="#module-variables-and-constants" title="Link to this heading">¶</a></h2>
-<p>Dylan supports module-level variables, which serve roughly the same purpose as
-C’s global variables. The forms <a class="reference external" href="https://opendylan.org/books/drm/Definition_Macros#define_variable"><code class="xref drm docutils literal notranslate"><span class="pre">define</span> <span class="pre">variable</span></code></a> and <a class="reference external" href="https://opendylan.org/books/drm/Definition_Macros#define_constant"><code class="xref drm docutils literal notranslate"><span class="pre">define</span>
-<span class="pre">constant</span></code></a>
-may be used at module top level.</p>
-<div class="highlight-dylan notranslate"><div class="highlight"><pre><span></span><span class="k">define</span><span class="w"> </span><span class="nb">variable</span><span class="w"> </span><span class="vg">*x*</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nc">&lt;integer&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
-<span class="k">define</span><span class="w"> </span><span class="nb">variable</span><span class="w"> </span><span class="vg">*y*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
-<span class="k">define</span><span class="w"> </span><span class="nb">constant</span><span class="w"> </span><span class="no">$hi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hi!&quot;</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>Note that there’s not much point in declaring types for
-constants. Any decent compiler will be able to figure that
-information out on its own.</p>
-</section>
+</div></blockquote>
 </section>
 
         </article>
@@ -729,23 +664,23 @@ information out on its own.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="methods-generic-functions.html">
+          <a class="next-page" href="debugging-with-gdb-lldb.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Methods &amp; Generic Functions</div>
+                <div class="title">Debugging with GDB or LLDB</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="why-dylan.html">
+          <a class="prev-page" href="editor-support.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Why Dylan?</div>
+                <div class="title">Editor Support</div>
                 
               </div>
             </a>
@@ -767,33 +702,8 @@ information out on its own.</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Expressions &amp; Variables</a><ul>
-<li><a class="reference internal" href="#naming-conventions">Naming Conventions</a></li>
-<li><a class="reference internal" href="#true-and-false">True and False</a></li>
-<li><a class="reference internal" href="#the-nature-of-variables">The Nature of Variables</a></li>
-<li><a class="reference internal" href="#assignment-equality-and-identity">Assignment, Equality and Identity</a></li>
-<li><a class="reference internal" href="#parallel-values">Parallel Values</a></li>
-<li><a class="reference internal" href="#type-declarations">Type Declarations</a></li>
-<li><a class="reference internal" href="#module-variables-and-constants">Module Variables and Constants</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

@@ -91,6 +91,37 @@ io
   ``<byte-char-file-stream>`` and ``<byte-file-stream>`` are provided,
   significantly improving the performance of these stream operations.
 
+System
+------
+
+* :gf:`resolve-file` (in the ``file-system`` module) replaces the deprecated
+  :const:`resolve-locator` (in the ``locators`` module) because it is fundamentally a
+  file-system operation.
+
+  :gf:`resolve-file` now returns the correct class of locator, a subclass of
+  :class:`<file-locator>` or class:`<directory-locator>`, depending on the actual file
+  type of the fully resolved file.  It previously returned an instance of the same
+  class as the locator it was provided, but that is not always accurate when symbolic
+  links are followed.
+
+* :gf:`directory-contents` has a new keyword argument ``resolve-links?``.  If true,
+  symbolic links are resolved as with :gf:`resolve-file`.
+
+* :gf:`expand-pathname` is no longer called by other ``file-system`` functions.  If you
+  depended on this behavior, call :gf:`expand-pathname` directly.
+
+  On Unix, ``~`` or ``~user`` are expanded to the specified user's home directory.  The
+  exact string "~" is now correctly expanded.  :gf:`expand-pathname` now uses the thread
+  safe function ``getpwnam_r`` on Unix systems.
+
+  On Windows, 8.3 short file names are expanded.
+
+* `Issue 1408 <https://github.com/dylan-lang/opendylan/issues/1408>`_, which could result
+  in an infinite loop in :gf:`link-target`, has been fixed.  In addition, the
+  :gf:`link-target` function accepts a new keyword argument, ``follow-links?``, which
+  specifies whether to follow all links until a non-symlink file is found (the default)
+  or just return the direct target of the given symlink.
+
 Submoduled Library Updates
 ==========================
 
@@ -103,13 +134,6 @@ submodules.
   <https://github.com/dylan-lang/strings/compare/v2.0.0...v2.0.1>`_
 * The testworks library: `v3.3.0 -> v3.4.0
   <https://github.com/dylan-lang/testworks/compare/v3.3.0...v3.4.0>`_
-* The ``dswank`` library (the back-end for the DIME Emacs-based IDE) and the `DIME
-  documentation <https://package.opendylan.org/dylan-emacs-support>`_ have been moved to
-  the `dylan-emacs-support repository
-  <https://github.com/dylan-lang/dylan-emacs-support>`_ so that they can be maintained in
-  sync with the DIME Elisp code.  Several important bugs have been fixed for `v0.2.0
-  <https://github.com/dylan-lang/dylan-emacs-support/releases/tag/v0.2.0>`_, the version
-  distributed with this release.
 
 Contributors
 ============

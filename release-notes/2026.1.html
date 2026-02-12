@@ -288,6 +288,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-compiler.html">Using dylan-compiler interactively</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-environment.html">An example of dylan-environment interactive functionality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/editor-support.html">Editor Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/dylan-mode-for-emacs.html">Dylan Interactor Mode for Emacs (DIME)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/debugging-with-gdb-lldb.html">Debugging with GDB or LLDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/windows.html">Notes for Windows Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started-cli/environment-variables.html">Environment Variables</a></li>
@@ -611,6 +612,34 @@ been fixed.</p></li>
 significantly improving the performance of these stream operations.</p></li>
 </ul>
 </section>
+<section id="system">
+<h3>System<a class="headerlink" href="#system" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p><a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:resolve-file"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">resolve-file</span></code></a> (in the <code class="docutils literal notranslate"><span class="pre">file-system</span></code> module) replaces the deprecated
+<a class="reference internal" href="../library-reference/system/locators.html#system:locators:resolve-locator"><code class="xref dylan dylan-const docutils literal notranslate"><span class="pre">resolve-locator</span></code></a> (in the <code class="docutils literal notranslate"><span class="pre">locators</span></code> module) because it is fundamentally a
+file-system operation.</p>
+<p><a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:resolve-file"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">resolve-file</span></code></a> now returns the correct class of locator, a subclass of
+<a class="reference internal" href="../library-reference/system/locators.html#system:locators:[file-locator]"><code class="xref dylan dylan-class docutils literal notranslate"><span class="pre">&lt;file-locator&gt;</span></code></a> or class:<cite>&lt;directory-locator&gt;</cite>, depending on the actual file
+type of the fully resolved file.  It previously returned an instance of the same
+class as the locator it was provided, but that is not always accurate when symbolic
+links are followed.</p>
+</li>
+<li><p><a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:directory-contents"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">directory-contents</span></code></a> has a new keyword argument <code class="docutils literal notranslate"><span class="pre">resolve-links?</span></code>.  If true,
+symbolic links are resolved as with <a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:resolve-file"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">resolve-file</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:expand-pathname"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">expand-pathname</span></code></a> is no longer called by other <code class="docutils literal notranslate"><span class="pre">file-system</span></code> functions.  If you
+depended on this behavior, call <a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:expand-pathname"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">expand-pathname</span></code></a> directly.</p>
+<p>On Unix, <code class="docutils literal notranslate"><span class="pre">~</span></code> or <code class="docutils literal notranslate"><span class="pre">~user</span></code> are expanded to the specified user’s home directory.  The
+exact string “~” is now correctly expanded.  <a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:expand-pathname"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">expand-pathname</span></code></a> now uses the thread
+safe function <code class="docutils literal notranslate"><span class="pre">getpwnam_r</span></code> on Unix systems.</p>
+<p>On Windows, 8.3 short file names are expanded.</p>
+</li>
+<li><p><a class="reference external" href="https://github.com/dylan-lang/opendylan/issues/1408">Issue 1408</a>, which could result
+in an infinite loop in <a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:link-target"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">link-target</span></code></a>, has been fixed.  In addition, the
+<a class="reference internal" href="../library-reference/system/file-system.html#system:file-system:link-target"><code class="xref dylan dylan-gf docutils literal notranslate"><span class="pre">link-target</span></code></a> function accepts a new keyword argument, <code class="docutils literal notranslate"><span class="pre">follow-links?</span></code>, which
+specifies whether to follow all links until a non-symlink file is found (the default)
+or just return the direct target of the given symlink.</p></li>
+</ul>
+</section>
 </section>
 <section id="submoduled-library-updates">
 <h2>Submoduled Library Updates<a class="headerlink" href="#submoduled-library-updates" title="Link to this heading">¶</a></h2>
@@ -620,11 +649,6 @@ submodules.</p>
 <li><p>The logging library: <a class="reference external" href="https://github.com/dylan-lang/logging/compare/b0b469abc291a07312dbb8a4b1e57f55c31b8cba...v2.2.1">b0b469a -&gt; v2.2.1</a></p></li>
 <li><p>The strings library: <a class="reference external" href="https://github.com/dylan-lang/strings/compare/v2.0.0...v2.0.1">v2.0.0 -&gt; v2.0.1</a></p></li>
 <li><p>The testworks library: <a class="reference external" href="https://github.com/dylan-lang/testworks/compare/v3.3.0...v3.4.0">v3.3.0 -&gt; v3.4.0</a></p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">dswank</span></code> library (the back-end for the DIME Emacs-based IDE) and the <a class="reference external" href="https://package.opendylan.org/dylan-emacs-support">DIME
-documentation</a> have been moved to
-the <a class="reference external" href="https://github.com/dylan-lang/dylan-emacs-support">dylan-emacs-support repository</a> so that they can be maintained in
-sync with the DIME Elisp code.  Several important bugs have been fixed for <a class="reference external" href="https://github.com/dylan-lang/dylan-emacs-support/releases/tag/v0.2.0">v0.2.0</a>, the version
-distributed with this release.</p></li>
 </ul>
 </section>
 <section id="contributors">
@@ -702,6 +726,7 @@ to surrounding libraries in the Dylan ecosystem….</p>
 <li><a class="reference internal" href="#dylan">Dylan</a></li>
 <li><a class="reference internal" href="#common-dylan">Common-Dylan</a></li>
 <li><a class="reference internal" href="#io">io</a></li>
+<li><a class="reference internal" href="#system">System</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#submoduled-library-updates">Submoduled Library Updates</a></li>
