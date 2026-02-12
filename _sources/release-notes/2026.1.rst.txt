@@ -2,7 +2,7 @@
 Open Dylan 2026.1
 *****************
 
-This document describes the 2026.1 release of Open Dylan, released 29 Jan, 2026.  The
+This document describes the 2026.1 release of Open Dylan, released February 2026.  The
 highlights of the release are listed below.  For complete details see the `commit logs
 <https://github.com/dylan-lang/opendylan/compare/v2025.1.0...v2026.1.0>`_ for this
 release.
