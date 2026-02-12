@@ -109,7 +109,7 @@ submodules.
   <https://github.com/dylan-lang/dylan-emacs-support>`_ so that they can be maintained in
   sync with the DIME Elisp code.  Several important bugs have been fixed for `v0.2.0
   <https://github.com/dylan-lang/dylan-emacs-support/releases/tag/v0.2.0>`_, the version
-  distributed with Open Dylan.
+  distributed with this release.
 
 Contributors
 ============
