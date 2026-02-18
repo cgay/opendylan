@@ -17,8 +17,10 @@ the tarball and add the ``bin`` directory to your ``PATH``::
 
   $ export PATH=/path/to/opendylan/bin:$PATH
 
-You may wish to ``sudo apt install lldb-15``, for debugging.
+You may wish to ``sudo apt install lldb``, for debugging.
 
+Next, check out the `Getting Started
+<https://opendylan.org/getting-started-cli/index.html>`_ guide.
 
 Windows
 =======
@@ -53,6 +55,9 @@ in ``C:\Program Files\PellesC``)::
 You may instead start a Pelles C interactive shell and run
 ``C:\Program Files\Open Dylan\bin\win32-environment.exe``, but this
 won't help if you want to run Open Dylan via the Start menu.
+
+Next, check out the `Getting Started
+<https://opendylan.org/getting-started-ide/index.html>`_ guide.
 
 
 Installing Older Versions
