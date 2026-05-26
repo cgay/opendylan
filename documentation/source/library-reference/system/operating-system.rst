@@ -237,7 +237,7 @@ System library's operating-system module.
 
      Note that this not always the same as the architecture of the hardware
      installed in the host machine. For example, when running ``x86_64`` code
-     on Apple Silicon the value is ``#"x86_64``, not ``#"aarch64"``.
+     on Apple Silicon the value is ``#"x86_64"``, not ``#"aarch64"``.
 
    :seealso:
 
