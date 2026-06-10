@@ -5,7 +5,7 @@ Apple Dylan Technology Release
 Paul R Potts writes:
 
 :doc:`apple-cambridge` ran a preview program circa 1994 inviting
-interested developers to work with pre-release versions of :doc:`index`.
+interested developers to work with pre-release versions of :doc:`Apple Dylan <index>`.
 This tool was the product of Apple Cambridge, a lab that had hired some
 of the best and brightest minds from the Lisp community.
 

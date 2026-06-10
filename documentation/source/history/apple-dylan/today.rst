@@ -2,6 +2,9 @@
 Apple Dylan Today
 *****************
 
+.. note::
+   At the time this was written "today" meant some time before 2012.
+
 Paul R Potts writes:
 
 I frequently hear from people who are interested in trying out the
