@@ -9,7 +9,7 @@ MC68k platform. It had numerous flaws, mainly that it was built on the
 top of the MCL (Macintosh Common Lisp from `Digitool
 <https://web.archive.org/web/20120204173211/http://www.digitool.com/>`_) development environment. Although this
 made it a wonderful environment, it was a severe restriction on further
-progress. Because Apple got into serious financial trouble at that time,
+progress. Because Apple got into serious financial trouble that time,
 they had to stop Dylan development and dissolved the
 :doc:`apple-cambridge` team. In a final act Digitool was funded to do a
 port to the PowerPC platform. The result of this (with some patches)
