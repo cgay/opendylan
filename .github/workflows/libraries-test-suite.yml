@@ -24,6 +24,8 @@ jobs:
           submodules: recursive
 
       - uses: dylan-lang/install-opendylan@v3
+        with:
+          tag: v2026.2.0
 
       - name: Build libraries-test-suite-app
         run: |
